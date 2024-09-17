@@ -18,20 +18,20 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         if path[0] == "warehouses":
             paths = len(path)
             match paths:
-                case 1:
+                case 1: # when path has /warehouses only
                     warehouses = data_provider.fetch_warehouse_pool().get_warehouses()
                     self.send_response(200)
                     self.send_header("Content-type", "application/json")
                     self.end_headers()
                     self.wfile.write(json.dumps(warehouses).encode("utf-8"))
-                case 2:
+                case 2: # when path has eg /warehouses/1 , with number specifying warehouse id
                     warehouse_id = int(path[1])
                     warehouse = data_provider.fetch_warehouse_pool().get_warehouse(warehouse_id)
                     self.send_response(200)
                     self.send_header("Content-type", "application/json")
                     self.end_headers()
                     self.wfile.write(json.dumps(warehouse).encode("utf-8"))
-                case 3:
+                case 3: # when path has eg /warehouses/1/locations, with number specifying warehouse id to get locations from
                     if path[2] == "locations":
                         warehouse_id = int(path[1])
                         locations = data_provider.fetch_location_pool().get_locations_in_warehouse(warehouse_id)
@@ -42,6 +42,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                     else:
                         self.send_response(404)
                         self.end_headers()
+                        # to do: add case 4 to handle locations ID like how case 2 handles warehouse ID
                 case _:
                     self.send_response(404)
                     self.end_headers()
