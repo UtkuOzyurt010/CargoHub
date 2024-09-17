@@ -2,7 +2,9 @@ import json
 
 from models.base import Base
 
-WAREHOUSES = []
+WAREHOUSES = [] #contains a list of warehouses used for debugging in the load() method below
+# when not debugging,load() will read the warehouses from the JSON at self.data_path 
+# into self.data
 
 
 class Warehouses(Base):
