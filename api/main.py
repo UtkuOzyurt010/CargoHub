@@ -13,7 +13,6 @@ from providers import data_provider
 
 from processors import notification_processor
 
-
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
     def handle_get_version_1(self, path, user):
@@ -32,7 +31,10 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                     self.wfile.write(json.dumps(warehouses).encode("utf-8"))
                 case 2: # when path has eg /warehouses/1 , with number specifying warehouse id
                     warehouse_id = int(path[1])
-                    warehouse = data_provider.fetch_warehouse_pool().get_warehouse(warehouse_id)
+                    warehouse = data_provider.fetch_warehouse_pool().get_warehouse(warehouse_id) # returns None if not found
+                    #add a check for None warehouse
+                    #if warehouse is None:
+                    #    self.send_response()
                     self.send_response(200)
                     self.send_header("Content-type", "application/json")
                     self.end_headers()
@@ -48,7 +50,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                     else:
                         self.send_response(404)
                         self.end_headers()
-                        # to do: add case 4 to handle locations ID like how case 2 handles warehouse ID
+                        # to do ??: add case 4 to handle locations ID like how case 2 handles warehouse ID
                 case _:
                     self.send_response(404)
                     self.end_headers()
@@ -437,7 +439,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             data_provider.fetch_item_pool().save()
             self.send_response(201)
             self.end_headers()
-        elif path[0] == "inventories":
+        elif path[0] == "inventories": #post_data is just added to inventory without any checks?
             content_length = int(self.headers["Content-Length"])
             post_data = self.rfile.read(content_length)
             new_inventory = json.loads(post_data.decode())
@@ -815,3 +817,6 @@ if __name__ == "__main__":
         notification_processor.start()
         print(f"Serving on port {PORT}...")
         httpd.serve_forever()
+
+def func_to_test(num1, num2):
+    return num1 + num2
