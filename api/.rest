@@ -1,11 +1,90 @@
 
 @address = http://localhost:3000/api/v1
 ######
-GET {{address}}/warehouses/1/locations HTTP/1.1
+GET {{address}}/warehouses/555/locations HTTP/1.1
 API_KEY: a1b2c3d4e5
+######
+
 # in main.py, class ApiRequestHandler inherits from "http.server.BaseHTTPRequestHandler", which can be found in server.py
 # in server.py at line 335, self.command gets set to "GET" and self.path set to "/api/v1/warehouses/1/locations"
 # line 417 appends self.command (in this case) "GET" to "do_", 
 # line 423 finds the method with the name "do_GET" in "self" (-> ApiRequestHandler in main.py that inherits this)
 # and calls it in line 424
+GET http://localhost:3000/api/v1/warehouses/1/locations HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/locations HTTP/1.1
+API_KEY: a1b2c3d4e5
+######
+GET http://localhost:3000/api/v1/locations/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/clients HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/clients/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/inventories HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/inventories/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+
+######
+GET http://localhost:3000/api/v1/item_groups HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/item_groups/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/items HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/items/P000001 HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/item_lines HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/item_lines/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/item_types HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/item_types/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/orders HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/shipments HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/suppliers HTTP/1.1
+API_KEY: a1b2c3d4e5
+
+######
+GET http://localhost:3000/api/v1/transfers HTTP/1.1
+API_KEY: a1b2c3d4e5
+######
+GET http://localhost:3000/api/v1/warehouses HTTP/1.1
+API_KEY: a1b2c3d4e5
 ######
