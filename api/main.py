@@ -820,3 +820,40 @@ if __name__ == "__main__":
 
 def func_to_test(num1, num2):
     return num1 + num2
+
+# refactor code in main then reposition to other folder into multiple files to enhance dev experience
+# def handle_put_version_1(self, path, user):
+#     if not auth_provider.has_access(user, path, "put"):
+#         self.send_response(403)
+#         self.end_headers()
+#         return
+
+#     content_length = int(self.headers["Content-Length"])
+#     post_data = self.rfile.read(content_length)
+#     updated_data = json.loads(post_data.decode())
+    
+#     resource_handlers = {
+#         "warehouses": data_provider.fetch_warehouse_pool().update_warehouse,
+#         "locations": data_provider.fetch_location_pool().update_location,
+#         "transfers": data_provider.fetch_transfer_pool().update_transfer,
+#         "items": data_provider.fetch_item_pool().update_item,
+#         "item_lines": data_provider.fetch_item_line_pool().update_item_line,
+#         "item_groups": data_provider.fetch_item_group_pool().update_item_group,
+#         "item_types": data_provider.fetch_item_type_pool().update_item_type,
+#         "inventories": data_provider.fetch_inventory_pool().update_inventory,
+#         "suppliers": data_provider.fetch_supplier_pool().update_supplier,
+#         "orders": data_provider.fetch_order_pool().update_order,
+#         "clients": data_provider.fetch_client_pool().update_client,
+#         "shipments": data_provider.fetch_shipment_pool().update_shipment,
+#     }
+    
+#     resource = path[0]
+#     if resource in resource_handlers:
+#         resource_id = int(path[1]) if resource != "items" else path[1]  # Handle item_id differently
+#         resource_handlers[resource](resource_id, updated_data)
+#         data_provider.fetch(resource).save()
+#         self.send_response(200)
+#         self.end_headers()
+#     else:
+#         self.send_response(404)
+#         self.end_headers()
