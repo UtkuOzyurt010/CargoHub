@@ -1,9 +1,58 @@
 
 @address = http://localhost:3000/api/v1
 ######
-GET {{address}}/warehouses/555/locations HTTP/1.1
-API_KEY: a1b2c3d4e5
+GET {{address}}/warehouses/1/locations HTTP/1.1
+#API_KEY: a1b2c3d4e5
 ######
+
+POST {{address}}/items HTTP/1.1
+API_KEY: a1b2c3d4e5
+content-type: application/json
+
+{
+    "uid": "P011721",
+    "code": "mYt79640E",
+    "description": "TEST ADD",
+    "short_description": "pass",
+    "upc_code": "2541112620796",
+    "model_number": "ZK-417773-PXy",
+    "commodity_code": "z-761-L5A",
+    "item_line": 81,
+    "item_group": 83,
+    "item_type": 74,
+    "unit_purchase_quantity": 3,
+    "unit_order_quantity": 18,
+    "pack_order_quantity": 13,
+    "supplier_id": 10,
+    "supplier_code": "SUP468",
+    "supplier_part_number": "ZH-103509-MLv",
+    "created_at": "1997-05-13 02:30:31",
+    "updated_at": "2003-10-18 00:21:57"
+}
+
+    ##
+
+
+
+# uid: P011721
+# code: "mYt79640G"
+# description: "TEST ADD ITEM"
+# short_description: "IDK"
+# upc_code: "2541112620797"
+# model_number: "ZK-417773-PXZ"
+# commodity_code: "z-761-L5B"
+# item_line: 81
+# item_group: 83
+# item_type: 74
+# unit_purchase_quantity: 5
+# unit_order_quantity: 19
+# pack_order_quantity: 14
+# supplier_id: 10
+# supplier_code: "SUP468"
+# supplier_part_number: "ZH-103509-MLv"
+# created_at: "1997-05-13 02:30:31"
+# updated_at: "2003-10-18 00:21:57"
+
 
 # in main.py, class ApiRequestHandler inherits from "http.server.BaseHTTPRequestHandler", which can be found in server.py
 # in server.py at line 335, self.command gets set to "GET" and self.path set to "/api/v1/warehouses/1/locations"
