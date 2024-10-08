@@ -1,8 +1,8 @@
 import socketserver
 import http.server
 import json
-import api
 from api.providers import auth_provider
+
 #auth_provider contains two different 'users' with two api-keys
 # which can give either full or limited access to our server's data, they also have different dashboards.
 # auth_provider.py contains an init() method, a get_user() method, which given a valid api key returns one 
