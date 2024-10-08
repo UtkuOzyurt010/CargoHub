@@ -1,15 +1,15 @@
-from models.warehouses import Warehouses
-from models.locations import Locations
-from models.transfers import Transfers
-from models.items import Items
-from models.item_lines import ItemLines
-from models.item_groups import ItemGroups
-from models.item_types import ItemTypes
-from models.inventories import Inventories
-from models.suppliers import Suppliers
-from models.orders import Orders
-from models.clients import Clients
-from models.shipments import Shipments
+from api.models.warehouses import Warehouses
+from api.models.locations import Locations
+from api.models.transfers import Transfers
+from api.models.items import Items
+from api.models.item_lines import ItemLines
+from api.models.item_groups import ItemGroups
+from api.models.item_types import ItemTypes
+from api.models.inventories import Inventories
+from api.models.suppliers import Suppliers
+from api.models.orders import Orders
+from api.models.clients import Clients
+from api.models.shipments import Shipments
 
 DEBUG = False
 

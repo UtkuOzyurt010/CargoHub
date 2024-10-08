@@ -1,17 +1,17 @@
 import socketserver
 import http.server
 import json
-
-from providers import auth_provider
+import api
+from api.providers import auth_provider
 #auth_provider contains two different 'users' with two api-keys
 # which can give either full or limited access to our server's data, they also have different dashboards.
 # auth_provider.py contains an init() method, a get_user() method, which given a valid api key returns one 
 # of the two user dictionaries (containing it's premissions)
 # and has_access() which given a user, a path(eg orders, clients) and a method of the path (eg get, delete)
 # returns whether the user has permission for that method
-from providers import data_provider
+from api.providers import data_provider
 
-from processors import notification_processor
+from api.processors import notification_processor
 
 class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
 
