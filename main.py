@@ -412,6 +412,8 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             new_warehouse = json.loads(post_data.decode())
             data_provider.fetch_warehouse_pool().add_warehouse(new_warehouse)
             data_provider.fetch_warehouse_pool().save()
+            # fetch_warehouse_pool() returns a Warehouse object. 
+            # Warehouse.save() does json.dump(self.data, f), rewriting the entire json
             self.send_response(201)
             self.end_headers()
         elif path[0] == "locations":
@@ -657,7 +659,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
         elif path[0] == "shipments":
             paths = len(path)
             match paths:
-                case 2:
+                case 2: # eg shipments/1 where 1 is Id
                     shipment_id = int(path[1])
                     content_length = int(self.headers["Content-Length"])
                     post_data = self.rfile.read(content_length)
@@ -666,7 +668,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                     data_provider.fetch_shipment_pool().save()
                     self.send_response(200)
                     self.end_headers()
-                case 3:
+                case 3: # eg shipments/1/orders where 1 is Id
                     if path[2] == "orders":
                         shipment_id = int(path[1])
                         content_length = int(self.headers["Content-Length"])
