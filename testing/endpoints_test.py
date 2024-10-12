@@ -223,7 +223,7 @@ def test_post_orders():
 def test_post_shipments():
     test_post_one_endpoint("shipments.json")
 def test_post_suppliers():
-    test_post_one_endpoint("suplliers.json")
+    test_post_one_endpoint("suppliers.json")
 def test_post_transfers():
     test_post_one_endpoint("transfers.json")
 def test_post_warehouses():
