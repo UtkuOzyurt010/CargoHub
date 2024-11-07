@@ -16,94 +16,94 @@ def remove_timestamps(obj): #posting objects adds timestamps to them. We need to
 
 
 address = "http://localhost:3000/api/v1"
-def test_get():
-    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    os.makedirs("testing/results/GET/" + test_datetime)
-    diagnostics = {}
-    files = os.listdir("data")
-    for file in files:
-        start = timer()
-        response = requests.get(address + "/" + file.split(".")[0], #remove .json from filename
-                                headers=
-                                {'API_KEY': 'a1b2c3d4e5'}
-                                #'content-type': 'application/json'},
-                                )
+# def test_get():
+#     test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+#     os.makedirs("testing/results/GET/" + test_datetime)
+#     diagnostics = {}
+#     files = os.listdir("data")
+#     for file in files:
+#         start = timer()
+#         response = requests.get(address + "/" + file.split(".")[0], #remove .json from filename
+#                                 headers=
+#                                 {'API_KEY': 'a1b2c3d4e5'}
+#                                 #'content-type': 'application/json'},
+#                                 )
         
-        response_time = timer() - start
-        with open("data/" + file) as json_data: # loads eg entire clients.json  
-            response_data = response.json()
-            db_data = json.load(json_data)
-            # print(response_data) run "python run_tests.py -s" in terminal to enable print
-            success = response_data == db_data
-            #print(obj for obj in response_data if obj not in db_data)
-            results_file_name = "GET_" + file.split(".")[0]# + "_" + test_datetime
-            diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
+#         response_time = timer() - start
+#         with open("data/" + file) as json_data: # loads eg entire clients.json  
+#             response_data = response.json()
+#             db_data = json.load(json_data)
+#             # print(response_data) run "python run_tests.py -s" in terminal to enable print
+#             success = response_data == db_data
+#             #print(obj for obj in response_data if obj not in db_data)
+#             results_file_name = "GET_" + file.split(".")[0]# + "_" + test_datetime
+#             diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
             
-            with open(f"testing/results/GET/{test_datetime}/{results_file_name}.json", "w") as f:
-                json.dump(diagnostics[results_file_name], f)
-            #assert response.ok
-            #assert success #keep this disabled until GET tests are seperated, 
-            #otherwise testing might stop before all endpoints are tested
+#             with open(f"testing/results/GET/{test_datetime}/{results_file_name}.json", "w") as f:
+#                 json.dump(diagnostics[results_file_name], f)
+#             #assert response.ok
+#             #assert success #keep this disabled until GET tests are seperated, 
+#             #otherwise testing might stop before all endpoints are tested
 
 
 # def test_get_all_clients(test_get_one_endpoint("clients.json")):
 #     assert test_get_one_endpoint
 def test_get_all_clients():
-    test_get_one_endpoint("clients.json")
+    test_get_endpoint("clients.json")
 def test_get_all_inventories():
-    test_get_one_endpoint("inventories.json")
+    test_get_endpoint("inventories.json")
 def test_get_all_item_groups():
-    test_get_one_endpoint("item_groups.json")
+    test_get_endpoint("item_groups.json")
 def test_get_all_item_lines():
-    test_get_one_endpoint("item_lines.json")
+    test_get_endpoint("item_lines.json")
 def test_get_all_item_types():
-    test_get_one_endpoint("item_types.json")
+    test_get_endpoint("item_types.json")
 def test_get_all_items():
-    test_get_one_endpoint("items.json")
+    test_get_endpoint("items.json")
 def test_get_all_locations():
-    test_get_one_endpoint("locations.json")
+    test_get_endpoint("locations.json")
 def test_get_all_orders():
-    test_get_one_endpoint("orders.json")
+    test_get_endpoint("orders.json")
 def test_get_all_shipments():
-    test_get_one_endpoint("shipments.json")
+    test_get_endpoint("shipments.json")
 def test_get_all_suppliers():
-    test_get_one_endpoint("suppliers.json")
+    test_get_endpoint("suppliers.json")
 def test_get_all_transfers():
-    test_get_one_endpoint("transfers.json")
+    test_get_endpoint("transfers.json")
 def test_get_all_warehouses():
-    test_get_one_endpoint("warehouses.json")
+    test_get_endpoint("warehouses.json")
 
 #parameterization or something similar would be VERY useful here
 #https://docs.pytest.org/en/stable/how-to/parametrize.html#parametrize-basics
 def test_get_one_client():
-    test_get_one_endpoint("clients.json", "1")
+    test_get_endpoint("clients.json", "1")
 def test_get_one_inventory():
-    test_get_one_endpoint("inventories.json", "1")
+    test_get_endpoint("inventories.json", "1")
 def test_get_one_item_group():
-    test_get_one_endpoint("item_groups.json", "1")
+    test_get_endpoint("item_groups.json", "1")
 def test_get_one_item_line():
-    test_get_one_endpoint("item_lines.json", "1")
+    test_get_endpoint("item_lines.json", "1")
 def test_get_one_item_type():
-    test_get_one_endpoint("item_types.json", "1")
+    test_get_endpoint("item_types.json", "1")
 def test_get_one_item():
-    test_get_one_endpoint("items.json", "P000001")
+    test_get_endpoint("items.json", "P000001")
 def test_get_one_location():
-    test_get_one_endpoint("locations.json", "1")
+    test_get_endpoint("locations.json", "1")
 def test_get_one_order():# fails because there's multiple orders with the same id
-    test_get_one_endpoint("orders.json", "1")
+    test_get_endpoint("orders.json", "1")
 def test_get_one_shipment():
-    test_get_one_endpoint("shipments.json", "1")
+    test_get_endpoint("shipments.json", "1")
 def test_get_one_supplier():
-    test_get_one_endpoint("suppliers.json", "1")
+    test_get_endpoint("suppliers.json", "1")
 def test_get_one_transfer():
-    test_get_one_endpoint("transfers.json", "1")
+    test_get_endpoint("transfers.json", "1")
 def test_get_one_warehouse():
-    test_get_one_endpoint("warehouses.json", "1")
+    test_get_endpoint("warehouses.json", "1")
 
 
 
 #@pytest.fixture
-def test_get_one_endpoint(file: string, id: string=None):
+def test_get_endpoint(file: string, id: string=None):
     if(id==None):
         test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         results_file_name = f"GET_{file.split(".")[0]}_{test_datetime}" #ternary here REQUIRES else
