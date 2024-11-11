@@ -565,6 +565,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 case _:
                     self.send_response(404)
                     self.end_headers()
+            #no fallback implemented here
         elif path[0] == "items":
             item_id = path[1]
             content_length = int(self.headers["Content-Length"])
@@ -688,7 +689,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                         self.send_response(200)
                         self.end_headers()
                     elif path[2] == "commit":
-                        pass
+                        pass #not yet implemented
                     else:
                         self.send_response(404)
                         self.end_headers()
