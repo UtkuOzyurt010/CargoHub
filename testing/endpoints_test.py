@@ -11,19 +11,63 @@ from timeit import default_timer as timer
 class TestException(Exception):
     pass
 
-#backup all data/ data
-source_dir = "data/"
-destination_dir = "testing/test_data_backup/"
 
-os.makedirs(destination_dir, exist_ok=True)
+def loaddbdata(file: string, id: string=None, get_all: bool=False):
+    if get_all is True:
+        with open("data/" + file) as json_data: # loads eg entire clients.json  
+            db_data = json.load(json_data)
+        return db_data
+    
+    with open("data/" + file) as json_data:
+        db_data = json.load(json_data)
+        db_obj = {} #makes sure it's empty rather than null if obj isn't found, otherwise remove_timestamps() throws exception
+        if file == "items.json": #because items uses a string uid rather than an int id
+            for obj in db_data:
+                if obj.get("uid", -1) == id: # -1 and -2 as non-equal default return values in case of fail
+                    db_obj = obj
+        else:
+            for obj in db_data:
+                if obj.get("id", -1) == id:
+                    db_obj = obj
+    return db_obj
 
-# Iterate over all files in the source directory
-for file_name in os.listdir(source_dir):
-    full_file_path = os.path.join(source_dir, file_name)
-    if os.path.isfile(full_file_path):  # Check if it is a file
-        shutil.copyfile(full_file_path, os.path.join(destination_dir, file_name))
+
+def backuprestore(restore: bool=False):
+    source_dir = "data/"
+
+    if restore is False:
+        #backup all data/ data
+        
+        destination_dir = "testing/test_data_backup/"
+
+        os.makedirs(destination_dir, exist_ok=True)
+
+        # Iterate over all files in the source directory
+        for file_name in os.listdir(source_dir):
+            full_file_path = os.path.join(source_dir, file_name)
+            if os.path.isfile(full_file_path):  # Check if it is a file
+                shutil.copyfile(full_file_path, os.path.join(destination_dir, file_name))
+    elif restore is True:
+        #restore initial data
+        # Define source and destination directories
+        backup_dir = "testing/test_data_backup/"
+
+        os.makedirs(source_dir, exist_ok=True)
+
+        # Iterate over all files in the backup directory
+        for file_name in os.listdir(backup_dir):
+            full_backup_path = os.path.join(backup_dir, file_name)
+            if os.path.isfile(full_backup_path):  # Check if it is a file
+                shutil.copyfile(full_backup_path, os.path.join(source_dir, file_name))
+
+def remove_timestamps(obj): #posting objects adds timestamps to them. We need to remove them when comparing
+    newobj = dict.copy(obj)
+    newobj["created_at"] = ""
+    newobj["updated_at"] = ""
+    return newobj
 
 
+backuprestore()
 
 #dummydata for post tests
 dummy_client = {"id": 999, "name": "Test_Client", "address": "Nowhere", "city": "Nowhere", "zip_code": "00000", "province": "Nowhere", "country": "Nowhere", "contact_name": "Test_Client", "contact_phone": "242.732.3483x2573", "contact_email": "test_client@example.net", "created_at": "", "updated_at": ""}
@@ -119,11 +163,7 @@ dummy_put_test_id = "999"
 id_test_value = 1000
 
 
-def remove_timestamps(obj): #posting objects adds timestamps to them. We need to remove them when comparing
-    newobj = dict.copy(obj)
-    newobj["created_at"] = ""
-    newobj["updated_at"] = ""
-    return newobj
+
 
 
 address = "http://localhost:3000/api/v1"
@@ -215,58 +255,50 @@ def test_get_one_warehouse():
 
 #@pytest.fixture
 def test_get_endpoint(file: string, id: string=None):
+    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    results_file_name = f"GET_{file.split(".")[0]}_{test_datetime}" #ternary here REQUIRES else
+    os.makedirs("testing/results/GET", exist_ok=True)
+    start = timer()
+
     if(id==None):
-        test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        results_file_name = f"GET_{file.split(".")[0]}_{test_datetime}" #ternary here REQUIRES else
-        os.makedirs("testing/results/GET", exist_ok=True)
-        
-        start = timer()
         response = requests.get(address + "/" + file.split(".")[0], #remove .json from filename
                                 headers=
                                 {'API_KEY': 'a1b2c3d4e5'})
         
         response_time = timer() - start
-        with open("data/" + file) as json_data: # loads eg entire clients.json  
-            response_data = response.json()
-            db_data = json.load(json_data)
+        response_data = response.json()
+        db_data = loaddbdata(file, get_all=True)
 
-            success = response_data == db_data
-            
-            diagnostics = {}
-            diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-            
-            with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
-                json.dump(diagnostics[results_file_name], f)
+        success = response_data == db_data
+        
+        diagnostics = {}
+        diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
+        
+        with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
+            json.dump(diagnostics[results_file_name], f)
             #assert success #keep this disabled until GET tests are seperated, 
             #otherwise testing might stop before all endpoints are tested
     else:
-        test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        results_file_name = f"GET_{file.split(".")[0]}_{id}_{test_datetime}" #ternary here REQUIRES else
-        os.makedirs("testing/results/GET", exist_ok=True)
-        
-        start = timer()
         response = requests.get(f"{address}/{file.split(".")[0]}/{id}", #will this work with uid in items.json?
                                 headers=
                                 {'API_KEY': 'a1b2c3d4e5'})
         
         response_time = timer() - start
-        with open("data/" + file) as json_data: # loads eg entire clients.json  
-            response_data = response.json()
-            db_data = json.load(json_data)
-            found_obj = {}
-            for obj in db_data:
-                if str(obj.get("id", -1)) == id or str(obj.get("uid", -1)) == id:
-                    found_obj = obj
-            success = response_data == found_obj
-            
-            diagnostics = {}
-            diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-            
-            with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
-                json.dump(diagnostics[results_file_name], f)
-            #assert success #keep this disabled until GET tests are seperated, 
-            #otherwise testing might stop before all endpoints are tested
-            assert success
+
+        response_data = response.json()
+
+        found_obj = loaddbdata(file, get_all=True)
+
+        success = response_data == found_obj
+        
+        diagnostics = {}
+        diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
+        
+        with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
+            json.dump(diagnostics[results_file_name], f)
+        #assert success #keep this disabled until GET tests are seperated, 
+        #otherwise testing might stop before all endpoints are tested
+        assert success
         
 
 
@@ -339,32 +371,21 @@ def test_post_one_endpoint(file: string):
                             {'API_KEY': 'a1b2c3d4e5',
                             'content-type': 'application/json'}
                             )
-    response_time = timer() - start 
+    response_time = timer() - start
 
-    #obj_to_post has "created_at" and "updated_at" properties set to ""
-    #when obj_to_post is posted using a POST call, our codebase adds a value to "created_at" and "updated_at"
-    #we thus have to find the object in the database using only it's Id, then set these properties back to "" to be able to compare
-    with open("data/" + file) as json_data:
-        db_data = json.load(json_data)
-        db_obj = {} #makes sure it's empty rather than null if obj isn't found, otherwise remove_timestamps() throws exception
-        if file == "items.json": #because items uses a string uid rather than an int id
-            for obj in db_data:
-                if obj.get("uid", -1) == obj_to_post.get("uid", -2): # -1 and -2 as non-equal default return values in case of fail
-                    db_obj = obj
-        else:
-            for obj in db_data:
-                if obj.get("id", -1) == obj_to_post.get("id", -2):
-                    db_obj = obj
-        success = remove_timestamps(db_obj) == obj_to_post
-        diagnostics = {}
-        diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
+    found_obj = loaddbdata(file, get_all=True)
 
-        with open(f"testing/results/POST/{results_file_name}.json", "w") as f:
-            json.dump(diagnostics[results_file_name], f)
+    success = remove_timestamps(found_obj) == obj_to_post
+    
+    diagnostics = {}
+    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
 
-        #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
+    with open(f"testing/results/POST/{results_file_name}.json", "w") as f:
+        json.dump(diagnostics[results_file_name], f)
 
-        assert success
+    #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
+
+    assert success
 
 
 
@@ -475,32 +496,23 @@ def test_put_endpoint(file: string, id: string):
                             {'API_KEY': 'a1b2c3d4e5',
                             'content-type': 'application/json'}
                                 )
-    response_time = timer() - start 
-    #obj_to_put has "created_at" and "updated_at" properties set to ""
-    #when obj_to_put is posted using a PUT call, our codebase adds a value to "created_at" and "updated_at"
-    #we thus have to find the object in the database using only it's Id, then set these properties back to "" to be able to compare
-    with open("data/" + file) as json_data:
-        db_data = json.load(json_data)
-        db_obj = {} #makes sure it's empty rather than null if obj isn't found, otherwise remove_timestamps() throws exception
-        if file == "items.json": #because items uses a string uid rather than an int id
-            for obj in db_data:
-                if obj.get("uid", -1) == obj_to_put.get("uid", -2): # -1 and -2 as non-equal default return values in case of fail
-                    db_obj = obj
-        else:
-            for obj in db_data:
-                if obj.get("id", -1) == obj_to_put.get("id", -2):
-                    db_obj = obj
-        success = remove_timestamps(db_obj) == remove_timestamps(obj_to_put)
+    response_time = timer() - start
 
-        diagnostics = {}
-        diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
+    
+    found_obj = loaddbdata(file, get_all=True)
 
-        with open(f"testing/results/PUT/{results_file_name}.json", "w") as f:
-            json.dump(diagnostics[results_file_name], f)
 
-        #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
+    success = remove_timestamps(found_obj) == remove_timestamps(obj_to_put)
 
-        assert success
+    diagnostics = {}
+    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
+
+    with open(f"testing/results/PUT/{results_file_name}.json", "w") as f:
+        json.dump(diagnostics[results_file_name], f)
+
+    #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
+
+    assert success
 
 # The API has the following DELETE endpoints.
 # warehouses/{id}
@@ -576,33 +588,20 @@ def test_delete_endpoint(file: string, id: string):
                             {'API_KEY': 'a1b2c3d4e5'})
 
     response_time = timer() - start
-    with open("data/" + file) as json_data: # loads eg entire clients.json  
-        db_data = json.load(json_data)
-        found_obj = {}
-        for obj in db_data:
-            if str(obj.get("id", -1)) == id or str(obj.get("uid", -1)) == id:
-                found_obj = id
-        success = found_obj == {}
-        
-        diagnostics = {}
-        diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-        
-        with open(f"testing/results/DELETE/{results_file_name}.json", "w") as f:
-            json.dump(diagnostics[results_file_name], f)
-        #assert success #keep this disabled until GET tests are seperated, 
-        #otherwise testing might stop before all endpoints are tested
+    
+    found_obj = loaddbdata(file, get_all=True)
+    
+    success = found_obj == {}
+    
+    diagnostics = {}
+    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
+    
+    with open(f"testing/results/DELETE/{results_file_name}.json", "w") as f:
+        json.dump(diagnostics[results_file_name], f)
+    #assert success #keep this disabled until GET tests are seperated, 
+    #otherwise testing might stop before all endpoints are tested
         assert success
 
 
-#restore initial data
-# Define source and destination directories
-backup_dir = "testing/test_data_backup/"
-data_dir = "data/"
+backuprestore(True)
 
-os.makedirs(data_dir, exist_ok=True)
-
-# Iterate over all files in the backup directory
-for file_name in os.listdir(backup_dir):
-    full_backup_path = os.path.join(backup_dir, file_name)
-    if os.path.isfile(full_backup_path):  # Check if it is a file
-        shutil.copyfile(full_backup_path, os.path.join(data_dir, file_name))
