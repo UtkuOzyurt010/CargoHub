@@ -8,6 +8,7 @@ import datetime
 import string
 from timeit import default_timer as timer
 
+#have our own Exception to be able to raise with informative message
 class TestException(Exception):
     pass
 
@@ -32,7 +33,7 @@ def loaddbdata(file: string, id: string=None, get_all: bool=False):
     return db_obj
 
 
-def backuprestore(restore: bool=False):
+def test_backuprestore(restore: bool=False):
     source_dir = "data/"
 
     if restore is False:
@@ -67,7 +68,7 @@ def remove_timestamps(obj): #posting objects adds timestamps to them. We need to
     return newobj
 
 
-backuprestore()
+test_backuprestore()
 
 #dummydata for post tests
 dummy_client = {"id": 999, "name": "Test_Client", "address": "Nowhere", "city": "Nowhere", "zip_code": "00000", "province": "Nowhere", "country": "Nowhere", "contact_name": "Test_Client", "contact_phone": "242.732.3483x2573", "contact_email": "test_client@example.net", "created_at": "", "updated_at": ""}
@@ -159,8 +160,10 @@ dummy_transfer = {
 dummy_warehouse = {"id": 999, "code": "YQZZNL56", "name": "Heemskerk cargo hub", "address": "Karlijndreef 281", "zip": "4002 AS", "city": "Heemskerk", "province": "Friesland", "country": "NL", "contact": {"name": "Fem Keijzer", "phone": "(078) 0013363", "email": "blamore@example.net"}, "created_at": "", "updated_at": ""}
 
 #dummy parameters for put tests
-dummy_put_test_id = "999"
-id_test_value = 1000
+id_test_value_put = 1000
+id_test_value_get = 1
+id_test_value_dummy = 999
+
 
 
 
@@ -200,61 +203,61 @@ address = "http://localhost:3000/api/v1"
 # def test_get_all_clients(test_get_one_endpoint("clients.json")):
 #     assert test_get_one_endpoint
 def test_get_all_clients():
-    test_get_endpoint("clients.json")
+    get_endpoint("clients.json")
 def test_get_all_inventories():
-    test_get_endpoint("inventories.json")
+    get_endpoint("inventories.json")
 def test_get_all_item_groups():
-    test_get_endpoint("item_groups.json")
+    get_endpoint("item_groups.json")
 def test_get_all_item_lines():
-    test_get_endpoint("item_lines.json")
+    get_endpoint("item_lines.json")
 def test_get_all_item_types():
-    test_get_endpoint("item_types.json")
+    get_endpoint("item_types.json")
 def test_get_all_items():
-    test_get_endpoint("items.json")
+    get_endpoint("items.json")
 def test_get_all_locations():
-    test_get_endpoint("locations.json")
+    get_endpoint("locations.json")
 def test_get_all_orders():
-    test_get_endpoint("orders.json")
+    get_endpoint("orders.json")
 def test_get_all_shipments():
-    test_get_endpoint("shipments.json")
+    get_endpoint("shipments.json")
 def test_get_all_suppliers():
-    test_get_endpoint("suppliers.json")
+    get_endpoint("suppliers.json")
 def test_get_all_transfers():
-    test_get_endpoint("transfers.json")
+    get_endpoint("transfers.json")
 def test_get_all_warehouses():
-    test_get_endpoint("warehouses.json")
+    get_endpoint("warehouses.json")
 
 #parameterization or something similar would be VERY useful here
 #https://docs.pytest.org/en/stable/how-to/parametrize.html#parametrize-basics
 def test_get_one_client():
-    test_get_endpoint("clients.json", "1")
+    get_endpoint("clients.json", id_test_value_get)
 def test_get_one_inventory():
-    test_get_endpoint("inventories.json", "1")
+    get_endpoint("inventories.json", id_test_value_get)
 def test_get_one_item_group():
-    test_get_endpoint("item_groups.json", "1")
+    get_endpoint("item_groups.json", id_test_value_get)
 def test_get_one_item_line():
-    test_get_endpoint("item_lines.json", "1")
+    get_endpoint("item_lines.json", id_test_value_get)
 def test_get_one_item_type():
-    test_get_endpoint("item_types.json", "1")
+    get_endpoint("item_types.json", id_test_value_get)
 def test_get_one_item():
-    test_get_endpoint("items.json", "P000001")
+    get_endpoint("items.json", "P000001")
 def test_get_one_location():
-    test_get_endpoint("locations.json", "1")
+    get_endpoint("locations.json", id_test_value_get)
 def test_get_one_order():# fails because there's multiple orders with the same id
-    test_get_endpoint("orders.json", "1")
+    get_endpoint("orders.json", id_test_value_get)
 def test_get_one_shipment():
-    test_get_endpoint("shipments.json", "1")
+    get_endpoint("shipments.json", id_test_value_get)
 def test_get_one_supplier():
-    test_get_endpoint("suppliers.json", "1")
+    get_endpoint("suppliers.json", id_test_value_get)
 def test_get_one_transfer():
-    test_get_endpoint("transfers.json", "1")
+    get_endpoint("transfers.json", id_test_value_get)
 def test_get_one_warehouse():
-    test_get_endpoint("warehouses.json", "1")
+    get_endpoint("warehouses.json", id_test_value_get)
 
 
 
-#@pytest.fixture
-def test_get_endpoint(file: string, id: string=None):
+#@pytest.mark.skip(reason="This function is used as a helper, not for direct test runs.")
+def get_endpoint(file: string, id=None):
     test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     results_file_name = f"GET_{file.split(".")[0]}_{test_datetime}" #ternary here REQUIRES else
     os.makedirs("testing/results/GET", exist_ok=True)
@@ -287,7 +290,7 @@ def test_get_endpoint(file: string, id: string=None):
 
         response_data = response.json()
 
-        found_obj = loaddbdata(file, get_all=True)
+        found_obj = loaddbdata(file, id)
 
         success = response_data == found_obj
         
@@ -307,32 +310,33 @@ def test_get_endpoint(file: string, id: string=None):
 
 
 def test_post_client():
-    test_post_one_endpoint("clients.json")
+    post_one_endpoint("clients.json")
 def test_post_inventories():
-    test_post_one_endpoint("inventories.json")
+    post_one_endpoint("inventories.json")
 def test_post_item_groups():
-    test_post_one_endpoint("item_groups.json")
+    post_one_endpoint("item_groups.json")
 def test_post_item_lines():
-    test_post_one_endpoint("item_lines.json")
+    post_one_endpoint("item_lines.json")
 def test_post_item_types():
-    test_post_one_endpoint("item_types.json")
+    post_one_endpoint("item_types.json")
 def test_post_items():
-    test_post_one_endpoint("items.json")
+    post_one_endpoint("items.json")
 def test_post_locations():
-    test_post_one_endpoint("locations.json")
+    post_one_endpoint("locations.json")
 def test_post_orders():
-    test_post_one_endpoint("orders.json")
+    post_one_endpoint("orders.json")
 def test_post_shipments():
-    test_post_one_endpoint("shipments.json")
+    post_one_endpoint("shipments.json")
 def test_post_suppliers():
-    test_post_one_endpoint("suppliers.json")
+    post_one_endpoint("suppliers.json")
 def test_post_transfers():
-    test_post_one_endpoint("transfers.json")
+    post_one_endpoint("transfers.json")
 def test_post_warehouses():
-    test_post_one_endpoint("warehouses.json")
+    post_one_endpoint("warehouses.json")
 
-#@pytest.fixture
-def test_post_one_endpoint(file: string):
+
+#pytest.mark.skip(reason="This function is used as a helper, not for direct test runs.")
+def post_one_endpoint(file: string):
     test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     results_file_name = f"POST_{file.split(".")[0]}_{test_datetime}" 
     os.makedirs(f"testing/results/POST", exist_ok=True)
@@ -373,8 +377,14 @@ def test_post_one_endpoint(file: string):
                             )
     response_time = timer() - start
 
-    found_obj = loaddbdata(file, get_all=True)
+    if file == "items.json":
+        found_obj = loaddbdata(file, obj_to_post.get("uid", -1))
+    else:
+        found_obj = loaddbdata(file, obj_to_post.get("id", -1))
 
+    print(obj_to_post.get("id", -1))
+    print(found_obj)
+    print(obj_to_post)
     success = remove_timestamps(found_obj) == obj_to_post
     
     diagnostics = {}
@@ -409,43 +419,43 @@ def test_post_one_endpoint(file: string):
 #   shipments/{id}/commit - Placeholder for committing shipment changes (currently not implemented).
 
 def test_put_one_warehouse():
-    test_put_endpoint("warehouses.json", dummy_put_test_id)
+    put_endpoint("warehouses.json")
 
 def test_put_one_location():
-    test_put_endpoint("locations.json", dummy_put_test_id)
+    put_endpoint("locations.json")
 
 def test_put_one_transfer():
-    test_put_endpoint("transfers.json", dummy_put_test_id)
+    put_endpoint("transfers.json")
 
 def test_put_one_item():
-    test_put_endpoint("items.json", dummy_put_test_id)
+    put_endpoint("items.json")
 
 def test_put_one_item_line():
-    test_put_endpoint("item_lines.json", dummy_put_test_id)
+    put_endpoint("item_lines.json")
 
 def test_put_one_item_group():
-    test_put_endpoint("item_groups.json", dummy_put_test_id)
+    put_endpoint("item_groups.json")
 
 def test_put_one_item_type():
-    test_put_endpoint("item_types.json", dummy_put_test_id)
+    put_endpoint("item_types.json")
 
 def test_put_one_inventory():
-    test_put_endpoint("inventories.json", dummy_put_test_id)
+    put_endpoint("inventories.json")
 
 def test_put_one_supplier():
-    test_put_endpoint("suppliers.json", dummy_put_test_id)
+    put_endpoint("suppliers.json")
 
 def test_put_one_order():  # Note: this may fail due to duplicate IDs
-    test_put_endpoint("orders.json", dummy_put_test_id)
+    put_endpoint("orders.json")
 
 def test_put_one_client():
-    test_put_endpoint("clients.json", dummy_put_test_id)
+    put_endpoint("clients.json")
 
 def test_put_one_shipment():
-    test_put_endpoint("shipments.json", dummy_put_test_id)
+    put_endpoint("shipments.json")
 
-
-def test_put_endpoint(file: string, id: string):
+#@pytest.mark.skip(reason="This function is used as a helper, not for direct test runs.")
+def put_endpoint(file: string):
     test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     results_file_name = f"PUT_{file.split(".")[0]}_{test_datetime}" 
     os.makedirs(f"testing/results/PUT", exist_ok=True)
@@ -453,44 +463,44 @@ def test_put_endpoint(file: string, id: string):
     match file.split(".")[0]:  # choose which object to update
         case "clients":
             obj_to_put = dummy_client
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "inventories":
             obj_to_put = dummy_inventory
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "item_groups":
             obj_to_put = dummy_item_group
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "item_lines":
             obj_to_put = dummy_item_line
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "item_types":
             obj_to_put = dummy_item_type
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "items":
             obj_to_put = dummy_item
-            obj_to_put["uid"] = str(id_test_value) #item has string UID
+            obj_to_put["uid"] = str(id_test_value_put) #item has string UID
         case "locations":
             obj_to_put = dummy_location
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "orders":
             obj_to_put = dummy_order
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "shipments":
             obj_to_put = dummy_shipment
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "suppliers":
             obj_to_put = dummy_supplier
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "transfers":
             obj_to_put = dummy_transfer
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
         case "warehouses":
             obj_to_put = dummy_warehouse
-            obj_to_put["id"] = id_test_value
+            obj_to_put["id"] = id_test_value_put
 
     start = timer()
     #shutil.copyfile("data/" + file, "testing/test_data_backup/" + file) #backup original file
-    response = requests.put(address + "/" + file.split(".")[0] + "/" + id, #remove .json from filename
+    response = requests.put(address + "/" + file.split(".")[0] + "/" + str(id_test_value_dummy), #remove .json from filename
                             json=obj_to_put,
                             headers=
                             {'API_KEY': 'a1b2c3d4e5',
@@ -499,8 +509,7 @@ def test_put_endpoint(file: string, id: string):
     response_time = timer() - start
 
     
-    found_obj = loaddbdata(file, get_all=True)
-
+    found_obj = loaddbdata(file, id_test_value_put)
 
     success = remove_timestamps(found_obj) == remove_timestamps(obj_to_put)
 
@@ -529,53 +538,49 @@ def test_put_endpoint(file: string, id: string):
 # shipments/{id}
 
 def test_delete_one_warehouse():
-    test_delete_endpoint("warehouses.json", id_test_value)
+    delete_endpoint("warehouses.json", id_test_value_put)
 
 def test_delete_one_location():
-    test_delete_endpoint("locations.json", id_test_value)
+    delete_endpoint("locations.json", id_test_value_put)
 
 def test_delete_one_transfer():
-    test_delete_endpoint("transfers.json", id_test_value)
+    delete_endpoint("transfers.json", id_test_value_put)
 
 def test_delete_one_item():
-    test_delete_endpoint("items.json", id_test_value)
+    delete_endpoint("items.json", id_test_value_put)
 
 def test_delete_one_item_line():
-    test_delete_endpoint("item_lines.json", id_test_value)
+    delete_endpoint("item_lines.json", id_test_value_put)
 
 def test_delete_one_item_group():
-    test_delete_endpoint("item_groups.json", id_test_value)
+    delete_endpoint("item_groups.json", id_test_value_put)
 
 def test_delete_one_item_type():
-    test_delete_endpoint("item_types.json", id_test_value)
+    delete_endpoint("item_types.json", id_test_value_put)
 
 def test_delete_one_inventory():
-    test_delete_endpoint("inventories.json", id_test_value)
+    delete_endpoint("inventories.json", id_test_value_put)
 
 def test_delete_one_supplier():
-    test_delete_endpoint("suppliers.json", id_test_value)
+    delete_endpoint("suppliers.json", id_test_value_put)
 
 def test_delete_one_order():  # Note: this may fail due to duplicate IDs
-    test_delete_endpoint("orders.json", id_test_value)
+    delete_endpoint("orders.json", id_test_value_put)
 
 def test_delete_one_client():
-    test_delete_endpoint("clients.json", id_test_value)
+    delete_endpoint("clients.json", id_test_value_put)
 
 def test_delete_one_shipment():
-    test_delete_endpoint("shipments.json", id_test_value)
+    delete_endpoint("shipments.json", id_test_value_put)
 
 
-def test_delete_endpoint(file: string, id: string):
+#@pytest.mark.skip(reason="This function is used as a helper, not for direct test runs.")
+def delete_endpoint(file: string, id: int):
     test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     results_file_name = f"DELETE_{file.split(".")[0]}_{id}_{test_datetime}" #ternary here REQUIRES else
     os.makedirs("testing/results/DELETE", exist_ok=True)
     
-    with open("data/" + file) as json_data: # loads eg entire clients.json  
-        db_data = json.load(json_data)
-        found_obj = {}
-        for obj in db_data:
-            if obj.get("id", -1) == id or obj.get("uid", -1) == str(id):
-                found_obj = obj
+    found_obj = loaddbdata(file, id)
 
     #making sure the object doest indeed exist so we can actually try to delete
     if found_obj == {}:
@@ -589,7 +594,7 @@ def test_delete_endpoint(file: string, id: string):
 
     response_time = timer() - start
     
-    found_obj = loaddbdata(file, get_all=True)
+    found_obj = loaddbdata(file, id)
     
     success = found_obj == {}
     
@@ -600,8 +605,8 @@ def test_delete_endpoint(file: string, id: string):
         json.dump(diagnostics[results_file_name], f)
     #assert success #keep this disabled until GET tests are seperated, 
     #otherwise testing might stop before all endpoints are tested
-        assert success
+    assert success
 
 
-backuprestore(True)
+test_backuprestore(True)
 
