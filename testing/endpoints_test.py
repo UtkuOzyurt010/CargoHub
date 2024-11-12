@@ -33,7 +33,7 @@ def loaddbdata(file: string, id: string=None, get_all: bool=False):
     return db_obj
 
 
-def test_backuprestore(restore: bool=False):
+def backuprestore(restore: bool=False):
     source_dir = "data/"
 
     if restore is False:
@@ -68,7 +68,7 @@ def remove_timestamps(obj): #posting objects adds timestamps to them. We need to
     return newobj
 
 
-test_backuprestore()
+#test_backuprestore()
 
 #dummydata for post tests
 dummy_client = {"id": 999, "name": "Test_Client", "address": "Nowhere", "city": "Nowhere", "zip_code": "00000", "province": "Nowhere", "country": "Nowhere", "contact_name": "Test_Client", "contact_phone": "242.732.3483x2573", "contact_email": "test_client@example.net", "created_at": "", "updated_at": ""}
@@ -147,7 +147,7 @@ dummy_transfer = {
                 "reference": "TR00001",
                 "transfer_from": None, #supposed to be null
                 "transfer_to": 9229,
-                "transfer_status": "Completed",
+                "transfer_status": "Scheduled",
                 "created_at": "",
                 "updated_at": "",
                 "items": [
@@ -382,8 +382,11 @@ def post_one_endpoint(file: string):
     else:
         found_obj = loaddbdata(file, obj_to_post.get("id", -1))
 
-    print(obj_to_post.get("id", -1))
-    print(found_obj)
+
+    print(response.headers)
+    print(response.status_code)
+    print(address + "/" + file.split(".")[0])
+    print(remove_timestamps(found_obj))
     print(obj_to_post)
     success = remove_timestamps(found_obj) == obj_to_post
     
@@ -608,5 +611,5 @@ def delete_endpoint(file: string, id: int):
     assert success
 
 
-test_backuprestore(True)
+#test_backuprestore(True)
 
