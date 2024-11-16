@@ -15,11 +15,11 @@ class TestException(Exception):
 
 def loaddbdata(file: string, id: string=None, get_all: bool=False):
     if get_all is True:
-        with open("data/" + file) as json_data: # loads eg entire clients.json  
+        with open("testing/test_data/" + file) as json_data: # loads eg entire clients.json  
             db_data = json.load(json_data)
         return db_data
     
-    with open("data/" + file) as json_data:
+    with open("testing/test_data/" + file) as json_data:
         db_data = json.load(json_data)
         db_obj = {} #makes sure it's empty rather than null if obj isn't found, otherwise remove_timestamps() throws exception
         if file == "items.json": #because items uses a string uid rather than an int id
@@ -34,7 +34,7 @@ def loaddbdata(file: string, id: string=None, get_all: bool=False):
 
 
 def backuprestore(restore: bool=False):
-    source_dir = "data/"
+    source_dir = "testing/test_data/"
 
     if restore is False:
         #backup all data/ data
@@ -184,7 +184,7 @@ address = "http://localhost:3000/api/v1"
 #                                 )
         
 #         response_time = timer() - start
-#         with open("data/" + file) as json_data: # loads eg entire clients.json  
+#         with open("testing/test_data/" + file) as json_data: # loads eg entire clients.json  
 #             response_data = response.json()
 #             db_data = json.load(json_data)
 #             # print(response_data) run "python run_tests.py -s" in terminal to enable print
@@ -368,7 +368,7 @@ def post_one_endpoint(file: string):
             obj_to_post = dummy_warehouse
 
     start = timer()
-    #shutil.copyfile("data/" + file, "testing/test_data_backup/" + file) #backup original file
+    #shutil.copyfile("testing/test_data/" + file, "testing/test_data_backup/" + file) #backup original file
     response = requests.post(address + "/" + file.split(".")[0], #remove .json from filename
                             json=obj_to_post,
                             headers=
@@ -396,7 +396,7 @@ def post_one_endpoint(file: string):
     with open(f"testing/results/POST/{results_file_name}.json", "w") as f:
         json.dump(diagnostics[results_file_name], f)
 
-    #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
+    #shutil.copyfile("testing/test_data_backup/" + file, "testing/test_data/" + file) #restore file from backup
 
     assert success
 
@@ -502,7 +502,7 @@ def put_endpoint(file: string):
             obj_to_put["id"] = id_test_value_put
 
     start = timer()
-    #shutil.copyfile("data/" + file, "testing/test_data_backup/" + file) #backup original file
+    #shutil.copyfile("testing/test_data/" + file, "testing/test_data_backup/" + file) #backup original file
     response = requests.put(address + "/" + file.split(".")[0] + "/" + str(id_test_value_dummy), #remove .json from filename
                             json=obj_to_put,
                             headers=
@@ -522,7 +522,7 @@ def put_endpoint(file: string):
     with open(f"testing/results/PUT/{results_file_name}.json", "w") as f:
         json.dump(diagnostics[results_file_name], f)
 
-    #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
+    #shutil.copyfile("testing/test_data_backup/" + file, "testing/test_data/" + file) #restore file from backup
 
     assert success
 
