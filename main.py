@@ -397,6 +397,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 path = self.path.split("/")
                 if len(path) > 3 and path[1] == "api" and path[2] == "v1":
                     self.handle_get_version_1(path[3:], user)
+                if len(path) == 3 and path[1] == "api" and path[2] == "v1":
+                    self.send_response(200)
+                    self.end_headers()
             except Exception:
                 self.send_response(500)
                 self.end_headers()
@@ -529,6 +532,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 path = self.path.split("/")
                 if len(path) > 3 and path[1] == "api" and path[2] == "v1":
                     self.handle_post_version_1(path[3:], user)
+                if len(path) == 3 and path[1] == "api" and path[2] == "v1":
+                    self.send_response(200)
+                    self.end_headers()
             except Exception:
                 self.send_response(500)
                 self.end_headers()
@@ -744,6 +750,9 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 path = self.path.split("/")
                 if len(path) > 3 and path[1] == "api" and path[2] == "v1":
                     self.handle_put_version_1(path[3:], user)
+                if len(path) == 3 and path[1] == "api" and path[2] == "v1":
+                    self.send_response(200)
+                    self.end_headers()
             except Exception:
                 self.send_response(500)
                 self.end_headers()
@@ -840,9 +849,15 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 path = self.path.split("/")
                 if len(path) > 3 and path[1] == "api" and path[2] == "v1":
                     self.handle_delete_version_1(path[3:], user)
+                if len(path) == 3 and path[1] == "api" and path[2] == "v1":
+                    self.send_response(200)
+                    self.end_headers()
+                    
+                    
             except Exception:
                 self.send_response(500)
                 self.end_headers()
+
 
 
 if __name__ == "__main__":
