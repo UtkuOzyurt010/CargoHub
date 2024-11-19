@@ -25,12 +25,18 @@ jobs:
   update-server:
     runs-on: ubuntu-latest
     steps:
+    - name: Set up SSH keys
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name : checkout repo
       uses: actions/checkout@v3
     - name : copy repo
       run: |
         scp -r ./api ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
         scp -r ./data ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
-        scp ./main.py ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub 
+        scp ./main.py ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
+      env:
+        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
    
