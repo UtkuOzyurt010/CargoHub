@@ -21,4 +21,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name : update server
+      run: |
+        cd C:\VSCodeProjects
+        scp -r CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726
+
    
