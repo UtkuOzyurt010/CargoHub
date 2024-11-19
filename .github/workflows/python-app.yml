@@ -40,7 +40,7 @@ jobs:
     #   run: ping -c 4 145.24.223.236
     - name: Test SSH connection
       run: |
-        nc -zv 145.24.223.236 22
+        nc -zv 145.24.223.236 8000
     # Step 3: Copy the repository to the remote server using SCP
     - name: SCP repository to server
       run: |
