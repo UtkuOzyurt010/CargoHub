@@ -21,9 +21,16 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name : update server
+
+  update-server:
+    runs-on: ubuntu-latest
+    steps:
+    - name : checkout repo
+      uses: actions/checkout@v3
+    - name : copy repo
       run: |
-        cd C:\VSCodeProjects
-        scp -r CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726
+        scp -r ./api ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
+        scp -r ./data ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
+        scp ./main.py ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub 
 
    
