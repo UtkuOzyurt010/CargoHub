@@ -405,6 +405,16 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(500)
                 self.end_headers()
 
+    def do_HEAD(self):
+        path = self.path.split("/")
+        if len(path) == 3 and path[1] == "api" and path[2] == "v1":
+            self.send_response(200)
+            self.end_headers()
+        else:
+            self.send_response(401)
+            self.end_headers()
+
+
     def handle_post_version_1(self, path, user):
         if not auth_provider.has_access(user, path, "post"):
             self.send_response(403)
