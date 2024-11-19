@@ -22,16 +22,40 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-  update-server:
+#   update-server:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Set up SSH keys
+#       uses: webfactory/ssh-agent@v0.5.3
+#       with:
+#         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#     - name : checkout repo
+#       uses: actions/checkout@v3
+#     - name : copy repo
+#       run: |
+#         scp -r ./api ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
+#         scp -r ./data ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
+#         scp ./main.py ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
+#       env:
+#         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+#         jobs:
+  scp-to-server:
     runs-on: ubuntu-latest
+
     steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up SSH keys to access the remote server securely
     - name: Set up SSH keys
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name : checkout repo
-      uses: actions/checkout@v3
-    - name : copy repo
+
+    # Step 3: Copy the repository to the remote server using SCP
+    - name: SCP repository to server
       run: |
         scp -r ./api ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
         scp -r ./data ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/Cargohub
