@@ -1,5 +1,5 @@
-using Models;
-using Services;
+using CargoHub.Models;
+using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://localhost:8000");
@@ -27,6 +27,8 @@ builder.Services.AddDbContext<DatabaseContext>(
     options => options.UseSqlite(builder.Configuration.GetConnectionString("SqlLiteDb")));
     // options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb")));
 
+builder.Services.AddTransient<ClientService>();
+//waarom moet ik hier Clientservice apart adden? anders werkt niet
 builder.Services.AddTransient<IGenericService<Client>, ClientService>();
 builder.Services.AddTransient<IItemService, ItemService>();
 builder.Services.AddTransient<IGenericService<Inventory>, InventoryService>();

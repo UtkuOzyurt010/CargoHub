@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using CargoHub.Models;
 
 namespace CargoHub.Models
@@ -24,8 +25,8 @@ namespace CargoHub.Models
         {
         }
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
         //     modelBuilder.Entity<Client>()
         //         .HasIndex(p => p.Id).IsUnique();
 
@@ -39,9 +40,27 @@ namespace CargoHub.Models
         //     //     .HasData(new Admin { AdminId = 4, Email = "admin4@example.com", UserName = "admin4", Password = EncryptionHelper.EncryptPassword("Welcome123") });
         //     // modelBuilder.Entity<Admin>()
         //     //     .HasData(new Admin { AdminId = 5, Email = "admin5@example.com", UserName = "admin5", Password = EncryptionHelper.EncryptPassword("Whatisapassword?") });
-        // }
+            modelBuilder.Entity<Client>().HasData(new Client
+            {
+                Id = 1, // Use a unique ID
+                Name = "Sample Client",
+                Address = "poo poo pee pee", 
+                City = "p", ContactEmail = "d", 
+                ContactName = "a", Country = "de", 
+                CreatedAt = DateTime.Today, 
+                Province = "huh", UpdatedAt = 
+                DateTime.Now, 
+                Zip_code = "d"
+            });
 
-    }
+            base.OnModelCreating(modelBuilder);
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
 
-    
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+
+        }
+    }   
 }

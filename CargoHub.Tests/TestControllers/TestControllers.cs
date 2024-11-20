@@ -11,17 +11,22 @@ namespace CargoHub.Tests;
 
 public class ControllerTests
 {
-    [Fact]
-    public void Index_ReturnsExpectedResult()
+    public class ClientControllerTests
     {
-        var clientservice = new ClientService();
-        // Arrange
-        var controller = new ClientController();
 
-        // Act
-        var result = controller.Index();
+        [Fact]
+        public async Task Get_ReturnsOkResult_WhenClientExists()
+        {
+            // Arrange
+            int clientId = 1;
+            _mockService.Setup(service => service.Get(clientId));
 
-        // Assert
-        Assert.NotNull(result);
+            // Act
+            var result = await _controller.Get(clientId);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(clientId, okResult.Value);
+        }
     }
 }
