@@ -4,7 +4,7 @@ using api.Services;
 
 namespace api.Controllers
 {
-    [Route($"{Globals.Version}/Inventory")]
+    [Route($"api/{Globals.Version}/Inventory")]
     public class InventoryController : Controller
     {
         InventoryService _inventoryService;

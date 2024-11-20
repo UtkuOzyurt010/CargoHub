@@ -4,7 +4,7 @@ using api.Services;
 
 namespace api.Controllers
 {
-    [Route($"{Globals.Version}/Item")]
+    [Route($"api/{Globals.Version}/Item")]
     public class ItemController : Controller
     {
         ItemService _itemService;
@@ -15,9 +15,9 @@ namespace api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string uid)
         {
-            var result = await _itemService.Get(id);
+            var result = await _itemService.Get(uid);
             if (result is not null)
             {
                 return Ok(result);
@@ -26,9 +26,9 @@ namespace api.Controllers
         }
 
         [HttpGet("batch")]
-        public async Task<IActionResult> GetBatch([FromQuery] List<int> ids)
+        public async Task<IActionResult> GetBatch([FromQuery] List<string> uids)
         {
-            var result = await _itemService.GetBatch(ids);
+            var result = await _itemService.GetBatch(uids);
             return Ok(result);
         }
 
@@ -86,9 +86,9 @@ namespace api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string uid)
         {  
-            bool result =  await _itemService.Delete(id);
+            bool result =  await _itemService.Delete(uid);
             if (result)
             {
                 return Ok();
@@ -97,9 +97,9 @@ namespace api.Controllers
         }
 
         [HttpDelete("batch")]
-        public async Task<IActionResult> DeleteBatch([FromQuery] List<int> ids)
+        public async Task<IActionResult> DeleteBatch([FromQuery] List<string> uids)
         {
-            var result = await _itemService.DeleteBatch(ids);
+            var result = await _itemService.DeleteBatch(uids);
             if (result.Contains(true))
             {
                 int trueCount = result.Count(x => x == true);

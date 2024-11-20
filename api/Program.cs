@@ -19,10 +19,18 @@ builder.Services.AddSession(options =>
 builder.Services.AddDbContext<DatabaseContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb")));
 
-
-
-
-
+builder.Services.AddTransient<IGenericService<Client>, ClientService>();
+builder.Services.AddTransient<IItemService, ItemService>();
+builder.Services.AddTransient<IGenericService<Inventory>, InventoryService>();
+builder.Services.AddTransient<IGenericService<ItemGroup>, ItemGroupService>();
+builder.Services.AddTransient<IGenericService<ItemLine>, ItemLineService>();
+builder.Services.AddTransient<IGenericService<ItemType>, ItemTypeService>();
+builder.Services.AddTransient<IGenericService<Location>, LocationService>();
+builder.Services.AddTransient<IGenericService<Order>, OrderService>();
+builder.Services.AddTransient<IGenericService<Shipment>, ShipmentService>();
+builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
+builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
+builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
 
 var app = builder.Build();
 

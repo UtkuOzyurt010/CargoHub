@@ -4,7 +4,7 @@ using api.Services;
 
 namespace api.Controllers
 {
-    [Route($"{Globals.Version}/Location")]
+    [Route($"api/{Globals.Version}/Location")]
     public class LocationController : Controller
     {
         LocationService _locationService;
