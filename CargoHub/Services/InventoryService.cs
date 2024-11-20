@@ -1,7 +1,7 @@
-using Models;
+using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Services{
+namespace CargoHub.Services{
     public class InventoryService : IGenericService<Inventory>
     {
         private DatabaseContext _context;

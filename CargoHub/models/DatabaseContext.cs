@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using CargoHub.Models;
 
-namespace Models
+namespace CargoHub.Models
+
 {
     public class DatabaseContext : DbContext
     {

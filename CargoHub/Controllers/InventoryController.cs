@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Services;
+using CargoHub.Models;
+using CargoHub.Services;
 
-namespace Controllers
+namespace CargoHub.Controllers
 {
     [Route($"api/{Globals.Version}/inventory")]
     public class InventoryController : Controller

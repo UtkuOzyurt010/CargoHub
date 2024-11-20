@@ -1,7 +1,7 @@
-using Models;
+using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Services{
+namespace CargoHub.Services{
     public class OrderService : IGenericService<Order>
     {
         private DatabaseContext _context;

@@ -1,10 +1,15 @@
 using Xunit;
-using api.Controllers;
-using api.Services;
+using Moq;
+using Microsoft.AspNetCore.Mvc;
+using CargoHub.Controllers;
+using CargoHub.Services;
+using CargoHub.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CargoHub.Tests;
 
-public class HomeControllerTests
+public class ControllerTests
 {
     [Fact]
     public void Index_ReturnsExpectedResult()

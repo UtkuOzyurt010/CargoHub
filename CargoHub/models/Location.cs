@@ -1,4 +1,4 @@
-namespace Models{
+namespace CargoHub.Models{
     public class Location
     {
         public int Id { get; set; }

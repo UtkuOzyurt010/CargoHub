@@ -1,4 +1,4 @@
-namespace Models{
+namespace CargoHub.Models{
     public class Item
     {
         public int Id {get; set;} //dotnet wants this here as a primary key.
