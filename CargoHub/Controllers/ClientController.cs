@@ -7,7 +7,7 @@ using Services;
 namespace Controllers
 {
 
-    [Route($"{Globals.Version}/Client")]
+    [Route($"api/{Globals.Version}/Client")]
     public class ClientController : Controller
     {
         ClientService _clientService;

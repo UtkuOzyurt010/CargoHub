@@ -4,7 +4,7 @@ using Services;
 
 namespace Controllers
 {
-    [Route($"{Globals.Version}/Shipment")]
+    [Route($"api/{Globals.Version}/Shipment")]
     public class ShipmentController : Controller
     {
         ShipmentService _shipmentService;

@@ -4,7 +4,7 @@ using Services;
 
 namespace Controllers
 {
-    [Route($"{Globals.Version}/ItemType")]
+    [Route($"api/{Globals.Version}/ItemType")]
     public class ItemTypeController : Controller
     {
         ItemTypeService _itemTypeService;

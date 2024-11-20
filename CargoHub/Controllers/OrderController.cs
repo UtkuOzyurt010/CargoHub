@@ -4,7 +4,7 @@ using Services;
 
 namespace Controllers
 {
-    [Route($"{Globals.Version}/Order")]
+    [Route($"api/{Globals.Version}/Order")]
     public class OrderController : Controller
     {
         OrderService _orderService;
