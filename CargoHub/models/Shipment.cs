@@ -32,9 +32,11 @@ namespace CargoHub.Models{
     }
 }
 
-[NotMapped]
-public class ShipmentContent
+namespace CargoHub.Models
 {
-    public string Item_Id { get; set; }
-    public int Amount { get; set; }
+    public class ShipmentContent
+    {
+        public string Item_Id { get; set; }
+        public int Amount { get; set; }
+    }
 }

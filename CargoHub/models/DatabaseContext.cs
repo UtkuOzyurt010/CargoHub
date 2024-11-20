@@ -28,6 +28,9 @@ namespace CargoHub.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Explicitly ignore the shipmentOnctentlbvjsjhtw   
+            modelBuilder.Ignore<ShipmentContent>();
             modelBuilder.Entity<Item>(entity =>
             {
                 entity.HasKey(u => u.Uid); // Explicitly set Uid as the primary key
