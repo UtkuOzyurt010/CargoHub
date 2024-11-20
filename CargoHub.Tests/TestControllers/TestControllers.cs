@@ -1,32 +1,70 @@
-using Xunit;
-using Moq;
-using Microsoft.AspNetCore.Mvc;
-using CargoHub.Controllers;
-using CargoHub.Services;
+using System.Net;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using CargoHub.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace CargoHub.Tests;
-
-public class ControllerTests
+namespace CargoHub.Tests
 {
-    public class ClientControllerTests
+    public class ClientControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
+        private readonly HttpClient _client;
+        private readonly WebApplicationFactory<Program> _factory;
+
+        public ClientControllerTests(WebApplicationFactory<Program> factory)
+        {
+            // Create a test client and inject the DbContext
+            _client = factory.CreateClient();
+            _factory = factory;
+        }
+
+        private void WriteLogToFile(string filePath, string message)
+        {
+            using (StreamWriter writer = new StreamWriter(filePath, append: true))
+            {
+                writer.WriteLine(message);
+            }
+        }
 
         [Fact]
-        public async Task Get_ReturnsOkResult_WhenClientExists()
+        public async Task Get_ClientById_ReturnsClientDetails()
         {
             // Arrange
-            int clientId = 1;
-            _mockService.Setup(service => service.Get(clientId));
+            var clientId = 1;
+            var endpoint = $"/api/v1/client/{clientId}";
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
 
             // Act
-            var result = await _controller.Get(clientId);
+            var response = await _client.GetAsync(endpoint);
+
+            stopwatch.Stop();
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(clientId, okResult.Value);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            Assert.Contains("\"id\":1", responseBody);
+
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+
+                // Access the database and fetch the client with the same ID
+                var clientFromDb = await context.Client.FindAsync(clientId);
+                Assert.NotNull(clientFromDb); // Assert that client exists in the DB
+                Assert.Equal(clientId, clientFromDb.Id); // Compare the id
+                // Log the response body, execution time, and database comparison to a file
+                string logFilePath = "C:/CargoHub2/CargoHub/CargoHub.Tests/TestControllers/Test_Results/test_results.txt";
+                string logMessage = $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n" +
+                                    $"API Response Body: {responseBody}\n" +
+                                    $"Database Client Name: {clientFromDb.Name}\n" +
+                                    $"Database Client ID: {clientFromDb.Id}\n\n";
+
+                // Write log to the file
+                WriteLogToFile(logFilePath, logMessage);
+            }
         }
     }
 }

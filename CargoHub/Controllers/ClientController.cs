@@ -10,9 +10,9 @@ namespace CargoHub.Controllers
     [Route($"api/{Globals.Version}/client")]
     public class ClientController : Controller
     {
-        ClientService _clientService;
+        IGenericService<Client> _clientService;
 
-        public ClientController(ClientService clientService)
+        public ClientController(IGenericService<Client> clientService)
         {
             _clientService = clientService;
         }
