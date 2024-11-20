@@ -8,7 +8,7 @@ namespace Models{
         public string ItemId { get; set; }
         public string Description { get; set; }
         public string ItemReference { get; set; }
-        public List<string> Locations { get; set; }
+        public List<int> Locations { get; set; }
         public int TotalOnHand { get; set; }
         public int TotalExpected { get; set; }
         public int  TotalOrdered { get; set; }
