@@ -13,14 +13,9 @@ public class Program
 
         builder.Services.AddControllers();
 
-    options => options.UseSqlite(builder.Configuration.GetConnectionString("TestSqLiteDb")));
-    // options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb")));
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         builder.Services.AddDistributedMemoryCache();
-
-// temp
-builder.Services.AddTransient<MigrationService>();
 
         builder.Services.AddSession(options =>
         {
@@ -46,12 +41,15 @@ builder.Services.AddTransient<MigrationService>();
         builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
         builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
 
+        // temp
+        builder.Services.AddTransient<MigrationService>();
+
         var app = builder.Build();
 
         using (var scope = app.Services.CreateScope())
         {
             var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
-            await migrationService.MigrateAll();
+            await migrationService.MigrateAll(); // ion get it this is definitely an async method
         }
 
         app.UseHttpsRedirection();
