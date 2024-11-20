@@ -4,7 +4,7 @@ using Services;
 
 namespace Controllers
 {
-    [Route($"api/{Globals.Version}/ItemLine")]
+    [Route($"api/{Globals.Version}/itemLine")]
     public class ItemLineController : Controller
     {
         ItemLineService _itemLineService;

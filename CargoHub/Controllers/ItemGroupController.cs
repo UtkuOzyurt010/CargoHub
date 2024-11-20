@@ -4,7 +4,7 @@ using Services;
 
 namespace Controllers
 {
-    [Route($"api/{Globals.Version}/ItemGroup")]
+    [Route($"api/{Globals.Version}/itemGroup")]
     public class ItemGroupController : Controller
     {
         ItemGroupService _itemGroupService;

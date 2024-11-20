@@ -4,7 +4,7 @@ using Services;
 
 namespace Controllers
 {
-    [Route($"api/{Globals.Version}/Transfer")]
+    [Route($"api/{Globals.Version}/transfer")]
     public class TransferController : Controller
     {
         TransferService _transferService;
