@@ -1,6 +1,9 @@
 namespace Models{
     public class Item
     {
+        public int Id {get; set;} //dotnet wants this here as a primary key.
+        //System.InvalidOperationException: The entity type 'Item' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'
+        //only adding Id as a temporary fix, we need to consider what to do with Uid/Id
         public string Uid { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
