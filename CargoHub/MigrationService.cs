@@ -1,4 +1,4 @@
-using Models;
+using CargoHub.Models;
 
 public class MigrationService
 {
