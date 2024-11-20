@@ -1,5 +1,5 @@
-using Models;
-using Services;
+using CargoHub.Models;
+using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://localhost:8000");
