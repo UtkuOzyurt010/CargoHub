@@ -6,19 +6,19 @@ namespace CargoHub.Models
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<Client> Client { get; set; }
-        public DbSet<Inventory> Inventory { get; set; }
-        public DbSet<Item> Item { get; set; }
-        public DbSet<ItemGroup> ItemGroup { get; set; }
-        public DbSet<ItemLine> ItemLine { get; set; }
-        public DbSet<ItemType> ItemType { get; set; }
-        public DbSet<Location> Location { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<Shipment> Shipment { get; set; }
-        public DbSet<Supplier> Supplier { get; set; }
-        public DbSet<Transfer> Transfer { get; set; }
-        public DbSet<Warehouse> Warehouse { get; set; }
-        public DbSet<Contact> Contact { get; set; } //used by Warehouse
+        public required DbSet<Client> Client { get; set; }
+        public required DbSet<Inventory> Inventory { get; set; }
+        public required DbSet<Item> Item { get; set; }
+        public required DbSet<ItemGroup> ItemGroup { get; set; }
+        public required DbSet<ItemLine> ItemLine { get; set; }
+        public required DbSet<ItemType> ItemType { get; set; }
+        public required DbSet<Location> Location { get; set; }
+        public required DbSet<Order> Order { get; set; }
+        public required DbSet<Shipment> Shipment { get; set; }
+        public required DbSet<Supplier> Supplier { get; set; }
+        public required DbSet<Transfer> Transfer { get; set; }
+        public required DbSet<Warehouse> Warehouse { get; set; }
+        public required DbSet<Contact> Contact { get; set; } //used by Warehouse
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
