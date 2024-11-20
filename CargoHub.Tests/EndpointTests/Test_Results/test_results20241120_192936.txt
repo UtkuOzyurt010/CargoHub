@@ -1,6 +1,0 @@
-Test executed in: 613ms
-API Response Body: {"id":1,"name":"Sample Client","address":"poo poo pee pee","city":"p","zip_code":"d","province":"huh","country":"de","contactName":"a","contactEmail":"d","createdAt":"2024-11-20T00:00:00","updatedAt":"2024-11-20T16:39:16.7643707"}
-Database Client Name: Sample Client
-Database Client ID: 1
-
-
