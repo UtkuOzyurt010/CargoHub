@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Models;
+using CargoHub.Models;
 
-namespace Services{
+namespace CargoHub.Services{
     public class ClientService : IGenericService<Client>
     {
         private DatabaseContext _context;

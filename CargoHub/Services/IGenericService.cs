@@ -1,4 +1,4 @@
-namespace Services{
+namespace CargoHub.Services{
     public interface IGenericService<T> 
     { 
         Task<T?> Get(int id);

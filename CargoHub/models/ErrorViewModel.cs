@@ -1,4 +1,4 @@
-namespace Models;
+namespace CargoHub.Models;
 
 public class ErrorViewModel
 {

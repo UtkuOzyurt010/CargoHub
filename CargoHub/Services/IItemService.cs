@@ -1,6 +1,6 @@
-using Models;
+using CargoHub.Models;
 
-namespace Services{
+namespace CargoHub.Services{
     public interface IItemService 
     { 
         Task<Item?> Get(string uid);
