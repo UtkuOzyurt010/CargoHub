@@ -24,7 +24,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddDbContext<DatabaseContext>(
 
-    options => options.UseSqlite(builder.Configuration.GetConnectionString("TestSqlLiteDb")));
+    options => options.UseSqlite(builder.Configuration.GetConnectionString("TestSqLiteDb")));
     // options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb")));
 
 builder.Services.AddTransient<ClientService>();
@@ -42,8 +42,17 @@ builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
 builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
 builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
 
+// temp
+builder.Services.AddTransient<MigrationService>();
+
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
+    await migrationService.MigrateAll();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
