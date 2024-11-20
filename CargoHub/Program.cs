@@ -24,7 +24,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddDbContext<DatabaseContext>(
 
-    options => options.UseSqlite(builder.Configuration.GetConnectionString("SqlLiteDb")));
+    options => options.UseSqlite(builder.Configuration.GetConnectionString("TestSqlLiteDb")));
     // options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb")));
 
 builder.Services.AddTransient<IGenericService<Client>, ClientService>();
