@@ -9,9 +9,9 @@ namespace Controllers
     {
         WarehouseService _warehouseService;
 
-        public WarehouseController(WarehouseService warehouseService)
+        public WarehouseController(IGenericService<Warehouse> warehouseService)
         {
-            _warehouseService = warehouseService;
+            _warehouseService = (WarehouseService)warehouseService;
         }
 
         [HttpGet("{id}")]
