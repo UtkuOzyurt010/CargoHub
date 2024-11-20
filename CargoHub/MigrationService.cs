@@ -11,18 +11,18 @@ public class MigrationService
 
     public async Task MigrateAll()
     {
-        await MigrateClients();
-        await MigrateInventories();
-        await MigrateItem();
-        await MigrateItemGroup();
-        await MigrateItemLine();
-        await MigrateItemType();
-        await MigrateLocation();
+        // await MigrateClients();
+        // await MigrateInventories();
+        // await MigrateItem();
+        // await MigrateItemGroup();
+        // await MigrateItemLine();
+        // await MigrateItemType();
+        // await MigrateLocation();
         // await MigrateOrder();  these three are non functional due to their stupid ass items list (WHICH HAS NO KEY IDENTIFIER NOR IS IT POSSIBLE TO GIVE IT ONE) solution is json storage int the table but for some reason it times out.
-        // await MigrateShipment();
-        await MigrateSupplier();
+        await MigrateShipment();
+        // await MigrateSupplier();
         // await MigrateTransfer();
-        await MigrateWarehouse();
+        // await MigrateWarehouse();
     }
 
     public async Task MigrateClients()
@@ -131,6 +131,7 @@ public class MigrationService
 
     public async Task MigrateShipment()
     {
+        Console.WriteLine("AAAAAAAAA");
         var jsonPath = Path.Combine(AppContext.BaseDirectory, "jsonData", "shipments.json");
         var shipments = JsonConvert.DeserializeObject<List<Shipment>>(
             await File.ReadAllTextAsync(jsonPath)

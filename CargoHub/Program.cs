@@ -1,12 +1,17 @@
 using CargoHub.Models;
 using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading.Tasks;
 
 namespace CargoHub;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.UseUrls("http://localhost:8000");
@@ -25,7 +30,7 @@ public class Program
         });
 
         builder.Services.AddDbContext<DatabaseContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("TestSqlLiteDb")));
+            options.UseSqlite(builder.Configuration.GetConnectionString("TestSqliteDb")));
 
         // Register services
         builder.Services.AddTransient<IGenericService<Client>, ClientService>();
@@ -42,9 +47,15 @@ public class Program
         builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
 
         // temp
-        builder.Services.AddTransient<MigrationService>();
+        builder.Services.AddScoped<MigrationService>();
 
         var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
+            await migrationService.MigrateAll();
+        }
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -55,5 +66,6 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.Run();
+        return 0;
     }
 }
