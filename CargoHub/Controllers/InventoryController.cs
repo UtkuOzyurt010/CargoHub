@@ -4,7 +4,7 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/Inventory")]
+    [Route($"api/{Globals.Version}/inventory")]
     public class InventoryController : Controller
     {
         InventoryService _inventoryService;
