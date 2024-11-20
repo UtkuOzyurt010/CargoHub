@@ -30,7 +30,12 @@ namespace CargoHub.Models
             base.OnModelCreating(modelBuilder);
 
             // Explicitly ignore the shipmentOnctentlbvjsjhtw   
-            modelBuilder.Ignore<ShipmentContent>();
+            modelBuilder.Entity<Shipment>()
+            .Property(s => s.ItemsJson)
+            .HasColumnName("ItemsJson");
+
+            modelBuilder.Entity<Shipment>()
+            .Ignore(s => s.Items);
             modelBuilder.Entity<Item>(entity =>
             {
                 entity.HasKey(u => u.Uid); // Explicitly set Uid as the primary key
@@ -39,12 +44,7 @@ namespace CargoHub.Models
             {
                 entity.HasKey(n => n.Phone); // Explicitly set phone number as key
             });
-            modelBuilder.Entity<Shipment>()
-            .OwnsMany(s => s.Items, a =>
-            {
-                a.Property(i => i.Item_Id).HasColumnName("Item_Id");
-                a.Property(i => i.Amount).HasColumnName("Amount");
-            });
+
             modelBuilder.Entity<ItemGroup>()
             .Property(e => e.Id)
             .ValueGeneratedNever();

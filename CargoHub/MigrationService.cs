@@ -11,6 +11,8 @@ public class MigrationService
 
     public async Task MigrateAll()
     {
+        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureCreatedAsync();
         // await MigrateClients();
         // await MigrateInventories();
         // await MigrateItem();
@@ -19,7 +21,7 @@ public class MigrationService
         // await MigrateItemType();
         // await MigrateLocation();
         // await MigrateOrder();  these three are non functional due to their stupid ass items list (WHICH HAS NO KEY IDENTIFIER NOR IS IT POSSIBLE TO GIVE IT ONE) solution is json storage int the table but for some reason it times out.
-        await MigrateShipment();
+        await MigrateShipments();
         // await MigrateSupplier();
         // await MigrateTransfer();
         // await MigrateWarehouse();
@@ -129,9 +131,8 @@ public class MigrationService
         _context.SaveChanges();
     }
 
-    public async Task MigrateShipment()
+    public async Task MigrateShipments()
     {
-        Console.WriteLine("AAAAAAAAA");
         var jsonPath = Path.Combine(AppContext.BaseDirectory, "jsonData", "shipments.json");
         var shipments = JsonConvert.DeserializeObject<List<Shipment>>(
             await File.ReadAllTextAsync(jsonPath)
@@ -140,15 +141,17 @@ public class MigrationService
         const int batchSize = 1000;
         for (int i = 0; i < shipments.Count; i += batchSize)
         {
-            var batch = shipments.Skip(i).Take(batchSize);
-            foreach (var item in batch)
+            var batch = shipments.Skip(i).Take(batchSize).ToList();
+            
+            // Ensure ItemsJson is populated
+            foreach (var shipment in batch)
             {
-                item.ShipmentContentJson = JsonConvert.SerializeObject(item.Items);
+                shipment.ItemsJson = JsonConvert.SerializeObject(shipment.Items);
             }
+
             _context.Shipment.AddRange(batch);
             await _context.SaveChangesAsync();
         }
-
     }
 
 

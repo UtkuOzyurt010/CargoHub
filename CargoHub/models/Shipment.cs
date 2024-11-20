@@ -1,7 +1,8 @@
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CargoHub.Models{
+namespace CargoHub.Models
+{
     public class Shipment
     {
         public int Id { get; set; }
@@ -23,18 +24,21 @@ namespace CargoHub.Models{
         public DateTime Created_At { get; set; }
         public DateTime Updated_At { get; set; }
 
-        // JSON column to store the ItemReferences
-        public string ShipmentContentJson { get; set; } = "[]";
+        // Store items as JSON
+        public string ItemsJson { get; set; }
 
-        // Virtual property (NotMapped) that deserializes the JSON string into a list of ItemReference objects
+        // Transient property for easy manipulation
         [NotMapped]
-        public List<ShipmentContent>? Items { get; set; }
+        public List<ShipmentItem> Items 
+        { 
+            get => string.IsNullOrEmpty(ItemsJson) 
+                ? new List<ShipmentItem>() 
+                : JsonConvert.DeserializeObject<List<ShipmentItem>>(ItemsJson);
+            set => ItemsJson = JsonConvert.SerializeObject(value);
+        }
     }
-}
 
-namespace CargoHub.Models
-{
-    public class ShipmentContent
+    public class ShipmentItem
     {
         public string Item_Id { get; set; }
         public int Amount { get; set; }
