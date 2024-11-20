@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using CargoHub.Models;
 
 namespace CargoHub.Models
 
@@ -35,7 +34,7 @@ namespace CargoHub.Models
             });
             modelBuilder.Entity<Contact>(entity =>
             {
-                entity.HasKey(n => n.Phone); // Explicitly set no key
+                entity.HasKey(n => n.Phone); // Explicitly set phone number as key
             });
             modelBuilder.Entity<Shipment>()
             .OwnsMany(s => s.Items, a =>

@@ -1,81 +1,67 @@
 using CargoHub.Models;
 using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
-var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://localhost:8000");
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
+namespace CargoHub;
 
-builder.Services.AddControllers();
-
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-builder.Services.AddDistributedMemoryCache();
-
-builder.Services.AddSession(options => 
+public class Program
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(40);
-    options.Cookie.HttpOnly = true; 
-    options.Cookie.IsEssential = true; 
-});
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        builder.WebHost.UseUrls("http://localhost:8000");
 
-builder.Services.AddDbContext<DatabaseContext>(
+        builder.Services.AddControllers();
 
     options => options.UseSqlite(builder.Configuration.GetConnectionString("TestSqLiteDb")));
     // options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb")));
+        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddTransient<ClientService>();
-//waarom moet ik hier Clientservice apart adden? anders werkt niet
-builder.Services.AddTransient<IGenericService<Client>, ClientService>();
-builder.Services.AddTransient<IItemService, ItemService>();
-builder.Services.AddTransient<IGenericService<Inventory>, InventoryService>();
-builder.Services.AddTransient<IGenericService<ItemGroup>, ItemGroupService>();
-builder.Services.AddTransient<IGenericService<ItemLine>, ItemLineService>();
-builder.Services.AddTransient<IGenericService<ItemType>, ItemTypeService>();
-builder.Services.AddTransient<IGenericService<Location>, LocationService>();
-builder.Services.AddTransient<IGenericService<Order>, OrderService>();
-builder.Services.AddTransient<IGenericService<Shipment>, ShipmentService>();
-builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
-builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
-builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
+        builder.Services.AddDistributedMemoryCache();
 
 // temp
 builder.Services.AddTransient<MigrationService>();
 
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(40);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        });
 
-var app = builder.Build();
+        builder.Services.AddDbContext<DatabaseContext>(options =>
+            options.UseSqlite(builder.Configuration.GetConnectionString("TestSqlLiteDb")));
 
-using (var scope = app.Services.CreateScope())
-{
-    var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
-    await migrationService.MigrateAll();
+        // Register services
+        builder.Services.AddTransient<IGenericService<Client>, ClientService>();
+        builder.Services.AddTransient<IItemService, ItemService>();
+        builder.Services.AddTransient<IGenericService<Inventory>, InventoryService>();
+        builder.Services.AddTransient<IGenericService<ItemGroup>, ItemGroupService>();
+        builder.Services.AddTransient<IGenericService<ItemLine>, ItemLineService>();
+        builder.Services.AddTransient<IGenericService<ItemType>, ItemTypeService>();
+        builder.Services.AddTransient<IGenericService<Location>, LocationService>();
+        builder.Services.AddTransient<IGenericService<Order>, OrderService>();
+        builder.Services.AddTransient<IGenericService<Shipment>, ShipmentService>();
+        builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
+        builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
+        builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
+
+        var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
+            await migrationService.MigrateAll();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+        app.UseAuthorization();
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+        app.Run();
+    }
 }
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-    // app.UseSwagger();
-    // app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();
