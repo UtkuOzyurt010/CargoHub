@@ -6,7 +6,7 @@ namespace CargoHub;
 
 public class Program
 {
-    public async Task Main(string[] args)
+    public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.UseUrls("http://localhost:8000");
@@ -45,12 +45,6 @@ public class Program
         builder.Services.AddTransient<MigrationService>();
 
         var app = builder.Build();
-
-        using (var scope = app.Services.CreateScope())
-        {
-            var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
-            await migrationService.MigrateAll();
-        }
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
