@@ -11,8 +11,8 @@ public class MigrationService
 
     public async Task MigrateAll()
     {
-        await _context.Database.EnsureDeletedAsync();
-        await _context.Database.EnsureCreatedAsync();
+        // await _context.Database.EnsureDeletedAsync();
+        // await _context.Database.EnsureCreatedAsync();
         // await MigrateClients();
         // await MigrateInventories();
         // await MigrateItem();
@@ -20,11 +20,11 @@ public class MigrationService
         // await MigrateItemLine();
         // await MigrateItemType();
         // await MigrateLocation();
-        await MigrateOrder();
-        // await MigrateShipments();
-        // await MigrateSupplier();
-        // await MigrateTransfer();
-        // await MigrateWarehouse();
+        // await MigrateOrder();
+        await MigrateShipments();
+        await MigrateSupplier();
+        await MigrateTransfer();
+        await MigrateWarehouse();
     }
 
     public async Task MigrateClients()
@@ -126,30 +126,25 @@ public class MigrationService
         );
 
         int prev = 1;
-        foreach (var order in orders)
+        const int batchSize = 10;
+        for (int i = 0; i < orders.Count; i += batchSize)
         {
+            var batch = orders.Skip(i).Take(batchSize).ToList();
             
-            if (order.Id != prev)
+            // Ensure ItemsJson is populated
+            foreach (var order in batch)
             {
-                Console.WriteLine(order.Id);
-                break;
+                order.ItemsJson = JsonConvert.SerializeObject(order.Items);
+                if (order.Id < prev)
+                {
+                    order.Id = prev;
+                }
+                prev = prev + 1;
             }
-            prev = prev + 1;
-        }
-        // const int batchSize = 10;
-        // for (int i = 0; i < orders.Count; i += batchSize)
-        // {
-        //     var batch = orders.Skip(i).Take(batchSize).ToList();
-            
-        //     // Ensure ItemsJson is populated
-        //     foreach (var order in batch)
-        //     {
-        //         order.ItemsJson = JsonConvert.SerializeObject(order.Items);
-        //     }
 
-        //     _context.Order.AddRange(batch);
-        //     await _context.SaveChangesAsync();
-        // }
+            _context.Order.AddRange(batch);
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task MigrateShipments()

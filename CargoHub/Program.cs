@@ -30,7 +30,7 @@ public class Program
         });
 
         builder.Services.AddDbContext<DatabaseContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("TestSqliteDb")));
+            options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDb")));
 
         // Register services
         builder.Services.AddTransient<IGenericService<Client>, ClientService>();

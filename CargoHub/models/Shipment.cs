@@ -29,13 +29,7 @@ namespace CargoHub.Models
 
         // Transient property for easy manipulation
         [NotMapped]
-        public List<ShipmentItem> Items 
-        { 
-            get => string.IsNullOrEmpty(ItemsJson) 
-                ? new List<ShipmentItem>() 
-                : JsonConvert.DeserializeObject<List<ShipmentItem>>(ItemsJson);
-            set => ItemsJson = JsonConvert.SerializeObject(value);
-        }
+        public List<ShipmentItem> Items { get; set; }
     }
 
     public class ShipmentItem
