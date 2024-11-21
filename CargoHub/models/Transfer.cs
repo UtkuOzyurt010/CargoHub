@@ -1,3 +1,6 @@
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CargoHub.Models{
     public class Transfer
     {
@@ -8,6 +11,16 @@ namespace CargoHub.Models{
         public string Transfer_Status { get; set; }
         public DateTime Created_At { get; set; }
         public DateTime Updated_At { get; set; }
-        public List<Item> Items { get; set; }
+        public string ItemsJson { get; set; }
+
+        // Transient property for easy manipulation
+        [NotMapped]
+        public List<TransferItem> Items { get; set; }
+    }
+
+    public class TransferItem
+    {
+        public string Item_Id { get; set; }
+        public int Amount { get; set; }
     }
 }

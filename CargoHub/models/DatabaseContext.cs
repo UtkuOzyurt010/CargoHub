@@ -36,6 +36,21 @@ namespace CargoHub.Models
 
             modelBuilder.Entity<Shipment>()
             .Ignore(s => s.Items);
+
+            modelBuilder.Entity<Transfer>()
+            .Property(s => s.ItemsJson)
+            .HasColumnName("ItemsJson");
+
+            modelBuilder.Entity<Transfer>()
+            .Ignore(s => s.Items);
+
+            modelBuilder.Entity<Order>()
+            .Property(s => s.ItemsJson)
+            .HasColumnName("ItemsJson");
+
+            modelBuilder.Entity<Order>()
+            .Ignore(s => s.Items);
+
             modelBuilder.Entity<Item>(entity =>
             {
                 entity.HasKey(u => u.Uid); // Explicitly set Uid as the primary key
@@ -52,6 +67,9 @@ namespace CargoHub.Models
             .Property(e => e.Id)
             .ValueGeneratedNever();
             modelBuilder.Entity<ItemType>()
+            .Property(e => e.Id)
+            .ValueGeneratedNever();
+            modelBuilder.Entity<Order>()
             .Property(e => e.Id)
             .ValueGeneratedNever();
         }

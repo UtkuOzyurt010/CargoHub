@@ -20,8 +20,8 @@ public class MigrationService
         // await MigrateItemLine();
         // await MigrateItemType();
         // await MigrateLocation();
-        // await MigrateOrder();  these three are non functional due to their stupid ass items list (WHICH HAS NO KEY IDENTIFIER NOR IS IT POSSIBLE TO GIVE IT ONE) solution is json storage int the table but for some reason it times out.
-        await MigrateShipments();
+        await MigrateOrder();
+        // await MigrateShipments();
         // await MigrateSupplier();
         // await MigrateTransfer();
         // await MigrateWarehouse();
@@ -120,15 +120,36 @@ public class MigrationService
 
     public async Task MigrateOrder()
     {
-        _context.Order.RemoveRange(_context.Order);
-        _context.SaveChanges();
         var jsonPath = Path.Combine(AppContext.BaseDirectory, "jsonData", "orders.json");
         var orders = JsonConvert.DeserializeObject<List<Order>>(
             await File.ReadAllTextAsync(jsonPath)
         );
 
-        _context.Order.AddRange(orders);
-        _context.SaveChanges();
+        int prev = 1;
+        foreach (var order in orders)
+        {
+            
+            if (order.Id != prev)
+            {
+                Console.WriteLine(order.Id);
+                break;
+            }
+            prev = prev + 1;
+        }
+        // const int batchSize = 10;
+        // for (int i = 0; i < orders.Count; i += batchSize)
+        // {
+        //     var batch = orders.Skip(i).Take(batchSize).ToList();
+            
+        //     // Ensure ItemsJson is populated
+        //     foreach (var order in batch)
+        //     {
+        //         order.ItemsJson = JsonConvert.SerializeObject(order.Items);
+        //     }
+
+        //     _context.Order.AddRange(batch);
+        //     await _context.SaveChangesAsync();
+        // }
     }
 
     public async Task MigrateShipments()
@@ -177,8 +198,20 @@ public class MigrationService
             await File.ReadAllTextAsync(jsonPath)
         );
 
-        _context.Transfer.AddRange(transfers);
-        _context.SaveChanges();
+        const int batchSize = 1000;
+        for (int i = 0; i < transfers.Count; i += batchSize)
+        {
+            var batch = transfers.Skip(i).Take(batchSize).ToList();
+            
+            // Ensure ItemsJson is populated
+            foreach (var transfer in batch)
+            {
+                transfer.ItemsJson = JsonConvert.SerializeObject(transfer.Items);
+            }
+
+            _context.Transfer.AddRange(batch);
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task MigrateWarehouse()
