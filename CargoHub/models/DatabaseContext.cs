@@ -29,7 +29,7 @@ namespace CargoHub.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            // Explicitly ignore the shipmentOnctentlbvjsjhtw   
+            // These tell the database to ignore the items list in Shipments (so we can insert json)
             modelBuilder.Entity<Shipment>()
             .Property(s => s.ItemsJson)
             .HasColumnName("ItemsJson");
@@ -67,9 +67,6 @@ namespace CargoHub.Models
             .Property(e => e.Id)
             .ValueGeneratedNever();
             modelBuilder.Entity<ItemType>()
-            .Property(e => e.Id)
-            .ValueGeneratedNever();
-            modelBuilder.Entity<Order>()
             .Property(e => e.Id)
             .ValueGeneratedNever();
         }
