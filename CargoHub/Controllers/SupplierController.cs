@@ -8,16 +8,29 @@ namespace CargoHub.Controllers
     public class SupplierController : Controller
     {
         SupplierService _supplierService;
+        ItemService _itemService;
 
-        public SupplierController(SupplierService supplierService)
+        public SupplierController(IGenericService<Supplier> supplierService, IItemService itemService)
         {
-            _supplierService = supplierService;
+            _supplierService = (SupplierService)supplierService;
+            _itemService = (ItemService)itemService;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var result = await _supplierService.Get(id);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return NotFound(result);
+        }
+
+        [HttpGet("{id}/Items")]
+        public async Task<IActionResult> GetSupplierItems(int id)
+        {
+            var result = await _itemService.GetSupplierItems(id);
             if (result is not null)
             {
                 return Ok(result);

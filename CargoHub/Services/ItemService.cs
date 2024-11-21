@@ -19,6 +19,14 @@ namespace CargoHub.Services{
             return register; 
         }
 
+        public async Task<List<Item>> GetSupplierItems(int id)
+        {
+            var result = await _context.Item
+                         .Where(supplier => supplier.Supplier_Id == id)
+                         .ToListAsync();
+            return result;
+        }
+
         public async Task<List<Item>> GetBatch(List<string> uids)
         {
             List<Item> result = await _context.Item.

@@ -4,6 +4,7 @@ namespace CargoHub.Services{
     public interface IItemService 
     { 
         Task<Item?> Get(string uid);
+        Task<List<Item>> GetSupplierItems(int id);
         Task<List<Item>> GetBatch(List<string> uids);
         Task<List<Item>> GetAll();
         Task<bool> Post(Item entity);
