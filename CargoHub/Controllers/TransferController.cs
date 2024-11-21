@@ -36,7 +36,7 @@ namespace CargoHub.Controllers
             {
                 return Ok(items);
             }
-            return NotFound(result);
+            return NotFound(items);
         }
 
         [HttpGet("batch")]

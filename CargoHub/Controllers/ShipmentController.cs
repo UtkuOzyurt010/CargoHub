@@ -9,11 +9,13 @@ namespace CargoHub.Controllers
     {
         ShipmentService _shipmentService;
         ItemService _itemService;
+        OrderService _orderService;
 
-        public ShipmentController(IGenericService<Shipment> shipmentService, IItemService itemService)
+        public ShipmentController(IGenericService<Shipment> shipmentService, IItemService itemService, IGenericService<Order> orderService)
         {
             _shipmentService = (ShipmentService)shipmentService;
             _itemService = (ItemService)itemService;
+            _orderService = (OrderService)orderService;
         }
 
         [HttpGet("{id}")]
@@ -31,10 +33,21 @@ namespace CargoHub.Controllers
         public async Task<IActionResult> GetShipmentItems(int id)
         {
             var result = await _shipmentService.Get(id);
-            var items = await _itemService.GetOrderItems(result.ItemsJson);
+            var items = await _itemService.GetShipmentItems(result.ItemsJson);
             if (result is not null)
             {
                 return Ok(items);
+            }
+            return NotFound(items);
+        }
+
+        [HttpGet("{id}/Orders")]
+        public async Task<IActionResult> GetShipmentOrders(int id)
+        {
+            var result = await _orderService.GetShipmentOrder(id);
+            if (result is not null)
+            {
+                return Ok(result);
             }
             return NotFound(result);
         }

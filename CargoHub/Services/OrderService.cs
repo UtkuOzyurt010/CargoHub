@@ -2,7 +2,7 @@ using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CargoHub.Services{
-    public class OrderService : IGenericService<Order>
+    public class OrderService : IOrderService
     {
         private DatabaseContext _context;
 
@@ -15,6 +15,12 @@ namespace CargoHub.Services{
         {
             Order? register = await _context.Order.FindAsync(id);
             return register; 
+        }
+
+        public async Task<Order> GetShipmentOrder(int id)
+        {
+            var result = await _context.Order.FindAsync(id);
+            return result;
         }
 
         public async Task<List<Order>> GetBatch(List<int> ids)

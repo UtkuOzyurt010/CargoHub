@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using CargoHub.Models;
+using Microsoft.EntityFrameworkCore;
 
 public class MigrationService
 {
