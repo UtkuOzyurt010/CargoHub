@@ -11,7 +11,7 @@ namespace CargoHub;
 
 public class Program
 {
-    public static async Task<int> Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.UseUrls("http://localhost:8000");
@@ -46,16 +46,15 @@ public class Program
         builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
         builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
 
-        // temp
         builder.Services.AddScoped<MigrationService>();
 
         var app = builder.Build();
-
-        using (var scope = app.Services.CreateScope())
-        {
-            var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
-            await migrationService.MigrateAll();
-        }
+        // only uncomment when you intend to migrate the data from json to another database.
+        // using (var scope = app.Services.CreateScope())
+        // {
+        //     var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
+        //     await migrationService.MigrateAll();
+        // }
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -66,6 +65,5 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.Run();
-        return 0;
     }
 }

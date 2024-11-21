@@ -11,8 +11,8 @@ public class MigrationService
 
     public async Task MigrateAll()
     {
-        // await _context.Database.EnsureDeletedAsync();
-        // await _context.Database.EnsureCreatedAsync();
+        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureCreatedAsync();
         // await MigrateClients();
         // await MigrateInventories();
         // await MigrateItem();
@@ -21,10 +21,10 @@ public class MigrationService
         // await MigrateItemType();
         // await MigrateLocation();
         // await MigrateOrder();
-        await MigrateShipments();
-        await MigrateSupplier();
-        await MigrateTransfer();
-        await MigrateWarehouse();
+        // await MigrateShipments();
+        // await MigrateSupplier();
+        // await MigrateTransfer();
+        // await MigrateWarehouse();
     }
 
     public async Task MigrateClients()
