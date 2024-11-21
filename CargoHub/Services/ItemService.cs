@@ -1,5 +1,6 @@
 using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace CargoHub.Services{
     public class ItemService : IItemService
@@ -27,6 +28,63 @@ namespace CargoHub.Services{
             return result;
         }
 
+        public async Task<List<Item>> GetOrderItems(string itemsJson)
+        {
+            var orderItems = JsonConvert.DeserializeObject<List<OrderItem>>(itemsJson);
+            List<Item> items = [];
+            foreach (var item in orderItems)
+            {
+                items.Add(await _context.Item.FindAsync(item.Item_Id));
+            }
+            return items;
+        }
+
+        public async Task<List<Item>> GetShipmentItems(string itemsJson)
+        {
+            var shipmentItems = JsonConvert.DeserializeObject<List<ShipmentItem>>(itemsJson);
+            List<Item> items = [];
+            foreach (var item in shipmentItems)
+            {
+                items.Add(await _context.Item.FindAsync(item.Item_Id));
+            }
+            return items;
+        }
+
+        public async Task<List<Item>> GetTransferItems(string itemsJson)
+        {
+            var transferItems = JsonConvert.DeserializeObject<List<TransferItem>>(itemsJson);
+            List<Item> items = [];
+            foreach (var item in transferItems)
+            {
+                items.Add(await _context.Item.FindAsync(item.Item_Id));
+            }
+            return items;
+        }
+
+        public async Task<List<Item>> GetItemGroupItems(int id)
+        {
+            var result = await _context.Item
+            .Where(x => x.Item_Group == id)
+            .ToListAsync();
+            return result;
+        }
+
+        public async Task<List<Item>> GetItemLineItems(int id)
+        {
+            var result = await _context.Item
+            .Where(x => x.Item_Line == id)
+            .ToListAsync();
+            return result;
+        }
+
+        public async Task<List<Item>> GetItemTypeItems(int id)
+        {
+            var result = await _context.Item
+            .Where(x => x.Item_Type == id)
+            .ToListAsync();
+            return result;
+        }
+        
         public async Task<List<Item>> GetBatch(List<string> uids)
         {
             List<Item> result = await _context.Item.

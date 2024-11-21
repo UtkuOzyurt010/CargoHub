@@ -8,16 +8,29 @@ namespace CargoHub.Controllers
     public class ItemTypeController : Controller
     {
         ItemTypeService _itemTypeService;
+        ItemService _itemService;
 
-        public ItemTypeController(ItemTypeService itemTypeService)
+        public ItemTypeController(IGenericService<ItemType> itemTypeService, IItemService itemService)
         {
-            _itemTypeService = itemTypeService;
+            _itemTypeService = (ItemTypeService)itemTypeService;
+            _itemService = (ItemService)itemService;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var result = await _itemTypeService.Get(id);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return NotFound(result);
+        }
+
+        [HttpGet("{id}/Items")]
+        public async Task<IActionResult> GetItemTypeItems(int id)
+        {
+            var result = await _itemService.GetItemTypeItems(id);
             if (result is not null)
             {
                 return Ok(result);

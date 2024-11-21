@@ -8,10 +8,12 @@ namespace CargoHub.Controllers
     public class TransferController : Controller
     {
         TransferService _transferService;
+        ItemService _itemService;
 
-        public TransferController(TransferService transferService)
+        public TransferController(IGenericService<Transfer> transferService, IItemService itemService)
         {
-            _transferService = transferService;
+            _transferService = (TransferService)transferService;
+            _itemService = (ItemService)itemService;
         }
 
         [HttpGet("{id}")]
@@ -21,6 +23,18 @@ namespace CargoHub.Controllers
             if (result is not null)
             {
                 return Ok(result);
+            }
+            return NotFound(result);
+        }
+
+        [HttpGet("{id}/Items")]
+        public async Task<IActionResult> GetShipmentItems(int id)
+        {
+            var result = await _transferService.Get(id);
+            var items = await _itemService.GetOrderItems(result.ItemsJson);
+            if (result is not null)
+            {
+                return Ok(items);
             }
             return NotFound(result);
         }
