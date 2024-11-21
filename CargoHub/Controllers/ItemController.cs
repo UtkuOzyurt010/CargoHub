@@ -4,16 +4,16 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/Items")]
+    [Route($"api/{Globals.Version}/items")]
     public class ItemController : Controller
     {
-        ItemService _itemService;
-        InventoryService _inventoryService;
+        private readonly IItemService _itemService;
+        private readonly IInventoryService _inventoryService;
 
-        public ItemController(IItemService itemService, IGenericService<Inventory> inventoryService)
+        public ItemController(IItemService itemService, IInventoryService inventoryService)
         {
-            _itemService = (ItemService)itemService;
-            _inventoryService = (InventoryService)inventoryService;
+            _itemService = itemService;
+            _inventoryService = inventoryService;
         }
 
         [HttpGet("{uid}")]
@@ -27,7 +27,7 @@ namespace CargoHub.Controllers
             return NotFound(result);
         }
 
-        [HttpGet("{uid}/Inventory")]
+        [HttpGet("{uid}/inventory")]
         public async Task<IActionResult> GetItemInventory(string uid)
         {
             var result = await _inventoryService.GetItemInventory(uid);

@@ -4,7 +4,7 @@
 
 ##
 
-GET {{address}}/Warehouses/1 HTTP/1.1
+GET {{address}}/clients/1 HTTP/1.1
 API_KEY: a1b2c3d4e5
 ######
 

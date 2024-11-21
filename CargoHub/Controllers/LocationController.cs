@@ -4,12 +4,12 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/Locations")]
+    [Route($"api/{Globals.Version}/locations")]
     public class LocationController : Controller
     {
-        LocationService _locationService;
+        private readonly IGenericService<Location> _locationService;
 
-        public LocationController(LocationService locationService)
+        public LocationController(IGenericService<Location> locationService)
         {
             _locationService = locationService;
         }

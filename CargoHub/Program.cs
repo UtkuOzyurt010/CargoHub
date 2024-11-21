@@ -11,23 +11,19 @@ namespace CargoHub;
 
 public class Program
 {
-    public static async Task Main(string[] args)
+    public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.UseUrls("http://localhost:8000");
 
+        //Add logging for debug purposes 
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole();
+        builder.Logging.AddDebug();
+
         builder.Services.AddControllers();
 
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-        builder.Services.AddDistributedMemoryCache();
-
-        builder.Services.AddSession(options =>
-        {
-            options.IdleTimeout = TimeSpan.FromMinutes(40);
-            options.Cookie.HttpOnly = true;
-            options.Cookie.IsEssential = true;
-        });
 
         builder.Services.AddDbContext<DatabaseContext>(options =>
             options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDb")));
@@ -55,9 +51,6 @@ public class Program
         //     var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
         //     await migrationService.MigrateAll();
         // }
-
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
 
         app.UseRouting();
         app.UseAuthorization();

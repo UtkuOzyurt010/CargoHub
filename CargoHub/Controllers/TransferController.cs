@@ -4,16 +4,16 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/Transfers")]
+    [Route($"api/{Globals.Version}/transfers")]
     public class TransferController : Controller
     {
-        TransferService _transferService;
-        ItemService _itemService;
+        private readonly IGenericService<Transfer> _transferService;
+        private readonly IItemService _itemService;
 
         public TransferController(IGenericService<Transfer> transferService, IItemService itemService)
         {
-            _transferService = (TransferService)transferService;
-            _itemService = (ItemService)itemService;
+            _transferService = transferService;
+            _itemService = itemService;
         }
 
         [HttpGet("{id}")]
@@ -27,7 +27,7 @@ namespace CargoHub.Controllers
             return NotFound(result);
         }
 
-        [HttpGet("{id}/Items")]
+        [HttpGet("{id}/items")]
         public async Task<IActionResult> GetShipmentItems(int id)
         {
             var result = await _transferService.Get(id);

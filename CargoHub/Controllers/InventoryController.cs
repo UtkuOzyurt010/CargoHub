@@ -4,12 +4,12 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/Inventories")]
+    [Route($"api/{Globals.Version}/inventories")]
     public class InventoryController : Controller
     {
-        InventoryService _inventoryService;
+        private readonly IInventoryService _inventoryService;
 
-        public InventoryController(InventoryService inventoryService)
+        public InventoryController(IInventoryService inventoryService)
         {
             _inventoryService = inventoryService;
         }

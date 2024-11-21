@@ -4,18 +4,18 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/Shipments")]
+    [Route($"api/{Globals.Version}/shipments")]
     public class ShipmentController : Controller
     {
-        ShipmentService _shipmentService;
-        ItemService _itemService;
-        OrderService _orderService;
+        private readonly IGenericService<Shipment> _shipmentService;
+        private readonly IItemService _itemService;
+        private readonly IGenericService<Order> _orderService;
 
         public ShipmentController(IGenericService<Shipment> shipmentService, IItemService itemService, IGenericService<Order> orderService)
         {
-            _shipmentService = (ShipmentService)shipmentService;
-            _itemService = (ItemService)itemService;
-            _orderService = (OrderService)orderService;
+            _shipmentService = shipmentService;
+            _itemService = itemService;
+            _orderService = orderService;
         }
 
         [HttpGet("{id}")]
@@ -29,7 +29,7 @@ namespace CargoHub.Controllers
             return NotFound(result);
         }
 
-        [HttpGet("{id}/Items")]
+        [HttpGet("{id}/items")]
         public async Task<IActionResult> GetShipmentItems(int id)
         {
             var result = await _shipmentService.Get(id);
@@ -41,10 +41,14 @@ namespace CargoHub.Controllers
             return NotFound(items);
         }
 
-        [HttpGet("{id}/Orders")]
+        [HttpGet("{id}/orders")]
         public async Task<IActionResult> GetShipmentOrders(int id)
         {
-            var result = await _orderService.GetShipmentOrder(id);
+            var result = default(Order);
+            if (_orderService is OrderService concreteService)
+            {
+                result = await concreteService.GetShipmentOrder(id);
+            }
             if (result is not null)
             {
                 return Ok(result);

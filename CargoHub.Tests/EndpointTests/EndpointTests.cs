@@ -3,7 +3,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Testing;
 using static TestHelperFunctions;
 using CargoHub.Models;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using CargoHub.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CargoHub.Tests
 {
@@ -16,7 +17,13 @@ namespace CargoHub.Tests
         public EndpointTests(WebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
-            _factory = factory;
+            _factory = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {
+                    services.AddTransient<IGenericService<Client>, ClientService>();
+                });
+            });
         }
 
         [Fact]
@@ -24,18 +31,18 @@ namespace CargoHub.Tests
         {
             var endpointsWithIds = new List<string>
             {
-                "/api/v1/client",
-                "/api/v1/warehouses",
-                "/api/v1/locations",
-                "/api/v1/transfers",
-                "/api/v1/items",
-                "/api/v1/item_lines",
-                "/api/v1/item_groups",
-                "/api/v1/item_types",
-                "/api/v1/inventories",
-                "/api/v1/suppliers",
-                "/api/v1/orders",
-                "/api/v1/shipments",
+                "http://localhost:8000/api/v1/clients",
+                "http://localhost:8000/api/v1/warehouses",
+                "http://localhost:8000/api/v1/locations",
+                "http://localhost:8000/api/v1/transfers",
+                "http://localhost:8000/api/v1/items",
+                "http://localhost:8000/api/v1/item_lines",
+                "http://localhost:8000/api/v1/item_groups",
+                "http://localhost:8000/api/v1/item_types",
+                "http://localhost:8000/api/v1/inventories",
+                "http://localhost:8000/api/v1/suppliers",
+                "http://localhost:8000/api/v1/orders",
+                "http://localhost:8000/api/v1/shipments",
             };
 
             foreach (var endpoint in endpointsWithIds)
@@ -46,7 +53,8 @@ namespace CargoHub.Tests
 
         public async Task Get_One_ById(string endpoint, int Id)
         {
-            string LogFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint:{endpoint.Split("/").Last()}-{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            //{endpoint.Split("/").Last()}-
+            string LogFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now}.txt";
             string fullendpoint = $"{endpoint}/{Id}";
 
             var stopwatch = new Stopwatch();
@@ -70,6 +78,7 @@ namespace CargoHub.Tests
                     string logMessageError = $"Error on endpoint {fullendpoint} with status {response.StatusCode}\n" +
                                             $"Response Body: {responseBodys}";
                     WriteLogToFile(LogFilePath, logMessageError);
+                    Thread.Sleep(1000);
                     throw new Exception(logMessageError);
                 }
                 //Assert.Equal(HttpStatusCode.OK, response.StatusCode);

@@ -7,10 +7,10 @@ using CargoHub.Services;
 namespace CargoHub.Controllers
 {
 
-    [Route($"api/{Globals.Version}/Clients")]
+    [Route($"api/{Globals.Version}/clients")]
     public class ClientController : Controller
     {
-        IGenericService<Client> _clientService;
+        private readonly IGenericService<Client> _clientService;
 
         public ClientController(IGenericService<Client> clientService)
         {

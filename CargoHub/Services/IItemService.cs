@@ -8,6 +8,7 @@ namespace CargoHub.Services{
         Task<List<Item>> GetOrderItems(string itemsJson);
         Task<List<Item>> GetShipmentItems(string itemsJson);
         Task<List<Item>> GetTransferItems(string itemsJson);
+        Task<List<Item>> GetItemGroupItems(int id);
         Task<List<Item>> GetBatch(List<string> uids);
         Task<List<Item>> GetAll();
         Task<bool> Post(Item entity);

@@ -4,16 +4,16 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/Warehouses")]
+    [Route($"api/{Globals.Version}/warehouses")]
     public class WarehouseController : Controller
     {
-        WarehouseService _warehouseService;
-        LocationService _locationService;
+        private readonly IGenericService<Warehouse> _warehouseService;
+        private readonly IGenericService<Location> _locationService;
 
         public WarehouseController(IGenericService<Warehouse> warehouseService, IGenericService<Location> locationService)
         {
-            _warehouseService = (WarehouseService)warehouseService;
-            _locationService = (LocationService)locationService;
+            _warehouseService = warehouseService;
+            _locationService = locationService;
         }
 
         [HttpGet("{id}")]
@@ -27,10 +27,14 @@ namespace CargoHub.Controllers
             return NotFound(result);
         }
 
-        [HttpGet("{id}/Locations")]
+        [HttpGet("{id}/locations")]
         public async Task<IActionResult> GetLocations(int id)
         {
-            var result = await _locationService.GetWarehouseLocations(id);
+            var result = default(List<Location>);
+            if (_locationService is LocationService concreteService)
+            {
+                result = await concreteService.GetWarehouseLocations(id);
+            }
             if (result is not null)
             {
                 return Ok(result);

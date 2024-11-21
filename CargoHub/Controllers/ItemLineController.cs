@@ -4,16 +4,16 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/ItemLines")]
+    [Route($"api/{Globals.Version}/itemLines")]
     public class ItemLineController : Controller
     {
-        ItemLineService _itemLineService;
-        ItemService _itemService;
+        private readonly IGenericService<ItemLine> _itemLineService;
+        private readonly IItemService _itemService;
 
         public ItemLineController(IGenericService<ItemLine> itemLineService, IItemService itemService)
         {
-            _itemLineService = (ItemLineService)itemLineService;
-            _itemService = (ItemService)itemService;
+            _itemLineService = itemLineService;
+            _itemService = itemService;
         }
 
         [HttpGet("{id}")]
@@ -27,10 +27,15 @@ namespace CargoHub.Controllers
             return NotFound(result);
         }
 
-        [HttpGet("{id}/Items")]
+        [HttpGet("{id}/items")]
         public async Task<IActionResult> GetItemLineItems(int id)
         {
-            var result = await _itemService.GetItemLineItems(id);
+            var result = default(List<Item>);
+            if (_itemService is ItemService concreteService)
+            {
+                result = await concreteService.GetItemLineItems(id);
+            }
+
             if (result is not null)
             {
                 return Ok(result);
