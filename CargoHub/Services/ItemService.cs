@@ -13,7 +13,9 @@ namespace CargoHub.Services{
 
         public async Task<Item?> Get(string uid)
         {
+            Console.WriteLine(uid, uid.GetType());
             Item? register = await _context.Item.FindAsync(uid);
+            
             return register; 
         }
 

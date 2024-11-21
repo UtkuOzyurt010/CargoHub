@@ -4,7 +4,7 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/itemGroup")]
+    [Route($"api/{Globals.Version}/ItemGroups")]
     public class ItemGroupController : Controller
     {
         ItemGroupService _itemGroupService;

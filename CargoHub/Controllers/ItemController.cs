@@ -4,20 +4,33 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/item")]
+    [Route($"api/{Globals.Version}/Items")]
     public class ItemController : Controller
     {
         ItemService _itemService;
+        InventoryService _inventoryService;
 
-        public ItemController(ItemService itemService)
+        public ItemController(IItemService itemService, IGenericService<Inventory> inventoryService)
         {
-            _itemService = itemService;
+            _itemService = (ItemService)itemService;
+            _inventoryService = (InventoryService)inventoryService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{uid}")]
         public async Task<IActionResult> Get(string uid)
         {
             var result = await _itemService.Get(uid);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return NotFound(result);
+        }
+
+        [HttpGet("{uid}/Inventory")]
+        public async Task<IActionResult> GetItemInventory(string uid)
+        {
+            var result = await _inventoryService.GetItemInventory(uid);
             if (result is not null)
             {
                 return Ok(result);
@@ -62,7 +75,7 @@ namespace CargoHub.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{uid}")]
         public async Task<IActionResult> Update([FromBody] Item item)
         {
             bool result =  await _itemService.Update(item);
@@ -85,7 +98,7 @@ namespace CargoHub.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{uid}")]
         public async Task<IActionResult> Delete(string uid)
         {  
             bool result =  await _itemService.Delete(uid);

@@ -4,7 +4,7 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/location")]
+    [Route($"api/{Globals.Version}/Locations")]
     public class LocationController : Controller
     {
         LocationService _locationService;

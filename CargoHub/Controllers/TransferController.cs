@@ -4,7 +4,7 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/transfer")]
+    [Route($"api/{Globals.Version}/Transfers")]
     public class TransferController : Controller
     {
         TransferService _transferService;

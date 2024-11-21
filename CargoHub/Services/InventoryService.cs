@@ -2,7 +2,7 @@ using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CargoHub.Services{
-    public class InventoryService : IGenericService<Inventory>
+    public class InventoryService : IInventoryService
     {
         private DatabaseContext _context;
 
@@ -17,11 +17,19 @@ namespace CargoHub.Services{
             return register; 
         }
 
+        public async Task<List<Inventory>> GetItemInventory(string uid)
+        {
+            List<Inventory> result = await _context.Inventory
+                                    .Where(inventory => inventory.Item_Id == uid)
+                                    .ToListAsync();
+            return result;
+        }
+
         public async Task<List<Inventory>> GetBatch(List<int> ids)
         {
-            List<Inventory> result = await _context.Inventory.
-                                        Where(x=>ids.Contains(x.Id)).
-                                        ToListAsync();
+            List<Inventory> result = await _context.Inventory
+                                    .Where(x=>ids.Contains(x.Id))
+                                    .ToListAsync();
             return result;
         }
 

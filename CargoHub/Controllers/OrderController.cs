@@ -4,7 +4,7 @@ using CargoHub.Services;
 
 namespace CargoHub.Controllers
 {
-    [Route($"api/{Globals.Version}/order")]
+    [Route($"api/{Globals.Version}/Orders")]
     public class OrderController : Controller
     {
         OrderService _orderService;

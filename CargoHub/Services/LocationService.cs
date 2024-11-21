@@ -2,7 +2,7 @@ using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CargoHub.Services{
-    public class LocationService : IGenericService<Location>
+    public class LocationService : ILocationService
     {
         private DatabaseContext _context;
 
@@ -15,6 +15,14 @@ namespace CargoHub.Services{
         {
             Location? register = await _context.Location.FindAsync(id);
             return register; 
+        }
+
+        public async Task<List<Location>> GetWarehouseLocations(int id)
+        {
+            List<Location> result = await _context.Location.
+                                        Where(location => location.Warehouse_Id == id).
+                                        ToListAsync();
+            return result;            
         }
 
         public async Task<List<Location>> GetBatch(List<int> ids)
