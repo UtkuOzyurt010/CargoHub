@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using System.Runtime.CompilerServices;
+using CargoHub.Models;
 using static TestHelperFunctions;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace CargoHub.Tests
@@ -11,8 +15,6 @@ namespace CargoHub.Tests
         private readonly HttpClient _client;
         private readonly WebApplicationFactory<Program> _factory;
         private readonly string _filepath;
-        private readonly int TestID = 1;
-        private readonly string ItemID = "P000001";
 
         public GetIntegrationTests(WebApplicationFactory<Program> factory)
         {
@@ -29,43 +31,76 @@ namespace CargoHub.Tests
         {
             var endpointsWithIds = new List<string>
             {
-                $"/api/v1/clients",
-                $"/api/v1/warehouses",
-                $"/api/v1/locations",
-                $"/api/v1/transfers",
-                $"/api/v1/items",
-                $"/api/v1/itemlines",
-                $"/api/v1/itemgroups",
-                $"/api/v1/itemtypes",
-                $"/api/v1/inventories",
-                $"/api/v1/suppliers",
-                $"/api/v1/orders",
-                $"/api/v1/shipments",
+                $"/api/{Globals.Version}/clients",
+                $"/api/{Globals.Version}/warehouses",
+                $"/api/{Globals.Version}/locations",
+                $"/api/{Globals.Version}/transfers",
+                $"/api/{Globals.Version}/items",
+                $"/api/{Globals.Version}/itemlines",
+                $"/api/{Globals.Version}/itemgroups",
+                $"/api/{Globals.Version}/itemtypes",
+                $"/api/{Globals.Version}/inventories",
+                $"/api/{Globals.Version}/suppliers",
+                $"/api/{Globals.Version}/orders",
+                $"/api/{Globals.Version}/shipments",
             };
 
             foreach (var endpoint in endpointsWithIds)
             {
-                await Test_One_ID(endpoint, TestID);
+                await Test_One_ID(endpoint, TestParams.GetTestID);
             }
         }
 
         public async Task Test_One_ID(string endpoint, int TestID)
         {
+            Stopwatch stopwatch = new Stopwatch();
+
+            //measure elapsed time for request processing
+            stopwatch.Start();
             HttpResponseMessage response = default;
-            if (endpoint == "/api/v1/items")
+            if (endpoint == $"/api/{Globals.Version}/items")
             {
-                response = await _client.GetAsync($"{endpoint}/{ItemID}");
+                response = await _client.GetAsync($"{endpoint}/{TestParams.GetItemID}");
             } 
             else 
             {
-                response = await _client.GetAsync($"{endpoint}/{TestID}");
+                response = await _client.GetAsync($"{endpoint}/{TestParams.GetTestID}");
             }
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var message = $"Test: Get_ById_ReturnsDetails\nStatusCode: {response.StatusCode}\nResponse: {responseBody}\nEndpoint: {endpoint}/{TestID}\n";
-            WriteLogToFile(_filepath, message);
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            
+            stopwatch.Stop();
 
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            //Assert server returns OK and response contains correct info
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            string ID = default;
+
+            //get access to de database
+            using var scope = _factory.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+
+            if (endpoint == $"/api/{Globals.Version}/items")
+            {
+                var Itementity = (Item)await GetDBTable(endpoint, dbContext);
+                Assert.NotNull(Itementity);
+                //Assert.Equal(ItemID, Itementity.Uid);
+                ID = TestParams.GetItemID;
+            } 
+            else 
+            {
+                var dbentity = await GetDBTable(endpoint, dbContext);
+                Assert.NotNull(dbentity);
+                //Assert.Equal(TestID, dbentity.Id);
+                ID = TestParams.GetTestID.ToString();
+            }
+            
+            
+            var message = $"Test: Get_ById_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
+                          $"Response: {responseBody}\nEndpoint: {endpoint}/{ID}\n" +
+                          $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
+
+            //logging info
+            WriteLogToFile(_filepath, message);
         }
     }
 }

@@ -29,46 +29,23 @@ namespace CargoHub.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            // These tell the database to ignore the items list in Shipments (so we can insert json)
-            modelBuilder.Entity<Shipment>()
-            .Property(s => s.ItemsJson)
-            .HasColumnName("ItemsJson");
-
-            modelBuilder.Entity<Shipment>()
-            .Ignore(s => s.Items);
-
-            modelBuilder.Entity<Transfer>()
-            .Property(s => s.ItemsJson)
-            .HasColumnName("ItemsJson");
-
-            modelBuilder.Entity<Transfer>()
-            .Ignore(s => s.Items);
-
-            modelBuilder.Entity<Order>()
-            .Property(s => s.ItemsJson)
-            .HasColumnName("ItemsJson");
-
-            modelBuilder.Entity<Order>()
-            .Ignore(s => s.Items);
-
-            modelBuilder.Entity<Item>(entity =>
-            {
-                entity.HasKey(u => u.Uid); // Explicitly set Uid as the primary key
-            });
             modelBuilder.Entity<Contact>(entity =>
             {
                 entity.HasKey(n => n.Phone); // Explicitly set phone number as key
             });
+            // Adding configuration for Item entity
+            modelBuilder.Entity<Item>(entity =>
+            {
+                // Make sure Id is auto-incrementing and is the primary key
+                entity.HasKey(i => i.Id);  // Primary key configuration
+                entity.Property(i => i.Id)
+                    .ValueGeneratedOnAdd(); // Auto-increment behavior
 
-            modelBuilder.Entity<ItemGroup>()
-            .Property(e => e.Id)
-            .ValueGeneratedNever();
-            modelBuilder.Entity<ItemLine>()
-            .Property(e => e.Id)
-            .ValueGeneratedNever();
-            modelBuilder.Entity<ItemType>()
-            .Property(e => e.Id)
-            .ValueGeneratedNever();
+                // If you want to make sure Uid is a regular column, just add it here
+                entity.Property(i => i.Uid).HasColumnName("Uid");
+
+                // Other configurations for Item can go here
+            });
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
