@@ -1,2 +1,0 @@
-Error on endpoint http://localhost:8000/api/v1/clients/1 with status NotFound
-Response Body: 

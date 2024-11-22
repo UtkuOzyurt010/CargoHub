@@ -16,10 +16,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.UseUrls("http://localhost:8000");
 
-        //Add logging for debug purposes 
-        builder.Logging.ClearProviders();
-        builder.Logging.AddConsole();
-        builder.Logging.AddDebug();
 
         builder.Services.AddControllers();
 
