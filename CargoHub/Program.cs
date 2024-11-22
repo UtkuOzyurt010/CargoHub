@@ -41,6 +41,8 @@ public class Program
         builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
         builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
         builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
+        builder.Services.AddTransient<IInventoryService, InventoryService>();
+        builder.Services.AddTransient<IItemService, ItemService>();
 
         builder.Services.AddScoped<MigrationService>();
 

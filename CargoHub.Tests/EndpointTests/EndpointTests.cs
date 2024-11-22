@@ -5,6 +5,9 @@ using static TestHelperFunctions;
 using CargoHub.Models;
 using CargoHub.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Writers;
+using SQLitePCL;
 
 namespace CargoHub.Tests
 {
@@ -12,18 +15,22 @@ namespace CargoHub.Tests
     {
         private readonly HttpClient _client;
         private readonly WebApplicationFactory<Program> _factory;
+        private readonly DatabaseContext _context;
         private readonly int TestId = 1;
+
+        private readonly string Address = $"http://localhost:8000";
 
         public EndpointTests(WebApplicationFactory<Program> factory)
         {
+            // Set up a custom WebApplicationFactory to mock the database
+            _factory = factory;
+
+            // Create the client to interact with the app
             _client = factory.CreateClient();
-            _factory = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    services.AddTransient<IGenericService<Client>, ClientService>();
-                });
-            });
+            var scope = _factory.Services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+            _context = context;
+
         }
 
         [Fact]
@@ -31,54 +38,59 @@ namespace CargoHub.Tests
         {
             var endpointsWithIds = new List<string>
             {
-                "http://localhost:8000/api/v1/clients",
-                "http://localhost:8000/api/v1/warehouses",
-                "http://localhost:8000/api/v1/locations",
-                "http://localhost:8000/api/v1/transfers",
-                "http://localhost:8000/api/v1/items",
-                "http://localhost:8000/api/v1/item_lines",
-                "http://localhost:8000/api/v1/item_groups",
-                "http://localhost:8000/api/v1/item_types",
-                "http://localhost:8000/api/v1/inventories",
-                "http://localhost:8000/api/v1/suppliers",
-                "http://localhost:8000/api/v1/orders",
-                "http://localhost:8000/api/v1/shipments",
+                $"{Address}/api/v1/clients",
+                $"{Address}/api/v1/warehouses",
+                $"{Address}/api/v1/locations",
+                $"{Address}/api/v1/transfers",
+                $"{Address}/api/v1/items",
+                $"{Address}/api/v1/item_lines",
+                $"{Address}/api/v1/item_groups",
+                $"{Address}/api/v1/item_types",
+                $"{Address}/api/v1/inventories",
+                $"{Address}/api/v1/suppliers",
+                $"{Address}/api/v1/orders",
+                $"{Address}/api/v1/shipments",
             };
 
-            foreach (var endpoint in endpointsWithIds)
-            {
-                await Get_One_ById(endpoint, TestId);
-            }
+
+                _context.Database.EnsureCreated();
+                var client = await _context.Warehouse.FirstOrDefaultAsync(c => c.Id == 1);
+                WriteLogToFile($"C:/CargoHub2/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt", client.Id.ToString());
+                foreach (var endpoint in endpointsWithIds)
+                {
+                    await Get_One_ById(endpoint, TestId);
+                }
         }
 
         public async Task Get_One_ById(string endpoint, int Id)
         {
             //{endpoint.Split("/").Last()}-
-            string LogFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now}.txt";
+            string LogFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt";
             string fullendpoint = $"{endpoint}/{Id}";
 
             var stopwatch = new Stopwatch();
 
             // Create instance of UnitTest to use its method
-            var unitTests = new UnitTests(_factory);
+            var unitTests = new UnitTests(_context);
 
             stopwatch.Start();
 
+            
             // Getresponse from endpoint
             var response = await _client.GetAsync(fullendpoint);
-
+        
             stopwatch.Stop();
 
             // Assert portion
             try
             {
-                if (response.StatusCode != HttpStatusCode.OK)
+                if (response != null && response.StatusCode != HttpStatusCode.OK)
                 {
                     var responseBodys = await response.Content.ReadAsStringAsync();
                     string logMessageError = $"Error on endpoint {fullendpoint} with status {response.StatusCode}\n" +
-                                            $"Response Body: {responseBodys}";
+                                             $"Response Body: {responseBodys}";
                     WriteLogToFile(LogFilePath, logMessageError);
-                    Thread.Sleep(1000);
+
                     throw new Exception(logMessageError);
                 }
                 //Assert.Equal(HttpStatusCode.OK, response.StatusCode);

@@ -2,25 +2,24 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using CargoHub.Models;
 using static TestHelperFunctions;
+using Microsoft.EntityFrameworkCore;
 
 namespace CargoHub.Tests
 {
-    public class UnitTests : IClassFixture<WebApplicationFactory<Program>>
+    public class UnitTests : DbContext
     {
-        private readonly WebApplicationFactory<Program> _factory;
+        private readonly DatabaseContext _context;
         private readonly int TestID = 1;
 
-        public UnitTests(WebApplicationFactory<Program> factory)
+        public UnitTests(DatabaseContext context)
         {
-            _factory = factory;
+            _context = context;
         }
 
         public async Task<Client?> GetByIdFromDb(int clientId, bool unittest = false)
         {
             if (unittest) clientId = TestID;
-            using var scope = _factory.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-            var FromDb = await context.Client.FindAsync(clientId);
+            var FromDb = await _context.Client.FindAsync(clientId);
             // Log the database finding to a file
             bool success = FromDb.Id == clientId;
             string logFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
