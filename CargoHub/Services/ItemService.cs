@@ -12,12 +12,16 @@ namespace CargoHub.Services{
             _context = context;
         } 
 
-        public async Task<Item?> Get(string uid)
+        public async Task<Item?> Get(object identifier)
         {
-            Console.WriteLine(uid, uid.GetType());
-            Item? register = await _context.Item.FindAsync(uid);
-            
-            return register; 
+            Item? item = identifier switch
+            {
+                int id => await _context.Item.FindAsync(id), // Use Id if it's an integer
+                string uid => await _context.Item.FirstOrDefaultAsync(i => i.Uid == uid), // Use Uid if it's a string
+                _ => null // Return null if it's neither an int nor a string
+            };
+
+            return item;
         }
 
         public async Task<List<Item>> GetSupplierItems(int id)

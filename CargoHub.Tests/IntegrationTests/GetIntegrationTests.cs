@@ -57,15 +57,9 @@ namespace CargoHub.Tests
 
             //measure elapsed time for request processing
             stopwatch.Start();
-            HttpResponseMessage response = default;
-            if (endpoint == $"/api/{Globals.Version}/items")
-            {
-                response = await _client.GetAsync($"{endpoint}/{TestParams.GetItemID}");
-            } 
-            else 
-            {
-                response = await _client.GetAsync($"{endpoint}/{TestParams.GetTestID}");
-            }
+
+            var response = await _client.GetAsync($"{endpoint}/{TestParams.GetTestID}");
+
             stopwatch.Stop();
 
             var responseBody = await response.Content.ReadAsStringAsync();
@@ -73,27 +67,14 @@ namespace CargoHub.Tests
             //Assert server returns OK and response contains correct info
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            string ID = default;
-
             //get access to de database
             using var scope = _factory.Services.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
-            if (endpoint == $"/api/{Globals.Version}/items")
-            {
-                var Itementity = (Item)await GetDBTable(endpoint, dbContext);
-                Assert.NotNull(Itementity);
-                //Assert.Equal(ItemID, Itementity.Uid);
-                ID = TestParams.GetItemID;
-            } 
-            else 
-            {
-                var dbentity = await GetDBTable(endpoint, dbContext);
-                Assert.NotNull(dbentity);
-                //Assert.Equal(TestID, dbentity.Id);
-                ID = TestParams.GetTestID.ToString();
-            }
-            
+            var dbentity = await GetDBTable(endpoint, dbContext);
+            Assert.NotNull(dbentity);
+            //Assert.Equal(TestID, dbentity.Id); nope nope some scope scope issues
+            var ID = TestParams.GetTestID.ToString();     
             
             var message = $"Test: Get_ById_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Response: {responseBody}\nEndpoint: {endpoint}/{ID}\n" +

@@ -18,7 +18,7 @@ public static class TestHelperFunctions
                 $"/api/{Globals.Version}/warehouses" => await dbContext.Warehouse.FirstOrDefaultAsync(w => w.Id == TestParams.GetTestID),
                 $"/api/{Globals.Version}/locations" => await dbContext.Location.FirstOrDefaultAsync(l => l.Id == TestParams.GetTestID),
                 $"/api/{Globals.Version}/transfers" => await dbContext.Transfer.FirstOrDefaultAsync(t => t.Id == TestParams.GetTestID),
-                $"/api/{Globals.Version}/items" => await dbContext.Item.FirstOrDefaultAsync(i => i.Uid == TestParams.GetItemID),
+                $"/api/{Globals.Version}/items" => await dbContext.Item.FirstOrDefaultAsync(i => i.Id == TestParams.GetTestID),
                 $"/api/{Globals.Version}/itemlines" => await dbContext.ItemLine.FirstOrDefaultAsync(il => il.Id == TestParams.GetTestID),
                 $"/api/{Globals.Version}/itemgroups" => await dbContext.ItemGroup.FirstOrDefaultAsync(ig => ig.Id == TestParams.GetTestID),
                 $"/api/{Globals.Version}/itemtypes" => await dbContext.ItemType.FirstOrDefaultAsync(it => it.Id == TestParams.GetTestID),

@@ -19,7 +19,8 @@ namespace CargoHub.Controllers
         [HttpGet("{uid}")]
         public async Task<IActionResult> Get(string uid)
         {
-            var result = await _itemService.Get(uid);
+            object identifier = int.TryParse(uid, out var id) ? (object)id : uid;
+            var result = await _itemService.Get(identifier);
             if (result is not null)
             {
                 return Ok(result);
