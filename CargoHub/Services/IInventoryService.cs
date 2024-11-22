@@ -4,6 +4,7 @@ namespace CargoHub.Services
 {
     public interface IInventoryService : IGenericService<Inventory>
     {
-        Task<List<Inventory>> GetItemInventory(string uid);
+        Task<Inventory> GetItemInventory(string uid);
+        Task<dynamic> GetItemInventoryTotals(string uid);
     }
 }

@@ -17,13 +17,27 @@ namespace CargoHub.Services{
             return register; 
         }
 
-        public async Task<List<Inventory>> GetItemInventory(string uid)
+        public async Task<Inventory> GetItemInventory(string uid)
         {
-            List<Inventory> result = await _context.Inventory
-                                    .Where(inventory => inventory.Item_Id == uid)
-                                    .ToListAsync();
+            Inventory result = await _context.Inventory.FirstOrDefaultAsync(x => x.Item_Id == uid);
             return result;
         }
+
+         public async Task<dynamic> GetItemInventoryTotals(string uid)
+        {
+            var result = await _context.Inventory
+                                    .Where(x => x.Item_Id == uid)
+                                    .Select(order => new
+                                    {
+                                        order.Total_Expected,
+                                        order.Total_Ordered,
+                                        order.Total_Allocated,
+                                        order.Total_Available
+                                    })
+                                    .FirstOrDefaultAsync();
+            return result;
+        }
+
 
         public async Task<List<Inventory>> GetBatch(List<int> ids)
         {
