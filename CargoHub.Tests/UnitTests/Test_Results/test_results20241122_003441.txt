@@ -1,0 +1,5 @@
+Error on endpoint http://localhost:8000/api/v1/clients/1 with status NotFound
+Response Body: 
+Assert failed: Error on endpoint http://localhost:8000/api/v1/clients/1 with status NotFound
+Response Body: 
+Stack Trace:    at CargoHub.Tests.EndpointTests.Get_One_ById(String endpoint, Int32 Id) in C:\VSCodeProjects\CargoHub\CargoHub.Tests\EndpointTests\EndpointTests.cs:line 84

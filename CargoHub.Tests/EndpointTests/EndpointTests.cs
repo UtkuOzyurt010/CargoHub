@@ -5,6 +5,8 @@ using static TestHelperFunctions;
 using CargoHub.Models;
 using CargoHub.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CargoHub.Tests
 {
@@ -22,8 +24,17 @@ namespace CargoHub.Tests
                 builder.ConfigureServices(services =>
                 {
                     services.AddTransient<IGenericService<Client>, ClientService>();
+                    services.AddDbContext<DatabaseContext>(options =>
+            options.UseSqlite("Data Source=TestdataCopyDB.sqlite;Cache=Shared"));
                 });
             });
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                var data = db.Client.FirstOrDefault(); // Or any query
+                Console.WriteLine(data != null ? "Data loaded" : "No data found");
+            }
         }
 
         [Fact]
@@ -54,7 +65,9 @@ namespace CargoHub.Tests
         public async Task Get_One_ById(string endpoint, int Id)
         {
             //{endpoint.Split("/").Last()}-
-            string LogFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now}.txt";
+            //string logFilePath = Path.GetFullPath("CargoHub.Tests") + $"/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            string LogFilePath = $"C:/VSCodeProjects/CargoHub/CargoHub.Tests/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            //string LogFilePath = $"/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now}.txt";
             string fullendpoint = $"{endpoint}/{Id}";
 
             var stopwatch = new Stopwatch();
