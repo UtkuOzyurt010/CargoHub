@@ -10,10 +10,10 @@ namespace CargoHub.Controllers
         private readonly IItemService _itemService;
         private readonly IInventoryService _inventoryService;
 
-        public ItemController(IItemService itemService, IGenericService<Inventory> inventoryService)
+        public ItemController(IItemService itemService, IInventoryService inventoryService)
         {
             _itemService = itemService;
-            _inventoryService = (IInventoryService)inventoryService;
+            _inventoryService = inventoryService;
         }
 
         [HttpGet("{uid}")]

@@ -7,10 +7,10 @@ namespace CargoHub.Controllers
     [Route($"api/{Globals.Version}/orders")]
     public class OrderController : Controller
     {
-        private readonly IGenericService<Order> _orderService;
+        private readonly IOrderService _orderService;
         private readonly IItemService _itemService;
 
-        public OrderController(IGenericService<Order> orderService, IItemService itemService)
+        public OrderController(IOrderService orderService, IItemService itemService)
         {
             _orderService = orderService;
             _itemService = itemService;

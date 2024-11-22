@@ -7,9 +7,9 @@ namespace CargoHub.Controllers
     [Route($"api/{Globals.Version}/locations")]
     public class LocationController : Controller
     {
-        private readonly IGenericService<Location> _locationService;
+        private readonly ILocationService _locationService;
 
-        public LocationController(IGenericService<Location> locationService)
+        public LocationController(ILocationService locationService)
         {
             _locationService = locationService;
         }

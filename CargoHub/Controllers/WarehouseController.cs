@@ -8,9 +8,9 @@ namespace CargoHub.Controllers
     public class WarehouseController : Controller
     {
         private readonly IGenericService<Warehouse> _warehouseService;
-        private readonly IGenericService<Location> _locationService;
+        private readonly ILocationService _locationService;
 
-        public WarehouseController(IGenericService<Warehouse> warehouseService, IGenericService<Location> locationService)
+        public WarehouseController(IGenericService<Warehouse> warehouseService, ILocationService locationService)
         {
             _warehouseService = warehouseService;
             _locationService = locationService;

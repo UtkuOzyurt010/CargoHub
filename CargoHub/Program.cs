@@ -31,8 +31,8 @@ public class Program
         builder.Services.AddTransient<IGenericService<ItemGroup>, ItemGroupService>();
         builder.Services.AddTransient<IGenericService<ItemLine>, ItemLineService>();
         builder.Services.AddTransient<IGenericService<ItemType>, ItemTypeService>();
-        builder.Services.AddTransient<IGenericService<Location>, LocationService>();
-        builder.Services.AddTransient<IGenericService<Order>, OrderService>();
+        builder.Services.AddTransient<ILocationService, LocationService>();
+        builder.Services.AddTransient<IOrderService, OrderService>();
         builder.Services.AddTransient<IGenericService<Shipment>, ShipmentService>();
         builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
         builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
