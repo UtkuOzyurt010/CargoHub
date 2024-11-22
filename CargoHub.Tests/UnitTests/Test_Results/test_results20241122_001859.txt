@@ -1,0 +1,9 @@
+Assert failed: Could not find a part of the path 'C:\VSCodeProjects\CargoHub\CargoHub.Tests\UnitTests\Test_Results\test_results20241122_001859.txt'.
+Stack Trace:    at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.OSFileStreamStrategy..ctor(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.FileStreamHelpers.ChooseStrategyCore(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.StreamWriter.ValidateArgsAndOpenPath(String path, Boolean append, Encoding encoding, Int32 bufferSize)
+   at System.IO.StreamWriter..ctor(String path, Boolean append)
+   at TestHelperFunctions.WriteLogToFile(String filePath, String message) in C:\VSCodeProjects\CargoHub\CargoHub.Tests\TestHelperFunctions.cs:line 5
+   at CargoHub.Tests.EndpointTests.Get_One_ById(String endpoint, Int32 Id) in C:\VSCodeProjects\CargoHub\CargoHub.Tests\EndpointTests\EndpointTests.cs:line 82
