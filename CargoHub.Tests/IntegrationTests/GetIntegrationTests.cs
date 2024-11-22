@@ -47,11 +47,11 @@ namespace CargoHub.Tests
 
             foreach (var endpoint in endpointsWithIds)
             {
-                await Test_One_ID(endpoint, TestParams.GetTestID);
+                await Test_One_ID(endpoint);
             }
         }
 
-        public async Task Test_One_ID(string endpoint, int TestID)
+        public async Task Test_One_ID(string endpoint)
         {
             Stopwatch stopwatch = new Stopwatch();
 
@@ -67,11 +67,11 @@ namespace CargoHub.Tests
             //Assert server returns OK and response contains correct info
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            //get access to de database
+            //get access to test database
             using var scope = _factory.Services.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
-            var dbentity = await GetDBTable(endpoint, dbContext);
+            var dbentity = await GetDBTable(endpoint.Split("/").Last(), dbContext);
             Assert.NotNull(dbentity);
             //Assert.Equal(TestID, dbentity.Id); nope nope some scope scope issues
             var ID = TestParams.GetTestID.ToString();     
