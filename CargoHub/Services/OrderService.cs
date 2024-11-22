@@ -23,6 +23,12 @@ namespace CargoHub.Services{
             return result;
         }
 
+        public async Task<List<Order>> GetClientOrders(int id)
+        {
+            var result = await _context.Order.Where(order => order.Ship_To == id || order.Bill_To == id).ToListAsync();
+            return result;
+        }
+
         public async Task<List<Order>> GetBatch(List<int> ids)
         {
             List<Order> result = await _context.Order.

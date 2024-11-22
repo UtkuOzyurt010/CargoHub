@@ -11,16 +11,29 @@ namespace CargoHub.Controllers
     public class ClientController : Controller
     {
         private readonly IGenericService<Client> _clientService;
+        private readonly IOrderService _orderService;
 
-        public ClientController(IGenericService<Client> clientService)
+        public ClientController(IGenericService<Client> clientService, IOrderService orderService)
         {
             _clientService = clientService;
+            _orderService = orderService;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var result = await _clientService.Get(id);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return NotFound(result);
+        }
+
+        [HttpGet("{id}/orders")]
+        public async Task<IActionResult> GetClientOrders(int id)
+        {
+            var result = await _orderService.GetClientOrders(id);
             if (result is not null)
             {
                 return Ok(result);
