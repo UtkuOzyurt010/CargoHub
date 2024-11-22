@@ -17,9 +17,9 @@ namespace CargoHub.Services{
             return register; 
         }
 
-        public async Task<Inventory> GetItemInventory(string uid)
+        public async Task<List<Inventory>> GetItemInventory(string uid)
         {
-            Inventory result = await _context.Inventory.FirstOrDefaultAsync(x => x.Item_Id == uid);
+            var result = await _context.Inventory.Where(x => x.Item_Id == uid).ToListAsync();
             return result;
         }
 
