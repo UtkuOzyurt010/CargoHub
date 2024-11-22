@@ -26,7 +26,7 @@ public class Program
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         builder.Services.AddDbContext<DatabaseContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDb")));
+            options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDb") + ";Cache=Shared"));
 
         // Register services
         builder.Services.AddTransient<IGenericService<Client>, ClientService>();

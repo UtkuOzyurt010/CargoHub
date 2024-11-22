@@ -10,10 +10,10 @@ namespace CargoHub.Controllers
         private readonly IItemService _itemService;
         private readonly IInventoryService _inventoryService;
 
-        public ItemController(IItemService itemService, IInventoryService inventoryService)
+        public ItemController(IItemService itemService, IGenericService<Inventory> inventoryService)
         {
             _itemService = itemService;
-            _inventoryService = inventoryService;
+            _inventoryService = (IInventoryService)inventoryService;
         }
 
         [HttpGet("{uid}")]
@@ -31,6 +31,17 @@ namespace CargoHub.Controllers
         public async Task<IActionResult> GetItemInventory(string uid)
         {
             var result = await _inventoryService.GetItemInventory(uid);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return NotFound(result);
+        }
+
+        [HttpGet("{uid}/inventory/totals")]
+        public async Task<IActionResult> GetItemInventoryTotals(string uid)
+        {
+            var result = await _inventoryService.GetItemInventoryTotals(uid);
             if (result is not null)
             {
                 return Ok(result);

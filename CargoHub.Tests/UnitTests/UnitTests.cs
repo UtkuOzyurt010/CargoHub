@@ -22,7 +22,10 @@ namespace CargoHub.Tests
             var FromDb = await _context.Client.FindAsync(clientId);
             // Log the database finding to a file
             bool success = FromDb.Id == clientId;
-            string logFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            //string logFilePath = Path.GetFullPath("CargoHub.Tests") + $"/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            
+            string logFilePath = $"C:/VSCodeProjects/CargoHub/CargoHub.Tests/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            //string logFilePath = $"/CargoHub/CargoHub.Tests/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
             string logMessage = $"Test: {success}\n" +
                                 $"Database ID: {FromDb?.Id}\n\n";
 

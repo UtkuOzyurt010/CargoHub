@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Writers;
 using SQLitePCL;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CargoHub.Tests
 {
@@ -66,6 +67,9 @@ namespace CargoHub.Tests
         {
             //{endpoint.Split("/").Last()}-
             string LogFilePath = $"C:/CargoHub2/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt";
+            //string logFilePath = Path.GetFullPath("CargoHub.Tests") + $"/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            //string LogFilePath = $"C:/VSCodeProjects/CargoHub/CargoHub.Tests/UnitTests/Test_Results/test_results{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            //string LogFilePath = $"/CargoHub/CargoHub.Tests/EndpointTests/Test_Results/Endpoint - {DateTime.Now}.txt";
             string fullendpoint = $"{endpoint}/{Id}";
 
             var stopwatch = new Stopwatch();
