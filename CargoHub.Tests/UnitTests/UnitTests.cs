@@ -22,7 +22,7 @@ namespace CargoHub.Tests
         }
 
         [Fact]
-        public async Task Test_Get_Id_Endpoints()
+        public async Task Test_Get_Id_FromDB()
         {
             var Tables = new List<string>
             {

@@ -12,7 +12,7 @@ public class ApiKeyMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        if (context.Request.Path.StartsWithSegments($"/api/{Globals.Version}"))
+        if (context.Request.Path.Equals($"/api/{Globals.Version}", StringComparison.OrdinalIgnoreCase))
         {
             await _next(context);
             return;

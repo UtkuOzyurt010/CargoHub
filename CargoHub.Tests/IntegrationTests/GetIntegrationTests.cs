@@ -23,7 +23,8 @@ namespace CargoHub.Tests
             Directory.CreateDirectory(resultsDirectory); 
             _factory = factory;
             _client = factory.CreateClient();
-            _filepath = Path.Combine(resultsDirectory, $"GetIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
+            
+       _client.DefaultRequestHeaders.Add("API_KEY", $"{TestParams.TestAPIKEY}");     _filepath = Path.Combine(resultsDirectory, $"GetIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
         [Fact]
@@ -84,3 +85,78 @@ namespace CargoHub.Tests
         }
     }
 }
+
+// Get endpoints old python codebase
+
+// Paths for warehouses
+
+//     /warehouses
+//     /warehouses/{warehouse_id}
+//     /warehouses/{warehouse_id}/locations
+//     To-Do: Handle paths like /warehouses/{warehouse_id}/locations/{location_id}.
+
+// Paths for locations
+
+//     /locations
+//     /locations/{location_id}
+
+// Paths for transfers
+
+//     /transfers
+//     /transfers/{transfer_id}
+//     /transfers/{transfer_id}/items
+
+// Paths for items
+
+//     /items
+//     /items/{item_id}
+//     /items/{item_id}/inventory
+//     /items/{item_id}/inventory/totals
+
+// Paths for item_lines
+
+//     /item_lines
+//     /item_lines/{item_line_id}
+//     /item_lines/{item_line_id}/items
+
+// Paths for item_groups
+
+//     /item_groups
+//     /item_groups/{item_group_id}
+//     /item_groups/{item_group_id}/items
+
+// Paths for item_types
+
+//     /item_types
+//     /item_types/{item_type_id}
+//     /item_types/{item_type_id}/items
+
+// Paths for inventories
+
+//     /inventories
+//     /inventories/{inventory_id}
+
+// Paths for suppliers
+
+//     /suppliers
+//     /suppliers/{supplier_id}
+//     /suppliers/{supplier_id}/items
+
+// Paths for orders
+
+//     /orders
+//     /orders/{order_id}
+//     /orders/{order_id}/items
+
+// Paths for clients
+
+//     /clients
+//     /clients/{client_id}
+//     /clients/{client_id}/orders
+
+// Paths for shipments
+
+//     /shipments
+//     /shipments/{shipment_id}
+//     /shipments/{shipment_id}/orders
+//     /shipments/{shipment_id}/items

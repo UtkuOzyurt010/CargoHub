@@ -6,6 +6,8 @@ namespace CargoHub.Tests
     {
         public static int TestID = 1;
 
+        public static string TestAPIKEY = "a1b2c3d4e5";
+
         public static Warehouse WarehousedummyData = new Warehouse
         {
             Id = 1,

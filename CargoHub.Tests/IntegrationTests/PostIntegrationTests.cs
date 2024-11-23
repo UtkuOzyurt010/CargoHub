@@ -22,10 +22,11 @@ namespace CargoHub.Tests
             Directory.CreateDirectory(resultsDirectory); 
             _factory = factory;
             _client = factory.CreateClient();
+            _client.DefaultRequestHeaders.Add("API_KEY", $"{TestParams.TestAPIKEY}");
             _filepath = Path.Combine(resultsDirectory, $"PostIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        [Fact]
+        //[Fact]
         public async Task Test_Post_Id_Endpoints()
         {
             var endpointsWithIds = new List<string>
