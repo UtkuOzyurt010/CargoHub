@@ -1,6 +1,7 @@
 using CargoHub.Models;
 using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +19,12 @@ public class Program
 
 
         builder.Services.AddControllers();
+        // I added this so we can control what fields are sent back with the response json
+        builder.Services.AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        });
 
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

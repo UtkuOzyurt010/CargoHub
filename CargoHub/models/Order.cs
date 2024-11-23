@@ -24,11 +24,20 @@ namespace CargoHub.Models{
         public decimal? Total_Surcharge { get; set; }
         public DateTime Created_At { get; set; }
         public DateTime Updated_At { get; set; }
+
+        // I want the code to ignore the jsonString when responding and only return Items
+        [JsonIgnore]
         public string ItemsJson { get; set; }
 
-        // Transient property for easy manipulation
+        // Transient property for easy manipulation of itemsjson
         [NotMapped]
-        public List<OrderItem> Items { get; set; }
+        public List<OrderItem>? Items
+        {
+            get => string.IsNullOrEmpty(ItemsJson) 
+                ? new List<OrderItem>() 
+                : JsonConvert.DeserializeObject<List<OrderItem>>(ItemsJson);
+            set => ItemsJson = JsonConvert.SerializeObject(value);
+        }
     }
 
     public class OrderItem
