@@ -56,7 +56,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost()]
-        protected async Task<IActionResult> Post([FromBody] Client client)
+        public async Task<IActionResult> Post([FromBody] Client client)
         {
             bool result = await _clientService.Post(client);
             if (result)
@@ -67,7 +67,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost("batch")]
-        protected async Task<IActionResult> PostBatch([FromBody] List<Client> clients)
+        public async Task<IActionResult> PostBatch([FromBody] List<Client> clients)
         {
             var result = await _clientService.PostBatch(clients);
             if (result.Contains(true))
