@@ -79,7 +79,7 @@ POST {{address}}/warehouses HTTP/1.1
 Content-Type: application/json
 
 {
-    "Id": 0,
+    "Id": 9999,
     "Code": "WH-001",
     "Name": "Central Warehouse",
     "Address": "123 Main Street",

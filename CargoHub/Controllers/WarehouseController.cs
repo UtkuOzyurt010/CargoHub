@@ -57,7 +57,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost()]
-        protected async Task<IActionResult> Post([FromBody] Warehouse warehouse)
+        public async Task<IActionResult> Post([FromBody] Warehouse warehouse)
         {
             bool result = await _warehouseService.Post(warehouse);
             if (result)
