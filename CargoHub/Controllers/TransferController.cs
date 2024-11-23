@@ -54,7 +54,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost()]
-        protected async Task<IActionResult> Post([FromBody] Transfer transfer)
+        public async Task<IActionResult> Post([FromBody] Transfer transfer)
         {
             bool result = await _transferService.Post(transfer);
             if (result)
@@ -65,7 +65,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost("batch")]
-        protected async Task<IActionResult> PostBatch([FromBody] List<Transfer> transfers)
+        public async Task<IActionResult> PostBatch([FromBody] List<Transfer> transfers)
         {
             var result = await _transferService.PostBatch(transfers);
             if (result.Contains(true))

@@ -65,7 +65,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost()]
-        protected async Task<IActionResult> Post([FromBody] Item item)
+        public async Task<IActionResult> Post([FromBody] Item item)
         {
             bool result = await _itemService.Post(item);
             if (result)
@@ -76,7 +76,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost("batch")]
-        protected async Task<IActionResult> PostBatch([FromBody] List<Item> items)
+        public async Task<IActionResult> PostBatch([FromBody] List<Item> items)
         {
             var result = await _itemService.PostBatch(items);
             if (result.Contains(true))
