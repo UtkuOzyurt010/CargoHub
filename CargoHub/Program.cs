@@ -52,6 +52,10 @@ public class Program
 
         app.UseRouting();
         app.UseAuthorization();
+        
+        //checking API key
+        app.UseMiddleware<ApiKeyMiddleware>();
+        
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");

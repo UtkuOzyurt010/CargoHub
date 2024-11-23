@@ -19,7 +19,8 @@ namespace CargoHub.Controllers
         [HttpGet("{uid}")]
         public async Task<IActionResult> Get(string uid)
         {
-            var result = await _itemService.Get(uid);
+            object identifier = int.TryParse(uid, out var id) ? (object)id : uid;
+            var result = await _itemService.Get(identifier);
             if (result is not null)
             {
                 return Ok(result);
@@ -64,7 +65,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost()]
-        protected async Task<IActionResult> Post([FromBody] Item item)
+        public async Task<IActionResult> Post([FromBody] Item item)
         {
             bool result = await _itemService.Post(item);
             if (result)
@@ -75,7 +76,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost("batch")]
-        protected async Task<IActionResult> PostBatch([FromBody] List<Item> items)
+        public async Task<IActionResult> PostBatch([FromBody] List<Item> items)
         {
             var result = await _itemService.PostBatch(items);
             if (result.Contains(true))

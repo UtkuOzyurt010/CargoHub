@@ -3,7 +3,7 @@ using CargoHub.Models;
 namespace CargoHub.Services{
     public interface IItemService 
     { 
-        Task<Item?> Get(string uid);
+        Task<Item?> Get(object uid);
         Task<List<Item>> GetSupplierItems(int id);
         Task<List<Item>> GetOrderItems(string itemsJson);
         Task<List<Item>> GetShipmentItems(string itemsJson);

@@ -40,7 +40,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost()]
-        protected async Task<IActionResult> Post([FromBody] Location location)
+        public async Task<IActionResult> Post([FromBody] Location location)
         {
             bool result = await _locationService.Post(location);
             if (result)
@@ -51,7 +51,7 @@ namespace CargoHub.Controllers
         }
 
         [HttpPost("batch")]
-        protected async Task<IActionResult> PostBatch([FromBody] List<Location> locations)
+        public async Task<IActionResult> PostBatch([FromBody] List<Location> locations)
         {
             var result = await _locationService.PostBatch(locations);
             if (result.Contains(true))

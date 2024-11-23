@@ -1,0 +1,84 @@
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"name":"Raymond Inc","address":"1296 Daniel Road Apt. 349","city":"Pierceview","zip_code":"28301","province":"Colorado","country":"United States","contact_name":"Bryan Clark","contact_email":"robertcharles@example.net","createdAt":"0001-01-01T00:00:00","updatedAt":"0001-01-01T00:00:00"}
+Endpoint: /api/v1/clients/1
+Test executed in: 575ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"code":"YQZZNL56","name":"Heemskerk cargo hub","address":"Karlijndreef 281","zip":"4002 AS","city":"Heemskerk","province":"Friesland","country":"NL","contact":null,"created_At":"1983-04-13T04:59:55","updated_At":"2007-02-08T20:11:00"}
+Endpoint: /api/v1/warehouses/1
+Test executed in: 13ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"warehouse_Id":1,"code":"A.1.0","name":"Row: A, Rack: 1, Shelf: 0","created_At":"1992-05-15T03:21:32","updated_At":"1992-05-15T03:21:32"}
+Endpoint: /api/v1/locations/1
+Test executed in: 8ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"reference":"TR00001","transfer_From":null,"transfer_To":9229,"transfer_Status":"Completed","created_At":"2000-03-11T13:11:14","updated_At":"2000-03-12T16:11:14","itemsJson":"[{\"Item_Id\":\"P007435\",\"Amount\":23}]","items":null}
+Endpoint: /api/v1/transfers/1
+Test executed in: 13ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"uid":"P000001","code":"sjQ23408K","description":"Face-to-face clear-thinking complexity","short_Description":"must","upc_Code":"6523540947122","model_Number":"63-OFFTq0T","commodity_Code":"oTo304","item_Line":11,"item_Group":73,"item_Type":14,"unit_Purchase_Quantity":47,"unit_Order_Quantity":13,"pack_Order_Quantity":11,"supplier_Id":34,"supplier_Code":"SUP423","supplier_Part_Number":"E-86805-uTM","created_At":"2015-02-19T16:08:24","updated_At":"2015-09-26T06:37:56"}
+Endpoint: /api/v1/items/1
+Test executed in: 14ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"name":"Home Appliances","description":"","created_At":"1979-01-16T07:07:50","updated_At":"2024-01-05T23:53:25"}
+Endpoint: /api/v1/itemlines/1
+Test executed in: 14ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"name":"Furniture","description":"","created_At":"2019-09-22T15:51:07","updated_At":"2022-05-18T13:49:28"}
+Endpoint: /api/v1/itemgroups/1
+Test executed in: 6ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"name":"Desktop","description":"","created_At":"1993-07-28T13:43:32","updated_At":"2022-05-12T08:54:35"}
+Endpoint: /api/v1/itemtypes/1
+Test executed in: 7ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"item_Id":"P000001","description":"Face-to-face clear-thinking complexity","item_Reference":"sjQ23408K","locations":[3211,24700,14123,19538,31071,24701,11606,11817],"total_On_Hand":262,"total_Expected":0,"total_Ordered":80,"total_Allocated":41,"total_Available":141,"created_At":"2015-02-19T16:08:24","updated_At":"2015-09-26T06:37:56"}
+Endpoint: /api/v1/inventories/1
+Test executed in: 20ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"code":"SUP0001","name":"Lee, Parks and Johnson","address":"5989 Sullivan Drives","address_Extra":"Apt. 996","city":"Port Anitaburgh","zip_Code":"91688","province":"Illinois","country":"Czech Republic","contact_Name":"Toni Barnett","phonenumber":"363.541.7282x36825","reference":"LPaJ-SUP0001","created_At":"1971-10-20T18:06:17","updated_At":"1985-06-08T00:13:46"}
+Endpoint: /api/v1/suppliers/1
+Test executed in: 12ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"source_Id":33,"order_Date":"2019-04-03T11:33:15","request_Date":"2019-04-07T11:33:15","reference":"ORD00001","reference_Extra":"Bedreven arm straffen bureau.","order_Status":"Delivered","notes":"Voedsel vijf vork heel.","shipping_Notes":"Buurman betalen plaats bewolkt.","picking_Notes":"Ademen fijn volgorde scherp aardappel op leren.","warehouse_Id":18,"ship_To":null,"bill_To":null,"shipment_Id":1,"total_Amount":9905.13,"total_Discount":150.77,"total_Tax":372.72,"total_Surcharge":77.6,"created_At":"2019-04-03T11:33:15","updated_At":"2019-04-05T07:33:15","itemsJson":"[{\"Item_Id\":\"P007435\",\"Amount\":23},{\"Item_Id\":\"P009557\",\"Amount\":1},{\"Item_Id\":\"P009553\",\"Amount\":50},{\"Item_Id\":\"P010015\",\"Amount\":16},{\"Item_Id\":\"P002084\",\"Amount\":33},{\"Item_Id\":\"P009663\",\"Amount\":18},{\"Item_Id\":\"P010125\",\"Amount\":18},{\"Item_Id\":\"P005768\",\"Amount\":26},{\"Item_Id\":\"P004051\",\"Amount\":1},{\"Item_Id\":\"P005026\",\"Amount\":29},{\"Item_Id\":\"P000726\",\"Amount\":22},{\"Item_Id\":\"P008107\",\"Amount\":47},{\"Item_Id\":\"P001598\",\"Amount\":32},{\"Item_Id\":\"P002855\",\"Amount\":20},{\"Item_Id\":\"P010404\",\"Amount\":30},{\"Item_Id\":\"P010446\",\"Amount\":6},{\"Item_Id\":\"P001517\",\"Amount\":9},{\"Item_Id\":\"P009265\",\"Amount\":2},{\"Item_Id\":\"P001108\",\"Amount\":20},{\"Item_Id\":\"P009110\",\"Amount\":18},{\"Item_Id\":\"P009686\",\"Amount\":13}]","items":null}
+Endpoint: /api/v1/orders/1
+Test executed in: 31ms
+
+
+Test: Get_ById_ReturnsDetails
+StatusCode: OK
+Response: {"id":1,"order_Id":1,"source_Id":33,"order_Date":"2000-03-09T00:00:00","request_Date":"2000-03-11T00:00:00","shipment_Date":"2000-03-13T00:00:00","shipment_Type":"I","shipment_Status":"Pending","notes":"Zee vertrouwen klas rots heet lachen oneven begrijpen.","carrier_Code":"DPD","carrier_Description":"Dynamic Parcel Distribution","service_Code":"Fastest","payment_Type":"Manual","transfer_Mode":"Ground","total_Package_Count":31,"total_Package_Weight":594.42,"created_At":"2000-03-10T11:11:14","updated_At":"2000-03-11T13:11:14","itemsJson":"[{\"Item_Id\":\"P007435\",\"Amount\":23},{\"Item_Id\":\"P009557\",\"Amount\":1},{\"Item_Id\":\"P009553\",\"Amount\":50},{\"Item_Id\":\"P010015\",\"Amount\":16},{\"Item_Id\":\"P002084\",\"Amount\":33},{\"Item_Id\":\"P009663\",\"Amount\":18},{\"Item_Id\":\"P010125\",\"Amount\":18},{\"Item_Id\":\"P005768\",\"Amount\":26},{\"Item_Id\":\"P004051\",\"Amount\":1},{\"Item_Id\":\"P005026\",\"Amount\":29},{\"Item_Id\":\"P000726\",\"Amount\":22},{\"Item_Id\":\"P008107\",\"Amount\":47},{\"Item_Id\":\"P001598\",\"Amount\":32},{\"Item_Id\":\"P002855\",\"Amount\":20},{\"Item_Id\":\"P010404\",\"Amount\":30},{\"Item_Id\":\"P010446\",\"Amount\":6},{\"Item_Id\":\"P001517\",\"Amount\":9},{\"Item_Id\":\"P009265\",\"Amount\":2},{\"Item_Id\":\"P001108\",\"Amount\":20},{\"Item_Id\":\"P009110\",\"Amount\":18},{\"Item_Id\":\"P009686\",\"Amount\":13}]","items":null}
+Endpoint: /api/v1/shipments/1
+Test executed in: 15ms
+
+
