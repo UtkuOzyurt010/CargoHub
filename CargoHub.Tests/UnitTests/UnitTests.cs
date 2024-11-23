@@ -63,7 +63,7 @@ namespace CargoHub.Tests
             // Log the database finding to a file
             Assert.NotNull(FromDb);
 
-            var message = $"Test: GetfromDB\nTestID: {TestParams.GetTestID}\n" +
+            var message = $"Test: GetfromDB\nTestID: {TestParams.TestID}\n" +
                           $"DBID: {FromDb}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 

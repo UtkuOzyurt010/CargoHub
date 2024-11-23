@@ -4,61 +4,62 @@ using System.Net;
 using CargoHub.Models;
 using static TestHelperFunctions;
 using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-
+using System.Text.Json;
+using System.Text;
 
 namespace CargoHub.Tests
 {
-    public class GetIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+    public class PostIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
         private readonly WebApplicationFactory<Program> _factory;
         private readonly string _filepath;
 
-        public GetIntegrationTests(WebApplicationFactory<Program> factory)
+        public PostIntegrationTests(WebApplicationFactory<Program> factory)
         {
             var projectRoot = AppDomain.CurrentDomain.BaseDirectory;
-            var resultsDirectory = Path.Combine(projectRoot, "..", "..", "..", "CargoHub.Tests", "GetIntegrationTests", "Test_Results");
+            var resultsDirectory = Path.Combine(projectRoot, "..", "..", "..", "CargoHub.Tests", "PostIntegrationTests", "Test_Results");
             Directory.CreateDirectory(resultsDirectory); 
             _factory = factory;
             _client = factory.CreateClient();
-            _filepath = Path.Combine(resultsDirectory, $"GetIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
+            _filepath = Path.Combine(resultsDirectory, $"PostIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
         [Fact]
-        public async Task Test_Get_Id_Endpoints()
+        public async Task Test_Post_Id_Endpoints()
         {
             var endpointsWithIds = new List<string>
             {
-                $"/api/{Globals.Version}/clients",
                 $"/api/{Globals.Version}/warehouses",
                 $"/api/{Globals.Version}/locations",
                 $"/api/{Globals.Version}/transfers",
                 $"/api/{Globals.Version}/items",
-                $"/api/{Globals.Version}/itemlines",
-                $"/api/{Globals.Version}/itemgroups",
-                $"/api/{Globals.Version}/itemtypes",
                 $"/api/{Globals.Version}/inventories",
                 $"/api/{Globals.Version}/suppliers",
                 $"/api/{Globals.Version}/orders",
+                $"/api/{Globals.Version}/clients",
                 $"/api/{Globals.Version}/shipments",
             };
 
             foreach (var endpoint in endpointsWithIds)
             {
-                await Test_One_ID(endpoint);
+                await Post_One_ID(endpoint);
             }
         }
 
-        public async Task Test_One_ID(string endpoint)
+        public async Task Post_One_ID(string endpoint)
         {
             Stopwatch stopwatch = new Stopwatch();
+
+            // Create StringContent with JSON payload
+            var content = new StringContent(JsonSerializer.Serialize(TestParams.WarehousedummyData),
+                                            Encoding.UTF8, "application/json");
+
 
             //measure elapsed time for request processing
             stopwatch.Start();
 
-            var response = await _client.GetAsync($"{endpoint}/{TestParams.TestID}");
+            var response = await _client.PostAsync($"{endpoint}", content);
 
             stopwatch.Stop();
 
@@ -84,3 +85,49 @@ namespace CargoHub.Tests
         }
     }
 }
+
+// Post endpoints original python codebase
+// /warehouses
+
+//     Functionality: Adds a new warehouse to the system.
+//     Response: HTTP 201 Created.
+
+// /locations
+
+//     Functionality: Creates a new location and stores it in the system.
+//     Response: HTTP 201 Created.
+
+// /transfers
+
+//     Functionality: Adds a new transfer to the pool and triggers a notification.
+//     Response: HTTP 201 Created.
+
+// /items
+
+//     Functionality: Handles the addition of a new item to the system.
+//     Response: HTTP 201 Created.
+
+// /inventories
+
+//     Functionality: Adds inventory data (no checks implemented in the provided code).
+//     Response: HTTP 201 Created.
+
+// /suppliers
+
+//     Functionality: Adds a new supplier to the system.
+//     Response: HTTP 201 Created.
+
+// /orders
+
+//     Functionality: Creates a new order and saves it to the order pool.
+//     Response: HTTP 201 Created.
+
+// /clients
+
+//     Functionality: Registers a new client in the system.
+//     Response: HTTP 201 Created.
+
+// /shipments
+
+//     Functionality: Creates a new shipment entry.
+//     Response: HTTP 201 Created.
