@@ -17,5 +17,6 @@ jobs:
         dotnet-version: '8.0'
         cache: true
     - run: dotnet restore --use-lock-file
-    - run: dotnet build
+    - name: Build the project
+      run: dotnet build
 
