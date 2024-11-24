@@ -23,21 +23,11 @@ namespace CargoHub.Models
         public decimal Total_Package_Weight { get; set; }
         public DateTime Created_At { get; set; }
         public DateTime Updated_At { get; set; }
-
-        // Store items as JSON
-        // I want the code to ignore the jsonString when responding and only return Items
-        [JsonIgnore]
         public string ItemsJson { get; set; }
 
         // Transient property for easy manipulation of itemsjson
         [NotMapped]
-        public List<ShipmentItem>? Items
-        {
-            get => string.IsNullOrEmpty(ItemsJson) 
-                ? new List<ShipmentItem>() 
-                : JsonConvert.DeserializeObject<List<ShipmentItem>>(ItemsJson);
-            set => ItemsJson = JsonConvert.SerializeObject(value);
-        }
+        public List<ShipmentItem>? Items  { get; set;}
     }
 
     public class ShipmentItem

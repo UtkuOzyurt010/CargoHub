@@ -58,7 +58,7 @@ namespace CargoHub.Controllers
             bool result = await _supplierService.Post(supplier);
             if (result)
             {
-                return Ok();
+               return StatusCode(StatusCodes.Status201Created);
             }
             return BadRequest();
         }

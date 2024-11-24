@@ -1,5 +1,6 @@
 using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace CargoHub.Services{
     public class TransferService : IGenericService<Transfer>
@@ -38,22 +39,18 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Transfer transfer)
         {
-            if(transfer is not null)
-            {
-                var register = await _context.Transfer.FindAsync(transfer.Id);
+            if(transfer is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Transfer.AddAsync(transfer);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Transfer.FindAsync(transfer.Id);
+
+            if(register is not null) return false;
+
+            if (string.IsNullOrEmpty(transfer.ItemsJson))
+            transfer.ItemsJson = JsonConvert.SerializeObject(transfer.Items);
+
+            await _context.Transfer.AddAsync(transfer);
+            _context.SaveChanges();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<Transfer> transfers)

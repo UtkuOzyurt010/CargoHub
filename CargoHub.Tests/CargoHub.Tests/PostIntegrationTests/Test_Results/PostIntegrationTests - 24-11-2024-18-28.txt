@@ -1,0 +1,24 @@
+Test: Post_ReturnsDetails
+StatusCode: OK
+Response: 
+Endpoint: /api/v1/warehouses
+DB: CargoHub.Models.Warehouse
+Test executed in: 649ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: OK
+Response: 
+Endpoint: /api/v1/locations
+DB: CargoHub.Models.Location
+Test executed in: 58ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: OK
+Response: 
+Endpoint: /api/v1/transfers
+DB: CargoHub.Models.Transfer
+Test executed in: 21ms
+
+

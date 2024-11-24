@@ -56,7 +56,7 @@ namespace CargoHub.Tests
 
             stopwatch.Start();
 
-            var FromDb = await GetDBTable(table, dbContext);
+            var FromDb = await GetDBTable(table, TestParams.TestID, dbContext);
 
             stopwatch.Stop();
 

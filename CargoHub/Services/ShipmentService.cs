@@ -1,5 +1,6 @@
 using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace CargoHub.Services{
     public class ShipmentService : IGenericService<Shipment>
@@ -38,22 +39,19 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Shipment shipment)
         {
-            if(shipment is not null)
-            {
-                var register = await _context.Shipment.FindAsync(shipment.Id);
+            if(shipment is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Shipment.AddAsync(shipment);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Shipment.FindAsync(shipment.Id);
+
+            if(register is not null) return false;
+
+            if (string.IsNullOrEmpty(shipment.ItemsJson))
+            shipment.ItemsJson = JsonConvert.SerializeObject(shipment.Items);
+
+            await _context.Shipment.AddAsync(shipment);
+            _context.SaveChanges();
+            return true;
+            
         }
 
         public async Task<List<bool>> PostBatch(List<Shipment> shipments)
@@ -70,14 +68,34 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Shipment shipment)
         {
             var DBshipment = await _context.Shipment.FindAsync(shipment.Id);
-            if(DBshipment is not null)
+            if (DBshipment != null)
             {
-                DBshipment = shipment;
-                _context.SaveChanges();
+                DBshipment.Order_Id = shipment.Order_Id;
+                DBshipment.Source_Id = shipment.Source_Id;
+                DBshipment.Order_Date = shipment.Order_Date;
+                DBshipment.Request_Date = shipment.Request_Date;
+                DBshipment.Shipment_Date = shipment.Shipment_Date;
+                DBshipment.Shipment_Type = shipment.Shipment_Type;
+                DBshipment.Shipment_Status = shipment.Shipment_Status;
+                DBshipment.Notes = shipment.Notes;
+                DBshipment.Carrier_Code = shipment.Carrier_Code;
+                DBshipment.Carrier_Description = shipment.Carrier_Description;
+                DBshipment.Service_Code = shipment.Service_Code;
+                DBshipment.Payment_Type = shipment.Payment_Type;
+                DBshipment.Transfer_Mode = shipment.Transfer_Mode;
+                DBshipment.Total_Package_Count = shipment.Total_Package_Count;
+                DBshipment.Total_Package_Weight = shipment.Total_Package_Weight;
+                DBshipment.Created_At = shipment.Created_At;
+                DBshipment.Updated_At = DateTime.UtcNow; // Update the timestamp
 
+                // Ensure ItemsJson is correctly updated (you can handle this if necessary)
+                DBshipment.ItemsJson = shipment.ItemsJson;
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
                 return true;
             }
-            else return false;
+            return false;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Shipment> shipments)

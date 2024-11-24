@@ -59,7 +59,7 @@ namespace CargoHub.Controllers
             bool result = await _transferService.Post(transfer);
             if (result)
             {
-                return Ok();
+                return StatusCode(StatusCodes.Status201Created);
             }
             return BadRequest();
         }

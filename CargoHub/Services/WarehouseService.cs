@@ -97,16 +97,15 @@ namespace CargoHub.Services{
             var DBwarehouse = await _context.Warehouse
                                 .Include(w => w.Contact)
                                 .FirstOrDefaultAsync(w => w.Id == id);
-            var contact = DBwarehouse.Contact;
-
             if(DBwarehouse is not null)
             {
+                var contact = DBwarehouse.Contact;
                 _context.Remove(DBwarehouse);
                 _context.Remove(contact);
                 await _context.SaveChangesAsync();
                 return true;
             }
-            else return false;
+            return false;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)
