@@ -120,7 +120,7 @@ Content-Type: application/json
     "Total_Package_Weight": 120.75,
     "Created_At": "2024-11-13T00:00:00Z",
     "Updated_At": "2024-11-23T00:00:00Z",
-    "ItemsJson": "Item_Id: ITM001, Amount: 3"
+    "ItemsJson": "[{\"Item_Id\":\"ITM001\",\"Amount\":3},{\"Item_Id\":\"ITM002\",\"Amount\":2}]"
 }
 #####
 DELETE {{address}}/warehouses/59 HTTP/1.1

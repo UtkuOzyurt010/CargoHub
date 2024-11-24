@@ -49,7 +49,7 @@ namespace CargoHub.Services{
                 else
                 {
                     await _context.Warehouse.AddAsync(warehouse);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return true;
                 }
             }
@@ -94,14 +94,18 @@ namespace CargoHub.Services{
 
         public async Task<bool> Delete(int id)
         {
-            var DBwarehouse = await _context.Warehouse.FindAsync(id);
+            var DBwarehouse = await _context.Warehouse
+                                .Include(w => w.Contact)
+                                .FirstOrDefaultAsync(w => w.Id == id);
             if(DBwarehouse is not null)
             {
+                var contact = DBwarehouse.Contact;
                 _context.Remove(DBwarehouse);
-                _context.SaveChanges();
+                _context.Remove(contact);
+                await _context.SaveChangesAsync();
                 return true;
             }
-            else return false;
+            return false;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)
