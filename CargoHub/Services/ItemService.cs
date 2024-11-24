@@ -38,7 +38,7 @@ namespace CargoHub.Services{
             List<Item> items = [];
             foreach (var item in orderItems)
             {
-                items.Add(await _context.Item.FindAsync(item.Item_Id));
+                items.Add(await _context.Item.FirstOrDefaultAsync(i => i.Uid == item.Item_Id));
             }
             return items;
         }
@@ -49,7 +49,7 @@ namespace CargoHub.Services{
             List<Item> items = [];
             foreach (var item in shipmentItems)
             {
-                items.Add(await _context.Item.FindAsync(item.Item_Id));
+                items.Add(await _context.Item.FirstOrDefaultAsync(i => i.Uid == item.Item_Id));
             }
             return items;
         }
@@ -60,7 +60,7 @@ namespace CargoHub.Services{
             List<Item> items = [];
             foreach (var item in transferItems)
             {
-                items.Add(await _context.Item.FindAsync(item.Item_Id));
+                items.Add(await _context.Item.FirstOrDefaultAsync(i => i.Uid == item.Item_Id));
             }
             return items;
         }

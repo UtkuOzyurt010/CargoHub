@@ -37,13 +37,13 @@ API_KEY: a1b2c3d4e5
 ######
 GET {{address}}/Orders/1 HTTP/1.1
 API_KEY: a1b2c3d4e5
-###### below does not work
+######
 GET {{address}}/Orders/1/Items HTTP/1.1
 API_KEY: a1b2c3d4e5
 ######
 GET {{address}}/Shipments/1 HTTP/1.1
 API_KEY: a1b2c3d4e5
-###### below does not work
+######
 GET {{address}}/Shipments/1/Items HTTP/1.1
 API_KEY: a1b2c3d4e5
 ######
@@ -52,7 +52,7 @@ API_KEY: a1b2c3d4e5
 ######
 GET {{address}}/Transfers/1 HTTP/1.1
 API_KEY: a1b2c3d4e5
-###### below does not work
+######
 GET {{address}}/Transfers/1/Items HTTP/1.1
 API_KEY: a1b2c3d4e5
 ######
@@ -97,6 +97,9 @@ Content-Type: application/json
     "Updated_At": "2024-11-01T15:30:00Z"
 }
 ######
+GET {{address}}/shipments/99999/Items HTTP/1.1
+API_KEY: a1b2c3d4e5
+######
 POST {{address}}/shipments HTTP/1.1
 API_KEY: a1b2c3d4e5
 Content-Type: application/json
@@ -124,6 +127,9 @@ Content-Type: application/json
 }
 #####
 DELETE {{address}}/warehouses/59 HTTP/1.1
+API_KEY: a1b2c3d4e5
+#####
+DELETE {{address}}/shipments/99999 HTTP/1.1
 API_KEY: a1b2c3d4e5
 ######
 ##OLD

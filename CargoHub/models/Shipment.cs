@@ -26,7 +26,7 @@ namespace CargoHub.Models
 
         // Store items as JSON
         // I want the code to ignore the jsonString when responding and only return Items
-        [JsonIgnore]
+        //[JsonIgnore]
         public string ItemsJson { get; set; }
 
         // Transient property for easy manipulation of itemsjson
