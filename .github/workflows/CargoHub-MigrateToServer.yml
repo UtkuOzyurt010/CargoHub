@@ -24,5 +24,8 @@ jobs:
       working-directory: ./CargoHub
 
     - name: Build the project
-      run: dotnet build CargoHub.csproj
+      run: |
+        echo "Starting dotnet build..."
+        dotnet build CargoHub.csproj
+        echo "Dotnet build completed successfully."
       working-directory: ./CargoHub
