@@ -20,9 +20,13 @@ jobs:
       - name: Install dependencies
         run: |
           dotnet restore
-
-      - name: Run tests with RunTests.sh
+      - name: Set up environment
         run: |
-          cd ./CargoHub  # Assuming the script is one directory below the current working directory
-          chmod +x ../RunTests.sh  # Make sure the script is executable
-          ./../RunTests.sh  # Execute the script
+          sudo apt-get update
+          sudo apt-get install -y bash
+          
+      - name: Make the script executable
+        run: chmod +x ./RunTests.sh
+
+      - name: Run Tests
+        run: ./RunTests.sh
