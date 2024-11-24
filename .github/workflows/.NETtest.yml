@@ -9,13 +9,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up .NET SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0'
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
 
-    - name: Run tests
-      run: dotnet test --configuration Release --no-build --verbosity normal
+      - name: Install dependencies
+        run: |
+          dotnet restore
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bash
+          
+      - name: Make the script executable
+        run: chmod +x ./RunTests.sh
+
+      - name: Run Tests
+        run: ./RunTests.sh
