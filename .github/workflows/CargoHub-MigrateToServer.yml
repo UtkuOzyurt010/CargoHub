@@ -29,3 +29,10 @@ jobs:
         dotnet build CargoHub.csproj
         echo "Dotnet build completed successfully."
       working-directory: ./CargoHub
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Run bash script which handles migration
+      run: bash MigrateToServer.sh
+    
