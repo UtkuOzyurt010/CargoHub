@@ -31,7 +31,7 @@ jobs:
       working-directory: ./CargoHub
 
     - name: Run the project in new window
-      run: \bin\Cargohub.exe &
+      run: /bin/Cargohub.exe &
       working-directory: ./CargoHub
 
     - name: Test API
