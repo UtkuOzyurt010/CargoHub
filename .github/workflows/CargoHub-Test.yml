@@ -35,6 +35,6 @@ jobs:
       working-directory: ./CargoHub
 
     - name: Test API
-      run: RunTests.sh
+      run: bash RunTests.sh
       working-directory: ./CargoHub
       
