@@ -32,37 +32,22 @@ namespace CargoHub.Services{
             return result;
         }
 
-        public async Task<List<Item>> GetOrderItems(string itemsJson)
+        public async Task<List<OrderItem>> GetOrderItems(string itemsJson)
         {
             var orderItems = JsonConvert.DeserializeObject<List<OrderItem>>(itemsJson);
-            List<Item> items = [];
-            foreach (var item in orderItems)
-            {
-                items.Add(await _context.Item.FirstOrDefaultAsync(i => i.Uid == item.Item_Id));
-            }
-            return items;
+            return orderItems;
         }
 
-        public async Task<List<Item>> GetShipmentItems(string itemsJson)
+        public async Task<List<ShipmentItem>> GetShipmentItems(string itemsJson)
         {
             var shipmentItems = JsonConvert.DeserializeObject<List<ShipmentItem>>(itemsJson);
-            List<Item> items = [];
-            foreach (var item in shipmentItems)
-            {
-                items.Add(await _context.Item.FirstOrDefaultAsync(i => i.Uid == item.Item_Id));
-            }
-            return items;
+            return shipmentItems;
         }
 
-        public async Task<List<Item>> GetTransferItems(string itemsJson)
+        public async Task<List<TransferItem>> GetTransferItems(string itemsJson)
         {
             var transferItems = JsonConvert.DeserializeObject<List<TransferItem>>(itemsJson);
-            List<Item> items = [];
-            foreach (var item in transferItems)
-            {
-                items.Add(await _context.Item.FirstOrDefaultAsync(i => i.Uid == item.Item_Id));
-            }
-            return items;
+            return transferItems;
         }
 
         public async Task<List<Item>> GetItemGroupItems(int id)
@@ -112,7 +97,7 @@ namespace CargoHub.Services{
         {
             if(item is not null)
             {
-                var register = await _context.Item.FindAsync(item.Uid);
+                var register = await _context.Item.FirstOrDefaultAsync(x => x.Uid == item.Uid);
 
                 if(register is not null)
                 {

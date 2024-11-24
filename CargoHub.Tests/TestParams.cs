@@ -49,17 +49,17 @@ namespace CargoHub.Tests
             Transfer_Status = "Pending",
             Created_At = DateTime.Parse("2024-01-01T10:00:00Z"),
             Updated_At = DateTime.Parse("2024-11-01T15:30:00Z"), 
-            Items = new List<TransferItem>
+            ItemsJson = JsonConvert.SerializeObject(new List<TransferItem>
             {
                 new TransferItem { Item_Id = "101", Amount = 50 },
                 new TransferItem { Item_Id = "102", Amount = 20 }
-            }
+            })
         };
 
         public static Item Itemdummydata = new Item
         {
             Id = PPDTestID,
-            Uid = Guid.NewGuid().ToString(),
+            Uid = "P011721",
             Code = "ITEM-001",
             Description = "A sample item for testing purposes.",
             Short_Description = "Sample Item",
@@ -135,11 +135,11 @@ namespace CargoHub.Tests
             Total_Surcharge = 50.00m,
             Created_At = DateTime.UtcNow.AddMonths(-1),
             Updated_At = DateTime.UtcNow,
-            Items = new List<OrderItem>
+            ItemsJson = JsonConvert.SerializeObject(new List<OrderItem>
             {
                 new OrderItem { Item_Id = "ITEM001", Amount = 10 },
                 new OrderItem { Item_Id = "ITEM002", Amount = 5 }
-            }
+            })
         };
 
         public static Client Clientdummydata = new Client

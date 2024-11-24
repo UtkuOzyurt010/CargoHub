@@ -1,5 +1,6 @@
 using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace CargoHub.Services{
     public class OrderService : IOrderService
@@ -50,22 +51,18 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Order order)
         {
-            if(order is not null)
-            {
-                var register = await _context.Order.FindAsync(order.Id);
+            if(order is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Order.AddAsync(order);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Order.FindAsync(order.Id);
+
+            if(register is not null) return false;
+
+            if (string.IsNullOrEmpty(order.ItemsJson))
+            order.ItemsJson = JsonConvert.SerializeObject(order.Items);
+
+            await _context.Order.AddAsync(order);
+            _context.SaveChanges();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<Order> orders)

@@ -71,21 +71,20 @@ namespace CargoHub.Tests
 
             stopwatch.Stop();
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-
             //Assert server returns OK and response contains correct info
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             //get access to test database
             using var scope = _factory.Services.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
             var dbentity = await GetDBTable(endpoint.Split("/").Last(), TestParams.PPDTestID, dbContext);
+
             Assert.NotNull(dbentity);
-            //Assert.Equal(TestID, dbentity.Id); nope nope some scope scope issues REEEEEEEEEEEEEEEE
+            //Assert.Equal(TestParams.PPDTestID, castedEntity.Id);
             
             var message = $"Test: Post_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
-                          $"Response: {responseBody}\nEndpoint: {endpoint}\n" +
+                          $"Endpoint: {endpoint}\n" +
                           $"DB: {dbentity}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 

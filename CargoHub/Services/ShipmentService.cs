@@ -45,6 +45,9 @@ namespace CargoHub.Services{
 
             if(register is not null) return false;
 
+            if (string.IsNullOrEmpty(shipment.ItemsJson))
+            shipment.ItemsJson = JsonConvert.SerializeObject(shipment.Items);
+
             await _context.Shipment.AddAsync(shipment);
             _context.SaveChanges();
             return true;
