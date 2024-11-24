@@ -10,7 +10,7 @@ public static class TestHelperFunctions
             writer.WriteLine(message);
         }
     }
-    public static async Task<object> GetDBTable(string  table, int id,DatabaseContext dbContext)
+    public static async Task<dynamic> GetDBTable(string  table, int id,DatabaseContext dbContext)
     {
         return table switch
         {

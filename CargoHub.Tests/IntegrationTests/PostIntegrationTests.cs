@@ -46,10 +46,6 @@ namespace CargoHub.Tests
             {
                 await Post_One_ID(endpoint);
             }
-            foreach (var endpoint in endpointsWithIds)
-            {
-                await _client.DeleteAsync($"{endpoint}/{TestParams.PPDTestID}");
-            }
         }
 
         public async Task Post_One_ID(string endpoint)
@@ -85,7 +81,7 @@ namespace CargoHub.Tests
             
             var message = $"Test: Post_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Endpoint: {endpoint}\n" +
-                          $"DB: {dbentity}\n" +
+                          $"DB: {dbentity.Id}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 
             //logging info
