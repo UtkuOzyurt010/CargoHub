@@ -1,0 +1,21 @@
+name: CargoHub-Build
+
+on:
+  push:
+    branches: [ "C#Migration" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: List files
+      run: ls -la
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0'
+        cache: true
+    - run: dotnet restore --use-lock-file
+    - run: dotnet build CargoHub.csproj
+
