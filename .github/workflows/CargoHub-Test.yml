@@ -10,9 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: List files
-      run: ls -la
-
     - name: Set up .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -21,11 +18,6 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore --use-lock-file
-      working-directory: ./CargoHub
 
     - name: Build the project
-      run: |
-        echo "Starting dotnet build..."
-        dotnet build CargoHub.csproj
-        echo "Dotnet build completed successfully."
-      working-directory: ./CargoHub
+      run: dotnet build CargoHub.csproj
