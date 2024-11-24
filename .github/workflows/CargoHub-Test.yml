@@ -29,3 +29,11 @@ jobs:
         dotnet build CargoHub.csproj
         echo "Dotnet build completed successfully."
       working-directory: ./CargoHub
+
+    - name: Run the project
+      run: dotnet run
+      working-directory: ./CargoHub
+
+    - name: Test API
+      run: dotnet test
+      working-directory: ./CargoHub.Tests
