@@ -1,4 +1,4 @@
-name: CargoHub-Build
+name: CargoHub-MigrateToServer
 
 on:
   push:
