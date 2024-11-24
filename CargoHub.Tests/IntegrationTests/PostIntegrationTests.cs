@@ -26,7 +26,7 @@ namespace CargoHub.Tests
             _filepath = Path.Combine(resultsDirectory, $"PostIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        //[Fact]
+        [Fact]
         public async Task Test_Post_Id_Endpoints()
         {
             var endpointsWithIds = new List<string>
@@ -46,14 +46,21 @@ namespace CargoHub.Tests
             {
                 await Post_One_ID(endpoint);
             }
+            foreach (var endpoint in endpointsWithIds)
+            {
+                await _client.DeleteAsync($"{endpoint}/{TestParams.PPDTestID}");
+            }
         }
 
         public async Task Post_One_ID(string endpoint)
         {
             Stopwatch stopwatch = new Stopwatch();
 
-            // Create StringContent with JSON payload
-            var content = new StringContent(JsonSerializer.Serialize(TestParams.WarehousedummyData),
+            //get dummy data
+            var Dummydata = GetDummyData(endpoint.Split("/").Last());
+
+            // Create StringContent with JSON payload per endpoint
+            var content = new StringContent(JsonSerializer.Serialize(Dummydata),
                                             Encoding.UTF8, "application/json");
 
 
@@ -73,12 +80,13 @@ namespace CargoHub.Tests
             using var scope = _factory.Services.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
-            var dbentity = await GetDBTable(endpoint.Split("/").Last(), dbContext);
+            var dbentity = await GetDBTable(endpoint.Split("/").Last(), TestParams.PPDTestID, dbContext);
             Assert.NotNull(dbentity);
             //Assert.Equal(TestID, dbentity.Id); nope nope some scope scope issues REEEEEEEEEEEEEEEE
             
-            var message = $"Test: Get_ById_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
-                          $"Response: {responseBody}\nEndpoint: {endpoint}/{TestParams.TestID}\n" +
+            var message = $"Test: Post_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
+                          $"Response: {responseBody}\nEndpoint: {endpoint}\n" +
+                          $"DB: {dbentity}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 
             //logging info
