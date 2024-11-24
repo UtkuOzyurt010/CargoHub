@@ -15,4 +15,4 @@ jobs:
         dotnet-version: "8.0"
         cache: true
 
-    - run: dotnet build CargoHub
+    - run: dotnet restore --locked-mode
