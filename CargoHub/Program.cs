@@ -29,7 +29,7 @@ public class Program
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         builder.Services.AddDbContext<DatabaseContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDb") + ";Cache=Shared"));
+            options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDb") + ";Cache=Shared"), ServiceLifetime.Scoped);
 
         // Register services
         builder.Services.AddTransient<IGenericService<Client>, ClientService>();
