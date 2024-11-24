@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This script is for copying current active DataBase to TestEnvironment and running all tests.
 # Set the project root directory dynamically
 PROJECT_ROOT="$(pwd)"
 
@@ -38,3 +38,6 @@ else
     echo "Failed to copy the database."
     exit 1
 fi
+
+echo "Running dotnet test..."
+dotnet test "../"
