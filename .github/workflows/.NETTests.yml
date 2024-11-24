@@ -2,8 +2,7 @@ name: .NET Core Tests
 
 on:
   push:
-    branches:
-      - migration C#
+    branches: [ "C#Migration" ]
 
 jobs:
   build:
