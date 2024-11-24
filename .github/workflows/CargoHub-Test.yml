@@ -30,15 +30,9 @@ jobs:
         echo "Dotnet build completed successfully."
       working-directory: ./CargoHub
 
-    - name: Debug Environment
-      run: |
-        echo Current shell: %COMSPEC%
-        echo Runner OS: %RUNNER_OS%
-        shell: cmd 
     - name: Run the project in new window
-      run: start "" .\bin\Cargohub.exe
+      run: \bin\Cargohub.exe &
       working-directory: ./CargoHub
-      shell: cmd
 
     - name: Test API
       run: dotnet test
