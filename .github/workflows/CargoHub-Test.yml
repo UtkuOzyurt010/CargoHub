@@ -31,7 +31,7 @@ jobs:
       working-directory: ./CargoHub
 
     - name: Run the project
-      run: start /b dotnet run
+      run: start /b /bin/Cargohub.exe
       working-directory: ./CargoHub
 
     - name: Test API
