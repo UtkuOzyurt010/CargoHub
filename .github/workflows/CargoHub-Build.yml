@@ -2,7 +2,7 @@ name: CargoHub-Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "C#Migration" ]
 
 jobs:
   build:
