@@ -30,9 +30,10 @@ jobs:
         echo "Dotnet build completed successfully."
       working-directory: ./CargoHub
 
-    - name: Run the project
-      run: start /b \bin\Cargohub.exe
+    - name: Run the project in new window
+      run: start .\bin\Cargohub.exe
       working-directory: ./CargoHub
+      shell: cmd
 
     - name: Test API
       run: dotnet test
