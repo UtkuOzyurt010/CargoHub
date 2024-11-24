@@ -31,7 +31,7 @@ jobs:
       working-directory: ./CargoHub
 
     - name: Run the project in new window
-      run: start .\bin\Cargohub.exe
+      run: start "" .\bin\Cargohub.exe
       working-directory: ./CargoHub
       shell: cmd
 
