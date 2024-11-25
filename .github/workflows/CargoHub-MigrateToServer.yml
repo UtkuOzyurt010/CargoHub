@@ -54,5 +54,5 @@ jobs:
   #     |
     
   # - name: Run bash script which handles migration
-  #   run: bash MigrateToServer.sh
+  #   run: bash MigrateToServer.sh 
     
