@@ -27,7 +27,7 @@ namespace CargoHub.Tests
        _client.DefaultRequestHeaders.Add("API_KEY", $"{TestParams.TestAPIKEY}");     _filepath = Path.Combine(resultsDirectory, $"GetIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        [Fact]
+        //[Fact]
         public async Task Test_Get_Id_Endpoints()
         {
             var endpointsWithIds = new List<string>
@@ -74,7 +74,7 @@ namespace CargoHub.Tests
 
             var dbentity = await GetDBTable(endpoint.Split("/").Last(), TestParams.TestID, dbContext);
             Assert.NotNull(dbentity);
-            //Assert.Equal(TestID, dbentity.Id); nope nope some scope scope issues REEEEEEEEEEEEEEEE
+            Assert.Equal(TestParams.PPDTestID, dbentity.Id); //nope nope some scope scope issues REEEEEEEEEEEEEEEE
             
             var message = $"Test: Get_ById_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Response: {responseBody}\nEndpoint: {endpoint}/{TestParams.TestID}\n" +

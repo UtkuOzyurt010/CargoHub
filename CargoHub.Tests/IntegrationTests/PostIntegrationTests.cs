@@ -77,7 +77,7 @@ namespace CargoHub.Tests
             var dbentity = await GetDBTable(endpoint.Split("/").Last(), TestParams.PPDTestID, dbContext);
 
             Assert.NotNull(dbentity);
-            //Assert.Equal(TestParams.PPDTestID, castedEntity.Id);
+            Assert.Equal(TestParams.PPDTestID, dbentity.Id);
             
             var message = $"Test: Post_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Endpoint: {endpoint}\n" +
