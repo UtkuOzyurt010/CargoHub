@@ -19,7 +19,7 @@ jobs:
       run: |
         ssh ubuntu-1079726@145.24.223.236
         echo "Connected to the remote server"
-        bash ubuntu-1079726@1079726-ubuntu-2025-jan/home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh  
+        bash /home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh  
     #not sure where the extra ubuntu-1079726 comes from
         
     # If you get this error: “Windows Subsystem For Linux has no Installed Distributions” 
