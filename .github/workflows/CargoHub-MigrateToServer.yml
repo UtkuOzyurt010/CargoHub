@@ -35,7 +35,7 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       # Add the remote server to known_hosts
     - name: Add server to known_hosts
-      run: ssh-keyscan -H 145.24.223.236 >> /.ssh/known_hosts
+      run: ssh-keyscan -H 145.24.223.236 >> ~/.ssh/known_hosts
 
       #copy codebase to server
     - name: Copy codebase to server
