@@ -29,6 +29,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+[Bb]in/
+[Dd]ebug/
 
 [Bb]in/*
 ![Bb]in/[Dd]ebug/
