@@ -1,2 +1,2 @@
 #! /usr/bin/bash
-dotnet run
+dotnet run --project CargoHub/CargoHub.csproj
