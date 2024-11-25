@@ -17,7 +17,6 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -27,15 +26,18 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
 
-!/[Bb]in/
-!/[Bb]in/[Dd]ebug/
-!/[Bb]in/[Dd]ebug/net8.0/
+/[Bb]in/*
+![Bb]in/[Dd]ebug/
+[Bb]in/[Dd]ebug/*
+![Bb]in/[Dd]ebug/net8.0/
+[Bb]in/[Dd]ebug/net8.0/*
 !/[Bb]in/[Dd]ebug/net8.0/CargoHub.sqlite
+
+
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
