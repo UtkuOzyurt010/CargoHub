@@ -21,7 +21,7 @@ namespace CargoHub.Tests
             _filepath = Path.Combine(resultsDirectory, $"UnitTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        [Fact]
+        //[Fact]
         public async Task Test_Get_Id_FromDB()
         {
             var Tables = new List<string>

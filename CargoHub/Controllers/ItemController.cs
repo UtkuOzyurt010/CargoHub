@@ -19,7 +19,7 @@ namespace CargoHub.Controllers
         [HttpGet("{uid}")]
         public async Task<IActionResult> Get(string uid)
         {
-            object identifier = int.TryParse(uid, out var id) ? (object)id : uid;
+            object identifier = int.TryParse(uid, out var id) ? id : uid;
             var result = await _itemService.Get(identifier);
             if (result is not null)
             {
@@ -113,7 +113,8 @@ namespace CargoHub.Controllers
         [HttpDelete("{uid}")]
         public async Task<IActionResult> Delete(string uid)
         {  
-            bool result =  await _itemService.Delete(uid);
+            object identifier = int.TryParse(uid, out var id) ? id : uid;
+            bool result =  await _itemService.Delete(identifier);
             if (result)
             {
                 return Ok();

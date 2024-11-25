@@ -31,7 +31,7 @@ namespace CargoHub.Controllers
         public async Task<IActionResult> GetShipmentItems(int id)
         {
             var result = await _transferService.Get(id);
-            var items = await _itemService.GetOrderItems(result.ItemsJson);
+            var items = _itemService.GetOrderItems(result.ItemsJson);
             if (result is not null)
             {
                 return Ok(items);

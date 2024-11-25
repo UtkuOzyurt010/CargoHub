@@ -69,15 +69,38 @@ namespace CargoHub.Services{
 
         public async Task<bool> Update(Warehouse warehouse)
         {
-            var DBwarehouse = await _context.Warehouse.FindAsync(warehouse.Id);
-            if(DBwarehouse is not null)
-            {
-                DBwarehouse = warehouse;
-                _context.SaveChanges();
+            if (warehouse is null) return false;
+            
+            var DBwarehouse = await _context.Warehouse
+                .Include(w => w.Contact) 
+                .FirstOrDefaultAsync(w => w.Id == warehouse.Id);
 
-                return true;
+            if(DBwarehouse is null) return false;
+
+            DBwarehouse.Code = warehouse.Code;
+            DBwarehouse.Name = warehouse.Name;
+            DBwarehouse.Address = warehouse.Address;
+            DBwarehouse.Zip = warehouse.Zip;
+            DBwarehouse.City = warehouse.City;
+            DBwarehouse.Province = warehouse.Province;
+            DBwarehouse.Country = warehouse.Country;
+            DBwarehouse.Updated_At = DateTime.UtcNow; // Update timestamp to current time
+            
+            if (DBwarehouse.Contact is not null && warehouse.Contact is not null)
+            {
+                //if contact exists change contact
+                DBwarehouse.Contact.Name = warehouse.Contact.Name;
+                DBwarehouse.Contact.Phone = warehouse.Contact.Phone;
+                DBwarehouse.Contact.Email = warehouse.Contact.Email;
             }
-            else return false;
+            else if (warehouse.Contact is not null)
+            {
+                // If Contact does not exist but the update includes one, add it
+                DBwarehouse.Contact = warehouse.Contact;
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Warehouse> warehouses)

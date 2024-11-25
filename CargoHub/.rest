@@ -99,6 +99,26 @@ Content-Type: application/json
     "Created_At": "2024-11-24T00:00:00Z", // Adjust for UTC format
     "Updated_At": "2024-11-24T00:00:00Z"  // Adjust for UTC format
 }
+### Update a new warehouse
+PUT {{address}}/warehouses/59 HTTP/1.1
+API_KEY: a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "Id": 59,
+    "Code": "WH-001",
+    "Name": "Central Warehouse",
+    "Address": "123 Main Street",
+    "Zip": "12345",
+    "City": "Springfield",
+    "Province": "IL",
+    "Country": "USA",
+    "Contact": {
+        "Name": "___",
+        "Phone": "___",
+        "Email": "___"
+    },
+}
 ### Create a new warehouse
 POST {{address}}/warehouses HTTP/1.1
 API_KEY: a1b2c3d4e5

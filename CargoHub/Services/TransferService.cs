@@ -66,15 +66,27 @@ namespace CargoHub.Services{
 
         public async Task<bool> Update(Transfer transfer)
         {
-            var DBtransfer = await _context.Transfer.FindAsync(transfer.Id);
-            if(DBtransfer is not null)
-            {
-                DBtransfer = transfer;
-                _context.SaveChanges();
+            if (transfer is null) return false;
 
-                return true;
-            }
-            else return false;
+            var DBtransfer = await _context.Transfer.FindAsync(transfer.Id);
+
+            if(DBtransfer is null) return false;
+
+            if (string.IsNullOrEmpty(transfer.ItemsJson))
+            transfer.ItemsJson = JsonConvert.SerializeObject(transfer.Items);
+
+            // Update scalar properties
+            DBtransfer.Reference = transfer.Reference;
+            DBtransfer.Transfer_From = transfer.Transfer_From;
+            DBtransfer.Transfer_To = transfer.Transfer_To;
+            DBtransfer.Transfer_Status = transfer.Transfer_Status;
+            DBtransfer.ItemsJson = transfer.ItemsJson;
+            DBtransfer.Updated_At = DateTime.UtcNow; // Update timestamp to current time
+
+            await _context.SaveChangesAsync();
+
+            return true;
+
         }
 
         public async Task<List<bool>> UpdateBatch(List<Transfer> transfers)

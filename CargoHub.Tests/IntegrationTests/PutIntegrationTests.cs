@@ -9,27 +9,27 @@ using System.Text;
 
 namespace CargoHub.Tests
 {
-    public class DeleteIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+    public class PutIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
         private readonly WebApplicationFactory<Program> _factory;
         private readonly string _filepath;
 
-        public DeleteIntegrationTests(WebApplicationFactory<Program> factory)
+        public PutIntegrationTests(WebApplicationFactory<Program> factory)
         {
             var projectRoot = AppDomain.CurrentDomain.BaseDirectory;
-            var resultsDirectory = Path.Combine(projectRoot, "..", "..", "..", "CargoHub.Tests", "DeleteIntegrationTests", "Test_Results");
+            var resultsDirectory = Path.Combine(projectRoot, "..", "..", "..", "CargoHub.Tests", "PutIntegrationTests", "Test_Results");
             Directory.CreateDirectory(resultsDirectory); 
             _factory = factory;
             _client = factory.CreateClient();
             _client.DefaultRequestHeaders.Add("API_KEY", $"{TestParams.TestAPIKEY}");
-            _filepath = Path.Combine(resultsDirectory, $"DeleteIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
+            _filepath = Path.Combine(resultsDirectory, $"PutIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        //[Fact]
-        public async Task Test_Delete_Id_Endpoints()
+        [Fact]
+        public async Task Test_Put_Id_Endpoints()
         {
-            var endpoints = new List<string>
+            var endpointsWithIds = new List<string>
             {
                 $"/api/{Globals.Version}/warehouses",
                 $"/api/{Globals.Version}/locations",
@@ -42,30 +42,29 @@ namespace CargoHub.Tests
                 $"/api/{Globals.Version}/shipments",
             };
 
-            foreach (var endpoint in endpoints)
+            foreach (var endpoint in endpointsWithIds)
             {
-                await Delete_One_ID(endpoint);
+                await Put_One_ID(endpoint);
+                break;
             }
         }
 
-        public async Task Delete_One_ID(string endpoint)
+        public async Task Put_One_ID(string endpoint)
         {
             Stopwatch stopwatch = new Stopwatch();
 
-            //confirm entity's existence
-            var table = endpoint.Split('/').Last();
-            using var scope = _factory.Services.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-            var FromDb = await GetDBTable(table, TestParams.PPDTestID, dbContext);
+            //get dummy data
+            var Dummydata = GetDummyData(endpoint.Split("/").Last(), true);
 
-            var Dummydata = GetDummyData(endpoint.Split("/").Last());
+            // Create StringContent with JSON payload per endpoint
+            var content = new StringContent(JsonSerializer.Serialize(Dummydata),
+                                            Encoding.UTF8, "application/json");
 
-            Assert.Equal(FromDb.Id, Dummydata.Id);
 
             //measure elapsed time for request processing
             stopwatch.Start();
 
-            var response = await _client.DeleteAsync($"{endpoint}/{TestParams.PPDTestID}");
+            var response = await _client.PutAsync($"{endpoint}/{TestParams.PPDTestID}", content);
 
             stopwatch.Stop();
 
@@ -73,14 +72,17 @@ namespace CargoHub.Tests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             //get access to test database
+            using var scope = _factory.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+
             var dbentity = await GetDBTable(endpoint.Split("/").Last(), TestParams.PPDTestID, dbContext);
 
-            //see if it is removed
-            Assert.Null(dbentity);
+            Assert.NotNull(dbentity);
+            Assert.Equal(TestParams.PPDTestID, dbentity.Id);
             
-            var message = $"Test: Post_DeleteDetails\nStatusCode: {response.StatusCode}\n" +
+            var message = $"Test: Put_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Endpoint: {endpoint}\n" +
-                          $"DB: {dbentity}\n" +
+                          $"DB: {dbentity.Id}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 
             //logging info

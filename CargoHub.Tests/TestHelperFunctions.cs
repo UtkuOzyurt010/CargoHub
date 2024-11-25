@@ -30,17 +30,41 @@ public static class TestHelperFunctions
         };
     }
         
-    public static object GetDummyData(string endpoint) => endpoint switch
+    public static dynamic GetDummyData(string endpoint, bool modify = false) => endpoint switch
     {
-        "warehouses" => TestParams.Warehousedummydata,
-        "shipments" => TestParams.Shipmentdummydata,
-        "clients" => TestParams.Clientdummydata,
-        "suppliers" => TestParams.Supplierdummydata,
-        "orders" => TestParams.Orderdummydata,
-        "inventories" => TestParams.Inventorydummydata,
-        "locations" => TestParams.Locationdummydata,
-        "transfers" => TestParams.Transferdummydata,
-        "items" => TestParams.Itemdummydata,
+        "warehouses" => modify 
+            ? ModifyAndReturn(TestParams.Warehousedummydata, data => data.Code = "Modified")
+            : TestParams.Warehousedummydata,
+        "shipments" => modify 
+            ? ModifyAndReturn(TestParams.Shipmentdummydata, data => data.Carrier_Code = "Modified")
+            : TestParams.Shipmentdummydata,
+        "clients" => modify 
+            ? ModifyAndReturn(TestParams.Clientdummydata, data => data.Name = "Modified")
+            : TestParams.Clientdummydata,
+        "suppliers" => modify 
+            ? ModifyAndReturn(TestParams.Supplierdummydata, data => data.Name = "Modified")
+            : TestParams.Supplierdummydata,
+        "orders" => modify 
+            ? ModifyAndReturn(TestParams.Orderdummydata, data => data.Reference = "Modified")
+            : TestParams.Orderdummydata,
+        "inventories" => modify 
+            ? ModifyAndReturn(TestParams.Inventorydummydata, data => data.Item_Reference = "Modified")
+            : TestParams.Inventorydummydata,
+        "locations" => modify 
+            ? ModifyAndReturn(TestParams.Locationdummydata, data => data.Name = "Modified")
+            : TestParams.Locationdummydata,
+        "transfers" => modify 
+            ? ModifyAndReturn(TestParams.Transferdummydata, data => data.Reference = "Modified")
+            : TestParams.Transferdummydata,
+        "items" => modify 
+            ? ModifyAndReturn(TestParams.Itemdummydata, data => data.Code = "Modified")
+            : TestParams.Itemdummydata,
         _ => throw new ArgumentException($"Invalid data type: {endpoint}")
     };
+
+    private static T ModifyAndReturn<T>(T obj, Action<T> modifyAction)
+    {
+        modifyAction(obj);
+        return obj;
+    }
 }

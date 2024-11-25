@@ -32,19 +32,19 @@ namespace CargoHub.Services{
             return result;
         }
 
-        public async Task<List<OrderItem>> GetOrderItems(string itemsJson)
+        public List<OrderItem> GetOrderItems(string itemsJson)
         {
             var orderItems = JsonConvert.DeserializeObject<List<OrderItem>>(itemsJson);
             return orderItems;
         }
 
-        public async Task<List<ShipmentItem>> GetShipmentItems(string itemsJson)
+        public List<ShipmentItem> GetShipmentItems(string itemsJson)
         {
             var shipmentItems = JsonConvert.DeserializeObject<List<ShipmentItem>>(itemsJson);
             return shipmentItems;
         }
 
-        public async Task<List<TransferItem>> GetTransferItems(string itemsJson)
+        public List<TransferItem> GetTransferItems(string itemsJson)
         {
             var transferItems = JsonConvert.DeserializeObject<List<TransferItem>>(itemsJson);
             return transferItems;
@@ -149,9 +149,15 @@ namespace CargoHub.Services{
             return results;
         }
 
-        public async Task<bool> Delete(string uid)
+        public async Task<bool> Delete(object identifier)
         {
-            var DBitem = await _context.Item.FindAsync(uid);
+            Item? DBitem = identifier switch
+            {
+                int id => await _context.Item.FindAsync(id), // Use Id if it's an integer
+                string uid => await _context.Item.FirstOrDefaultAsync(i => i.Uid == uid), // Use Uid if it's a string
+                _ => null // Return null if it's neither an int nor a string
+            };
+
             if(DBitem is not null)
             {
                 _context.Remove(DBitem);
