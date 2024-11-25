@@ -19,9 +19,7 @@ jobs:
       run: |
         ssh ubuntu-1079726@145.24.223.236
         echo "Connected to the remote server"
-        cd ubuntu-1079726
-        cd CargoHub
-        bash RunCargoHub.sh
+        bash ~/ubuntu-1079726/CargoHubRunCargoHub.sh
     
 
     # - name: set-up SSH connection
