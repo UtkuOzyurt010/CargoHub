@@ -41,15 +41,6 @@ jobs:
     - name: Copy codebase to server
       run: |
         scp -r C:/VSCodeProjects/CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726
-      # Connect to the remote server and execute a command
-    - name: SSH into server and start API
-      run: |
-        ssh ubuntu-1079726@145.24.223.236 << 'EOF'
-          echo "Connected to the remote server"
-          cd ubuntu-1079726
-          cd CargoHub
-          bash RunCargoHub.sh
-        EOF
 
     # - name: set-up SSH connection
     #   run: |
