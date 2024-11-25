@@ -30,12 +30,12 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
-/[Bb]in/*
+[Bb]in/*
 ![Bb]in/[Dd]ebug/
 [Bb]in/[Dd]ebug/*
 ![Bb]in/[Dd]ebug/net8.0/
 [Bb]in/[Dd]ebug/net8.0/*
-!/[Bb]in/[Dd]ebug/net8.0/CargoHub.sqlite
+![Bb]in/[Dd]ebug/net8.0/CargoHub.sqlite
 
 
 # Visual Studio 2015/2017 cache/options directory
