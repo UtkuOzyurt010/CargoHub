@@ -1,0 +1,29 @@
+name: GitHubToUtku
+
+on:
+  push:
+    branches: [ "C#Migration" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH agent
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{secrets.TO_UTKU_KEY }}
+
+    - name: Add remote server to known_hosts
+      run: |
+        ssh-keyscan -H 192.168.1.83 >> ~/.ssh/known_hosts
+
+    - name: Connect and run commands on remote server
+      run: |
+        ssh _utku@192.168.1.83 << 'EOF'
+          echo "Connected to the remote server!"
+          cd C:/VSCodeProjects/CargoHub/CargoHub
+          bash RunTests.sh
+        EOF

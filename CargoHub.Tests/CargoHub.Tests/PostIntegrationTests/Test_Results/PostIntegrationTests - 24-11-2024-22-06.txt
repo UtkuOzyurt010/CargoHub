@@ -1,0 +1,126 @@
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/warehouses
+DB: 999999
+Test executed in: 1032ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/locations
+DB: 999999
+Test executed in: 41ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/transfers
+DB: 999999
+Test executed in: 16ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/items
+DB: 999999
+Test executed in: 29ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/inventories
+DB: 999999
+Test executed in: 19ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/suppliers
+DB: 999999
+Test executed in: 14ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/orders
+DB: 999999
+Test executed in: 38ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/clients
+DB: 999999
+Test executed in: 13ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/shipments
+DB: 999999
+Test executed in: 20ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/warehouses
+DB: 999999
+Test executed in: 765ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/locations
+DB: 999999
+Test executed in: 17ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/transfers
+DB: 999999
+Test executed in: 18ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/items
+DB: 999999
+Test executed in: 23ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/inventories
+DB: 999999
+Test executed in: 31ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/suppliers
+DB: 999999
+Test executed in: 14ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/orders
+DB: 999999
+Test executed in: 43ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/clients
+DB: 999999
+Test executed in: 13ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/shipments
+DB: 999999
+Test executed in: 19ms
+
+

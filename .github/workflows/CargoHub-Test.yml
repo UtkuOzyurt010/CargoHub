@@ -6,7 +6,8 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v4
 
@@ -25,9 +26,7 @@ jobs:
 
     - name: Build the project
       run: |
-        echo "Starting dotnet build..."
         dotnet build CargoHub.csproj
-        echo "Dotnet build completed successfully."
       working-directory: ./CargoHub
 
     - name: Run the project in new window
@@ -35,5 +34,6 @@ jobs:
       working-directory: ./CargoHub
 
     - name: Test API
-      run: dotnet test
-      working-directory: ./CargoHub.Tests
+      run: bash RunTests.sh
+      working-directory: ./CargoHub
+      
