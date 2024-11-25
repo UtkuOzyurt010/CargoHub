@@ -25,14 +25,45 @@ jobs:
 
     - name: Build the project
       run: |
-        echo "Starting dotnet build..."
         dotnet build CargoHub.csproj
-        echo "Dotnet build completed successfully."
       working-directory: ./CargoHub
 
     - name: Checkout repository
       uses: actions/checkout@v3
+
+      #Set up SSH agent and add private key
+    - name: Set up SSH agent
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Add the remote server to known_hosts
+    - name: Add server to known_hosts
+      run: ssh-keyscan -H 145.24.223.236 >> ~/.ssh/known_hosts
+
+      #copy codebase to server
+    - name: Copy codebase to server
+      run: |
+        cd C:/
+        scp -r CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726
+      # Connect to the remote server and execute a command
+    - name: SSH into server and start API
+      run: |
+        ssh ubuntu-1079726@145.24.223.236 << 'EOF'
+          echo "Connected to the remote server"
+          cd ubuntu-1079726
+          cd CargoHub
+          bash RunCargoHub.sh
+        EOF
+
+    # - name: set-up SSH connection
+    #   run: |
+    #     
+    #     ssh ubuntu-1079726@145.24.223.236
+    #     #these 2 steps could maybe be replaced with just "dotnet run"
+    #     cd ubuntu-1079726/CargoHub/CargoHub 
+    #     nohup bash RunCargoHub.sh &
+    #     |
       
-    - name: Run bash script which handles migration
-      run: bash MigrateToServer.sh
+    # - name: Run bash script which handles migration
+    #   run: bash MigrateToServer.sh
     
