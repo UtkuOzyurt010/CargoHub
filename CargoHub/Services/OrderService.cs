@@ -79,14 +79,34 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Order order)
         {
             var DBorder = await _context.Order.FindAsync(order.Id);
-            if(DBorder is not null)
-            {
-                DBorder = order;
-                _context.SaveChanges();
+            if(DBorder is null) return false;
 
-                return true;
-            }
-            else return false;
+
+            // Update the attributes
+            DBorder.Source_Id = order.Source_Id;
+            DBorder.Order_Date = order.Order_Date;
+            DBorder.Request_Date = order.Request_Date;
+            DBorder.Reference = order.Reference;
+            DBorder.Reference_Extra = order.Reference_Extra;
+            DBorder.Order_Status = order.Order_Status;
+            DBorder.Notes = order.Notes;
+            DBorder.Shipping_Notes = order.Shipping_Notes;
+            DBorder.Picking_Notes = order.Picking_Notes;
+            DBorder.Warehouse_Id = order.Warehouse_Id;
+            DBorder.Ship_To = order.Ship_To;
+            DBorder.Bill_To = order.Bill_To;
+            DBorder.Shipment_Id = order.Shipment_Id;
+            DBorder.Total_Amount = order.Total_Amount;
+            DBorder.Total_Discount = order.Total_Discount;
+            DBorder.Total_Tax = order.Total_Tax;
+            DBorder.Total_Surcharge = order.Total_Surcharge;
+            
+            if (string.IsNullOrEmpty(order.ItemsJson))
+            DBorder.ItemsJson = JsonConvert.SerializeObject(order.Items);
+            DBorder.Updated_At = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Order> orders)
@@ -104,13 +124,11 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBorder = await _context.Order.FindAsync(id);
-            if(DBorder is not null)
-            {
-                _context.Remove(DBorder);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBorder is null) return false;
+
+            _context.Remove(DBorder);
+            _context.SaveChanges();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

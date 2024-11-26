@@ -38,22 +38,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Supplier supplier)
         {
-            if(supplier is not null)
-            {
-                var register = await _context.Supplier.FindAsync(supplier.Id);
+            if(supplier is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Supplier.AddAsync(supplier);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Supplier.FindAsync(supplier.Id);
+
+            if(register is not null) return false;
+
+            await _context.Supplier.AddAsync(supplier);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<Supplier> suppliers)
@@ -70,14 +63,24 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Supplier supplier)
         {
             var DBsupplier = await _context.Supplier.FindAsync(supplier.Id);
-            if(DBsupplier is not null)
-            {
-                DBsupplier = supplier;
-                _context.SaveChanges();
+            if(DBsupplier is null) return false;
 
-                return true;
-            }
-            else return false;
+            DBsupplier.Code = supplier.Code;
+            DBsupplier.Name = supplier.Name;
+            DBsupplier.Address = supplier.Address;
+            DBsupplier.Address_Extra = supplier.Address_Extra;
+            DBsupplier.City = supplier.City;
+            DBsupplier.Zip_Code = supplier.Zip_Code;
+            DBsupplier.Province = supplier.Province;
+            DBsupplier.Country = supplier.Country;
+            DBsupplier.Contact_Name = supplier.Contact_Name;
+            DBsupplier.Phonenumber = supplier.Phonenumber;
+            DBsupplier.Reference = supplier.Reference;
+            DBsupplier.Updated_At = DateTime.UtcNow;
+
+            // Save changes
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Supplier> suppliers)
@@ -95,13 +98,12 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBsupplier = await _context.Supplier.FindAsync(id);
-            if(DBsupplier is not null)
-            {
-                _context.Remove(DBsupplier);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+
+            if(DBsupplier is null) return false;
+
+            _context.Remove(DBsupplier);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

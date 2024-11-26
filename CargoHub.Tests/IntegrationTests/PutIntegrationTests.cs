@@ -79,7 +79,7 @@ namespace CargoHub.Tests
 
             Assert.NotNull(dbentity);
             Assert.Equal(TestParams.PPDTestID, dbentity.Id);
-            
+
             var message = $"Test: Put_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Endpoint: {endpoint}\n" +
                           $"DB: {dbentity.Id}\n" +

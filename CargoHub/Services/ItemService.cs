@@ -95,22 +95,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Item item)
         {
-            if(item is not null)
-            {
-                var register = await _context.Item.FirstOrDefaultAsync(x => x.Uid == item.Uid);
+            if(item is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Item.AddAsync(item);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Item.FirstOrDefaultAsync(x => x.Uid == item.Uid);
+
+            if(register is not null) return false;
+
+            await _context.Item.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<Item> items)
@@ -127,14 +120,28 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Item item)
         {
             var DBitem = await _context.Item.FindAsync(item.Uid);
-            if(DBitem is not null)
-            {
-                DBitem = item;
-                _context.SaveChanges();
+            if(DBitem is not null) return false;
 
-                return true;
-            }
-            else return false;
+            DBitem.Uid = item.Uid;
+            DBitem.Code = item.Code;
+            DBitem.Description = item.Description;
+            DBitem.Short_Description = item.Short_Description;
+            DBitem.Upc_Code = item.Upc_Code;
+            DBitem.Model_Number = item.Model_Number;
+            DBitem.Commodity_Code = item.Commodity_Code;
+            DBitem.Item_Line = item.Item_Line;
+            DBitem.Item_Group = item.Item_Group;
+            DBitem.Item_Type = item.Item_Type;
+            DBitem.Unit_Purchase_Quantity = item.Unit_Purchase_Quantity;
+            DBitem.Unit_Order_Quantity = item.Unit_Order_Quantity;
+            DBitem.Pack_Order_Quantity = item.Pack_Order_Quantity;
+            DBitem.Supplier_Id = item.Supplier_Id;
+            DBitem.Supplier_Code = item.Supplier_Code;
+            DBitem.Supplier_Part_Number = item.Supplier_Part_Number;
+            DBitem.Updated_At = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Item> items)
@@ -158,13 +165,11 @@ namespace CargoHub.Services{
                 _ => null // Return null if it's neither an int nor a string
             };
 
-            if(DBitem is not null)
-            {
-                _context.Remove(DBitem);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBitem is null) return false;
+
+            _context.Remove(DBitem);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<string> uids)

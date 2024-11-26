@@ -49,7 +49,7 @@ namespace CargoHub.Services{
             shipment.ItemsJson = JsonConvert.SerializeObject(shipment.Items);
 
             await _context.Shipment.AddAsync(shipment);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
             
         }
@@ -68,34 +68,33 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Shipment shipment)
         {
             var DBshipment = await _context.Shipment.FindAsync(shipment.Id);
-            if (DBshipment != null)
-            {
-                DBshipment.Order_Id = shipment.Order_Id;
-                DBshipment.Source_Id = shipment.Source_Id;
-                DBshipment.Order_Date = shipment.Order_Date;
-                DBshipment.Request_Date = shipment.Request_Date;
-                DBshipment.Shipment_Date = shipment.Shipment_Date;
-                DBshipment.Shipment_Type = shipment.Shipment_Type;
-                DBshipment.Shipment_Status = shipment.Shipment_Status;
-                DBshipment.Notes = shipment.Notes;
-                DBshipment.Carrier_Code = shipment.Carrier_Code;
-                DBshipment.Carrier_Description = shipment.Carrier_Description;
-                DBshipment.Service_Code = shipment.Service_Code;
-                DBshipment.Payment_Type = shipment.Payment_Type;
-                DBshipment.Transfer_Mode = shipment.Transfer_Mode;
-                DBshipment.Total_Package_Count = shipment.Total_Package_Count;
-                DBshipment.Total_Package_Weight = shipment.Total_Package_Weight;
-                DBshipment.Created_At = shipment.Created_At;
-                DBshipment.Updated_At = DateTime.UtcNow; // Update the timestamp
 
-                // Ensure ItemsJson is correctly updated (you can handle this if necessary)
-                DBshipment.ItemsJson = shipment.ItemsJson;
+            if (DBshipment is null) return false;
 
-                // Save changes to the database
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            return false;
+            DBshipment.Order_Id = shipment.Order_Id;
+            DBshipment.Source_Id = shipment.Source_Id;
+            DBshipment.Order_Date = shipment.Order_Date;
+            DBshipment.Request_Date = shipment.Request_Date;
+            DBshipment.Shipment_Date = shipment.Shipment_Date;
+            DBshipment.Shipment_Type = shipment.Shipment_Type;
+            DBshipment.Shipment_Status = shipment.Shipment_Status;
+            DBshipment.Notes = shipment.Notes;
+            DBshipment.Carrier_Code = shipment.Carrier_Code;
+            DBshipment.Carrier_Description = shipment.Carrier_Description;
+            DBshipment.Service_Code = shipment.Service_Code;
+            DBshipment.Payment_Type = shipment.Payment_Type;
+            DBshipment.Transfer_Mode = shipment.Transfer_Mode;
+            DBshipment.Total_Package_Count = shipment.Total_Package_Count;
+            DBshipment.Total_Package_Weight = shipment.Total_Package_Weight;
+            DBshipment.Created_At = shipment.Created_At;
+            DBshipment.Updated_At = DateTime.UtcNow; // Update the timestamp
+
+            // Ensure ItemsJson is correctly updated (you can handle this if necessary)
+            DBshipment.ItemsJson = shipment.ItemsJson;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Shipment> shipments)
@@ -113,13 +112,11 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBshipment = await _context.Shipment.FindAsync(id);
-            if(DBshipment is not null)
-            {
-                _context.Remove(DBshipment);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBshipment is null) return false;
+
+            _context.Remove(DBshipment);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

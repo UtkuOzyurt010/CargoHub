@@ -60,22 +60,16 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Inventory inventory)
         {
-            if(inventory is not null)
-            {
-                var register = await _context.Inventory.FindAsync(inventory.Id);
+            if(inventory is null) return false;
+        
+            var register = await _context.Inventory.FindAsync(inventory.Id);
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Inventory.AddAsync(inventory);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            if(register is not null) return false;
+
+            await _context.Inventory.AddAsync(inventory);
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<List<bool>> PostBatch(List<Inventory> inventories)
@@ -92,14 +86,22 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Inventory inventory)
         {
             var DBinventory = await _context.Inventory.FindAsync(inventory.Id);
-            if(DBinventory is not null)
-            {
-                DBinventory = inventory;
-                _context.SaveChanges();
 
-                return true;
-            }
-            else return false;
+            if(DBinventory is null) return false;
+
+            DBinventory.Item_Id = inventory.Item_Id;
+            DBinventory.Description = inventory.Description;
+            DBinventory.Item_Reference = inventory.Item_Reference;
+            DBinventory.Locations = inventory.Locations;
+            DBinventory.Total_On_Hand = inventory.Total_On_Hand;
+            DBinventory.Total_Expected = inventory.Total_Expected;
+            DBinventory.Total_Ordered = inventory.Total_Ordered;
+            DBinventory.Total_Allocated = inventory.Total_Allocated;
+            DBinventory.Total_Available = inventory.Total_Available;
+            DBinventory.Updated_At = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Inventory> inventories)
@@ -117,13 +119,11 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBinventory = await _context.Inventory.FindAsync(id);
-            if(DBinventory is not null)
-            {
-                _context.Remove(DBinventory);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBinventory is null) return false;
+
+            _context.Remove(DBinventory);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

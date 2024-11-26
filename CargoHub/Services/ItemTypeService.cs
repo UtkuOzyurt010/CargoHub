@@ -38,22 +38,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(ItemType itemType)
         {
-            if(itemType is not null)
-            {
-                var register = await _context.ItemType.FindAsync(itemType.Id);
+            if(itemType is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.ItemType.AddAsync(itemType);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.ItemType.FindAsync(itemType.Id);
+
+            if(register is not null) return false;
+
+            await _context.ItemType.AddAsync(itemType);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<ItemType> itemTypes)
@@ -70,14 +63,14 @@ namespace CargoHub.Services{
         public async Task<bool> Update(ItemType itemType)
         {
             var DBitemType = await _context.ItemType.FindAsync(itemType.Id);
-            if(DBitemType is not null)
-            {
-                DBitemType = itemType;
-                _context.SaveChanges();
+            if(DBitemType is null) return false;
 
-                return true;
-            }
-            else return false;
+            DBitemType.Name = itemType.Name;
+            DBitemType.Description = itemType.Description;
+            DBitemType.Updated_At = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<ItemType> itemTypes)
@@ -95,13 +88,12 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBitemType = await _context.ItemType.FindAsync(id);
-            if(DBitemType is not null)
-            {
-                _context.Remove(DBitemType);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBitemType is null) return false;
+
+            _context.Remove(DBitemType);
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

@@ -46,22 +46,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Location location)
         {
-            if(location is not null)
-            {
-                var register = await _context.Location.FindAsync(location.Id);
+            if(location is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Location.AddAsync(location);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Location.FindAsync(location.Id);
+
+            if(register is not null) return false;
+
+            await _context.Location.AddAsync(location);
+            _context.SaveChanges();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<Location> locations)
@@ -78,14 +71,15 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Location location)
         {
             var DBlocation = await _context.Location.FindAsync(location.Id);
-            if(DBlocation is not null)
-            {
-                DBlocation = location;
-                _context.SaveChanges();
+            if(DBlocation is null) return false;
 
-                return true;
-            }
-            else return false;
+            DBlocation.Warehouse_Id = location.Warehouse_Id;
+            DBlocation.Code = location.Code;
+            DBlocation.Name = location.Name;
+            DBlocation.Updated_At = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Location> locations)
@@ -103,13 +97,11 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBlocation = await _context.Location.FindAsync(id);
-            if(DBlocation is not null)
-            {
-                _context.Remove(DBlocation);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBlocation is null) return false;
+
+            _context.Remove(DBlocation);
+            _context.SaveChanges();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

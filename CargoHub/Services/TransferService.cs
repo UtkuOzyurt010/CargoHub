@@ -70,12 +70,11 @@ namespace CargoHub.Services{
 
             var DBtransfer = await _context.Transfer.FindAsync(transfer.Id);
 
-            if(DBtransfer is null) return false;
+            if(DBtransfer is not null) return false;
 
             if (string.IsNullOrEmpty(transfer.ItemsJson))
             transfer.ItemsJson = JsonConvert.SerializeObject(transfer.Items);
 
-            // Update scalar properties
             DBtransfer.Reference = transfer.Reference;
             DBtransfer.Transfer_From = transfer.Transfer_From;
             DBtransfer.Transfer_To = transfer.Transfer_To;
@@ -104,13 +103,12 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBtransfer = await _context.Transfer.FindAsync(id);
-            if(DBtransfer is not null)
-            {
-                _context.Remove(DBtransfer);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+
+            if(DBtransfer is null) return false;
+
+            _context.Remove(DBtransfer);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

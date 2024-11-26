@@ -38,22 +38,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(ItemLine itemLine)
         {
-            if(itemLine is not null)
-            {
-                var register = await _context.ItemLine.FindAsync(itemLine.Id);
+            if(itemLine is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.ItemLine.AddAsync(itemLine);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.ItemLine.FindAsync(itemLine.Id);
+
+            if(register is not null) return false;
+
+            await _context.ItemLine.AddAsync(itemLine);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<ItemLine> itemLines)
@@ -70,14 +63,16 @@ namespace CargoHub.Services{
         public async Task<bool> Update(ItemLine itemLine)
         {
             var DBitemLine = await _context.ItemLine.FindAsync(itemLine.Id);
-            if(DBitemLine is not null)
-            {
-                DBitemLine = itemLine;
-                _context.SaveChanges();
 
-                return true;
-            }
-            else return false;
+            if(DBitemLine is null) return false;
+
+            DBitemLine.Name = itemLine.Name;
+            DBitemLine.Description = itemLine.Description;
+            DBitemLine.Updated_At = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<List<bool>> UpdateBatch(List<ItemLine> itemLines)
@@ -95,13 +90,11 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBitemLine = await _context.ItemLine.FindAsync(id);
-            if(DBitemLine is not null)
-            {
-                _context.Remove(DBitemLine);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBitemLine is null) return false;
+
+            _context.Remove(DBitemLine);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

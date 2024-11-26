@@ -38,22 +38,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Client client)
         {
-            if(client is not null)
-            {
-                var register = await _context.Client.FindAsync(client.Id);
+            if(client is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Client.AddAsync(client);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Client.FindAsync(client.Id);
+
+            if(register is not null) return false;
+
+            await _context.Client.AddAsync(client);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<Client> clients)
@@ -70,14 +63,21 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Client client)
         {
             var DBclient = await _context.Client.FindAsync(client.Id);
-            if(DBclient is not null)
-            {
-                DBclient = client;
-                _context.SaveChanges();
 
-                return true;
-            }
-            else return false;
+            if(DBclient is null) return false;
+
+            DBclient.Name = client.Name;
+            DBclient.Address = client.Address;
+            DBclient.City = client.City;
+            DBclient.zip_code = client.zip_code;
+            DBclient.Province = client.Province;
+            DBclient.Country = client.Country;
+            DBclient.contact_name = client.contact_name;
+            DBclient.contact_email = client.contact_email;
+            DBclient.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true; ;
         }
 
         public async Task<List<bool>> UpdateBatch(List<Client> clients)
@@ -95,13 +95,11 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBclient = await _context.Client.FindAsync(id);
-            if(DBclient is not null)
-            {
-                _context.Remove(DBclient);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBclient is null) return false;
+
+            _context.Remove(DBclient);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

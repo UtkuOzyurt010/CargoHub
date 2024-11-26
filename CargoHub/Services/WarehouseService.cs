@@ -38,22 +38,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(Warehouse warehouse)
         {
-            if(warehouse is not null)
-            {
-                var register = await _context.Warehouse.FindAsync(warehouse.Id);
+            if(warehouse is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.Warehouse.AddAsync(warehouse);
-                    await _context.SaveChangesAsync();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.Warehouse.FindAsync(warehouse.Id);
+
+            if(register is not null) return false;
+
+            await _context.Warehouse.AddAsync(warehouse);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<Warehouse> warehouses)
@@ -85,7 +78,7 @@ namespace CargoHub.Services{
             DBwarehouse.Province = warehouse.Province;
             DBwarehouse.Country = warehouse.Country;
             DBwarehouse.Updated_At = DateTime.UtcNow; // Update timestamp to current time
-            
+
             if (DBwarehouse.Contact is not null && warehouse.Contact is not null)
             {
                 //if contact exists change contact
@@ -120,15 +113,13 @@ namespace CargoHub.Services{
             var DBwarehouse = await _context.Warehouse
                                 .Include(w => w.Contact)
                                 .FirstOrDefaultAsync(w => w.Id == id);
-            if(DBwarehouse is not null)
-            {
-                var contact = DBwarehouse.Contact;
-                _context.Remove(DBwarehouse);
-                _context.Remove(contact);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            return false;
+            if(DBwarehouse is null) return false;
+
+            var contact = DBwarehouse.Contact;
+            _context.Remove(DBwarehouse);
+            _context.Remove(contact);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)

@@ -38,22 +38,15 @@ namespace CargoHub.Services{
 
         public async Task<bool> Post(ItemGroup itemGroup)
         {
-            if(itemGroup is not null)
-            {
-                var register = await _context.ItemGroup.FindAsync(itemGroup.Id);
+            if(itemGroup is null) return false;
 
-                if(register is not null)
-                {
-                    return false;
-                }
-                else
-                {
-                    await _context.ItemGroup.AddAsync(itemGroup);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
+            var register = await _context.ItemGroup.FindAsync(itemGroup.Id);
+
+            if(register is not null) return false;
+
+            await _context.ItemGroup.AddAsync(itemGroup);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> PostBatch(List<ItemGroup> itemGroups)
@@ -70,14 +63,14 @@ namespace CargoHub.Services{
         public async Task<bool> Update(ItemGroup itemGroup)
         {
             var DBitemGroup = await _context.ItemGroup.FindAsync(itemGroup.Id);
-            if(DBitemGroup is not null)
-            {
-                DBitemGroup = itemGroup;
-                _context.SaveChanges();
+            if(DBitemGroup is null) return false;
 
-                return true;
-            }
-            else return false;
+            DBitemGroup.Name = itemGroup.Name;
+            DBitemGroup.Description = itemGroup.Description;
+            DBitemGroup.Updated_At = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> UpdateBatch(List<ItemGroup> itemGroups)
@@ -95,13 +88,11 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBitemGroup = await _context.ItemGroup.FindAsync(id);
-            if(DBitemGroup is not null)
-            {
-                _context.Remove(DBitemGroup);
-                _context.SaveChanges();
-                return true;
-            }
-            else return false;
+            if(DBitemGroup is null) return false;
+
+            _context.Remove(DBitemGroup);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<bool>> DeleteBatch(List<int> ids)
