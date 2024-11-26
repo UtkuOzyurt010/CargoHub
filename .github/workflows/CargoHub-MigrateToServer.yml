@@ -1,3 +1,5 @@
+
+#runner on LINUX
 name: CargoHub-MigrateToServer
 
 on:
@@ -10,11 +12,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0'
-        cache: true
+    # - name: Set up .NET
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: '8.0'
+    #     cache: true
 
     - name: Restore dependencies
       run: dotnet restore --use-lock-file
@@ -54,6 +56,62 @@ jobs:
         ssh ubuntu-1079726@145.24.223.236 "bash ~/ubuntu-1079726/CargoHub/RunCargoHub.sh"
  
   
-  # - name: Run bash script which handles migration
-  #   run: bash MigrateToServer.sh 
+
+# below is when runner is on WINDOWS
+# name: CargoHub-MigrateToServer
+
+# on:
+#   push:
+#     branches: [ "C#Migration" ]
+
+# jobs:
+#   build:
+#     runs-on: self-hosted
+#     steps:
+#     - uses: actions/checkout@v4
+
+#     - name: Set up .NET
+#       uses: actions/setup-dotnet@v4
+#       with:
+#         dotnet-version: '8.0'
+#         cache: true
+
+#     - name: Restore dependencies
+#       run: dotnet restore --use-lock-file
+#       working-directory: ./CargoHub
+
+#     - name: Build the project
+#       run: |
+#         dotnet build CargoHub.csproj
+#       working-directory: ./CargoHub
+
+#     - name: Checkout repository
+#       uses: actions/checkout@v3
+
+#       #Set up SSH agent and add private key
+#     - name: Set up SSH agent
+#       uses: webfactory/ssh-agent@v0.5.4
+#       with:
+#         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#       # Add the remote server to known_hosts
+#     # - name: Add server to known_hosts
+#     #   run: ssh-keyscan -H 145.24.223.236 >> ~/.ssh/known_hosts
+
+#       #copy codebase to server
+#     - name: Copy codebase to server
+#       run: |
+#         ssh ubuntu-1079726@145.24.223.236 'rm -rf /home/ubuntu-1079726/ubuntu-1079726/CargoHub/'
+#         scp -r C:/VSCodeProjects/CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726
+
+
+#     - name: update permission of bash file to allow it to run
+#       run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh'"
+#     - name: update permission of exe file to allow it to run
+#       run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/bin/Debug/net8.0/CargoHub.exe'"
+
+#     - name: SSH into server and restartstart API
+#       run: |
+#         ssh ubuntu-1079726@145.24.223.236 "bash ~/ubuntu-1079726/CargoHub/RunCargoHub.sh"
+ 
+    
     
