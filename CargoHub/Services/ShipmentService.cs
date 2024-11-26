@@ -1,21 +1,25 @@
 using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using AutoMapper;
 
 namespace CargoHub.Services{
-    public class ShipmentService : IGenericService<Shipment>
+    public class ShipmentService : IShipmentService
     {
         private DatabaseContext _context;
+        private IMapper _mapper;
 
-        public ShipmentService(DatabaseContext context)
+        public ShipmentService(DatabaseContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         } 
 
-        public async Task<Shipment?> Get(int id)
+        public async Task<ReadShipmentDto?> Get(int id)
         {
             Shipment? register = await _context.Shipment.FindAsync(id);
-            return register; 
+            var shipmentDto = _mapper.Map<ReadShipmentDto>(register);
+            return shipmentDto; 
         }
 
         public async Task<List<Shipment>> GetBatch(List<int> ids)

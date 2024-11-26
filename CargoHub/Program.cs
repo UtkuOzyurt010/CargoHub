@@ -2,11 +2,7 @@ using CargoHub.Models;
 using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Threading.Tasks;
+using AutoMapper;
 
 namespace CargoHub;
 
@@ -40,12 +36,14 @@ public class Program
         builder.Services.AddTransient<IGenericService<ItemType>, ItemTypeService>();
         builder.Services.AddTransient<ILocationService, LocationService>();
         builder.Services.AddTransient<IOrderService, OrderService>();
-        builder.Services.AddTransient<IGenericService<Shipment>, ShipmentService>();
+        builder.Services.AddTransient<IShipmentService, ShipmentService>();
         builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
         builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
         builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
         builder.Services.AddTransient<IInventoryService, InventoryService>();
         builder.Services.AddTransient<IItemService, ItemService>();
+
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         builder.Services.AddScoped<MigrationService>();
 
