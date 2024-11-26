@@ -21,10 +21,10 @@ jobs:
       run: dotnet restore --use-lock-file
       working-directory: ./CargoHub
 
-    - name: Build the project
-      run: |
-        dotnet build CargoHub.csproj
-      working-directory: ./CargoHub
+    # - name: Build the project
+    #   run: |
+    #     dotnet build CargoHub.csproj
+    #   working-directory: ./CargoHub
 
     # - name: Run the project in new window
     #   run: start /b /bin/Debug/net8.0/Cargohub.exe
