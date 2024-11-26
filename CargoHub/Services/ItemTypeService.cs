@@ -88,6 +88,7 @@ namespace CargoHub.Services{
         public async Task<bool> Delete(int id)
         {
             var DBitemType = await _context.ItemType.FindAsync(id);
+            
             if(DBitemType is null) return false;
 
             _context.Remove(DBitemType);

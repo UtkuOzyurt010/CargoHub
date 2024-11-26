@@ -44,7 +44,7 @@ namespace CargoHub.Tests
 
             foreach (var endpoint in endpointsWithIds)
             {
-                await Put_One_ID(endpoint);
+                await Put_One_ID($"/api/{Globals.Version}/transfers");
                 break;
             }
         }

@@ -75,6 +75,9 @@ namespace CargoHub.Services{
 
             if (DBshipment is null) return false;
 
+            if (string.IsNullOrEmpty(shipment.ItemsJson))
+            shipment.ItemsJson = JsonConvert.SerializeObject(shipment.Items);
+            
             DBshipment.Order_Id = shipment.Order_Id;
             DBshipment.Source_Id = shipment.Source_Id;
             DBshipment.Order_Date = shipment.Order_Date;
@@ -90,11 +93,9 @@ namespace CargoHub.Services{
             DBshipment.Transfer_Mode = shipment.Transfer_Mode;
             DBshipment.Total_Package_Count = shipment.Total_Package_Count;
             DBshipment.Total_Package_Weight = shipment.Total_Package_Weight;
+            DBshipment.ItemsJson = shipment.ItemsJson;
             DBshipment.Created_At = shipment.Created_At;
             DBshipment.Updated_At = DateTime.UtcNow; // Update the timestamp
-
-            // Ensure ItemsJson is correctly updated (you can handle this if necessary)
-            DBshipment.ItemsJson = shipment.ItemsJson;
 
             // Save changes to the database
             await _context.SaveChangesAsync();

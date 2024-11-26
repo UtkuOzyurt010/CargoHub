@@ -120,7 +120,8 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Item item)
         {
             var DBitem = await _context.Item.FindAsync(item.Uid);
-            if(DBitem is not null) return false;
+
+            if(DBitem is null) return false;
 
             DBitem.Uid = item.Uid;
             DBitem.Code = item.Code;

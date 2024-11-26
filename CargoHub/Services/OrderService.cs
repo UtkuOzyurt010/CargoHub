@@ -79,10 +79,12 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Order order)
         {
             var DBorder = await _context.Order.FindAsync(order.Id);
+
             if(DBorder is null) return false;
 
+            if (string.IsNullOrEmpty(order.ItemsJson))
+            order.ItemsJson = JsonConvert.SerializeObject(order.Items);
 
-            // Update the attributes
             DBorder.Source_Id = order.Source_Id;
             DBorder.Order_Date = order.Order_Date;
             DBorder.Request_Date = order.Request_Date;
@@ -100,9 +102,7 @@ namespace CargoHub.Services{
             DBorder.Total_Discount = order.Total_Discount;
             DBorder.Total_Tax = order.Total_Tax;
             DBorder.Total_Surcharge = order.Total_Surcharge;
-            
-            if (string.IsNullOrEmpty(order.ItemsJson))
-            DBorder.ItemsJson = JsonConvert.SerializeObject(order.Items);
+            DBorder.ItemsJson = order.ItemsJson;
             DBorder.Updated_At = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();

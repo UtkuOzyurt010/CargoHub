@@ -8,13 +8,11 @@ namespace CargoHub.Controllers
     public class ShipmentController : Controller
     {
         private readonly IShipmentService _shipmentService;
-        private readonly IItemService _itemService;
         private readonly IOrderService _orderService;
 
-        public ShipmentController(IShipmentService shipmentService, IItemService itemService, IOrderService orderService)
+        public ShipmentController(IShipmentService shipmentService, IOrderService orderService)
         {
             _shipmentService = shipmentService;
-            _itemService = itemService;
             _orderService = orderService;
         }
 

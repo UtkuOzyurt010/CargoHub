@@ -71,6 +71,7 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Location location)
         {
             var DBlocation = await _context.Location.FindAsync(location.Id);
+            
             if(DBlocation is null) return false;
 
             DBlocation.Warehouse_Id = location.Warehouse_Id;
