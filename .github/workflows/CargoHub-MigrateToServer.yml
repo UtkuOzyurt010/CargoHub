@@ -48,14 +48,12 @@ jobs:
       run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh'"
     - name: update permission of exe file to allow it to run
       run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/bin/Debug/net8.0/CargoHub.exe'"
-    
 
-  #     ssh ubuntu-1079726@145.24.223.236
-  #     #these 2 steps could maybe be replaced with just "dotnet run"
-  #     cd ubuntu-1079726/CargoHub/CargoHub 
-  #     nohup bash RunCargoHub.sh &
-  #     |
-    
+    - name: SSH into server and restartstart API
+      run: |
+        ssh ubuntu-1079726@145.24.223.236 "bash ~/ubuntu-1079726/CargoHub/RunCargoHub.sh"
+ 
+  
   # - name: Run bash script which handles migration
   #   run: bash MigrateToServer.sh 
     
