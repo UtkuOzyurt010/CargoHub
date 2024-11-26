@@ -31,11 +31,11 @@ namespace CargoHub.Controllers
         public async Task<IActionResult> GetShipmentItems(int id)
         {
             var result = await _transferService.Get(id);
-            if (result is not null)
-            {
-                return Ok(result.Items);
-            }
-            return NotFound(result);
+            if (result is null) return NotFound(result);
+
+            var itemsResult = await _itemService.GetTransferItems(result.Items);
+            if (result is null) return NotFound(result);
+            return Ok(itemsResult);
         }
 
         [HttpGet("batch")]

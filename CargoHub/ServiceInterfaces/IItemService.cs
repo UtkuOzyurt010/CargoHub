@@ -5,9 +5,9 @@ namespace CargoHub.Services{
     { 
         Task<Item?> Get(object uid);
         Task<List<Item>> GetSupplierItems(int id);
-        List<OrderItem> GetOrderItems(string itemsJson);
-        List<ShipmentItem> GetShipmentItems(string itemsJson);
-        List<TransferItem> GetTransferItems(string itemsJson);
+        Task<List<Item>> GetOrderItems(List<OrderItem> orderItems);
+        Task<List<Item>> GetShipmentItems(List<ShipmentItem> shipmentItems);
+        Task<List<Item>> GetTransferItems(List<TransferItem> transferItems);
         Task<List<Item>> GetItemGroupItems(int id);
         Task<List<Item>> GetBatch(List<string> uids);
         Task<List<Item>> GetAll();

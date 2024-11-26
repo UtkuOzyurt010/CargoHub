@@ -32,22 +32,37 @@ namespace CargoHub.Services{
             return result;
         }
 
-        public List<OrderItem> GetOrderItems(string itemsJson)
+        public async Task<List<Item>> GetOrderItems(List<OrderItem> orderItems)
         {
-            var orderItems = JsonConvert.DeserializeObject<List<OrderItem>>(itemsJson);
-            return orderItems;
+            List<Item> items = [];
+            foreach (OrderItem orderItem in orderItems)
+            {
+                var item = await _context.Item.FirstOrDefaultAsync(x => x.Uid == orderItem.Item_Id);
+                if (item is not null) items.Add(item);
+            }
+            return items;
         }
 
-        public List<ShipmentItem> GetShipmentItems(string itemsJson)
+        public async Task<List<Item>> GetShipmentItems(List<ShipmentItem> shipmentItems)
         {
-            var shipmentItems = JsonConvert.DeserializeObject<List<ShipmentItem>>(itemsJson);
-            return shipmentItems;
+            List<Item> items = [];
+            foreach (ShipmentItem shipmentItem in shipmentItems)
+            {
+                var item = await _context.Item.FirstOrDefaultAsync(x => x.Uid == shipmentItem.Item_Id);
+                if (item is not null) items.Add(item);
+            }
+            return items;
         }
 
-        public List<TransferItem> GetTransferItems(string itemsJson)
+        public async Task<List<Item>> GetTransferItems(List<TransferItem> transferItems)
         {
-            var transferItems = JsonConvert.DeserializeObject<List<TransferItem>>(itemsJson);
-            return transferItems;
+            List<Item> items = [];
+            foreach (TransferItem transferItem in transferItems)
+            {
+                var item = await _context.Item.FirstOrDefaultAsync(x => x.Uid == transferItem.Item_Id);
+                if (item is not null) items.Add(item);
+            }
+            return items;
         }
 
         public async Task<List<Item>> GetItemGroupItems(int id)
