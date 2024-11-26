@@ -40,6 +40,7 @@ jobs:
       #copy codebase to server
     - name: Copy codebase to server
       run: |
+        ssh ubuntu-1079726@145.24.223.236:~/ubuntu-1079726 'rm /home/ubuntu-1079726/ubuntu-1079726/CargoHub/'
         scp -r C:/VSCodeProjects/CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726
 
 
