@@ -16,7 +16,7 @@ else
     exit 1
 fi
 
-# Check if the destination directory exists, and create it if it doesn't 
+# Check if the destination directory exists, and create it if it doesn't
 if [ ! -d "$DEST_DIR" ]; then
     echo "Destination directory $DEST_DIR does not exist. Creating it..."
     mkdir -p "$DEST_DIR"
