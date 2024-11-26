@@ -1,21 +1,25 @@
 using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using AutoMapper;
 
 namespace CargoHub.Services{
     public class OrderService : IOrderService
     {
         private DatabaseContext _context;
+        private IMapper _mapper;
 
-        public OrderService(DatabaseContext context)
+        public OrderService(DatabaseContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         } 
 
-        public async Task<Order?> Get(int id)
+        public async Task<ReadOrderDto?> Get(int id)
         {
             Order? register = await _context.Order.FindAsync(id);
-            return register; 
+            var dto = _mapper.Map<ReadOrderDto>(register);
+            return dto; 
         }
 
         public async Task<Order> GetShipmentOrder(int id)

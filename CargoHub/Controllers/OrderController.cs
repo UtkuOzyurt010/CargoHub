@@ -31,12 +31,11 @@ namespace CargoHub.Controllers
         public async Task<IActionResult> GetOrderItems(int id)
         {
             var result = await _orderService.Get(id);
-            var items = _itemService.GetOrderItems(result.ItemsJson);
             if (result is not null)
             {
-                return Ok(items);
+                return Ok(result.Items);
             }
-            return NotFound(items);
+            return NotFound(result);
         }
 
         [HttpGet("batch")]
