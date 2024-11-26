@@ -4,7 +4,7 @@
 # Set the project root directory dynamically
 PROJECT_ROOT="$(pwd)"
 
-# Define the source and destination paths relative to the project root 
+# Define the source and destination paths relative to the project root
 SOURCE_DB="$PROJECT_ROOT/CargoHub.sqlite"
 DEST_DIR="$PROJECT_ROOT.Tests/bin/Debug/net8.0"
 DEST_DB="$DEST_DIR/CargoHub.sqlite"
