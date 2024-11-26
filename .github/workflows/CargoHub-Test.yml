@@ -11,11 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0'
-        cache: true
+    # - name: Set up .NET
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: '8.0'
+    #     cache: true
 
     - name: Restore dependencies
       run: dotnet restore --use-lock-file
@@ -29,7 +29,7 @@ jobs:
     # - name: Run the project in new window
     #   run: start /b /bin/Debug/net8.0/Cargohub.exe
     #   working-directory: ./CargoHub
-    # tests should work without needing to start api
+    # tests should work without needing to start api 
     - name: Test API
       run: bash RunTests.sh
       working-directory: ./CargoHub
