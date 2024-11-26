@@ -62,8 +62,6 @@ namespace CargoHub.Services{
 
         public async Task<bool> Update(Warehouse warehouse)
         {
-            if (warehouse is null) return false;
-            
             var DBwarehouse = await _context.Warehouse
                 .Include(w => w.Contact) 
                 .FirstOrDefaultAsync(w => w.Id == warehouse.Id);

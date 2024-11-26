@@ -63,6 +63,7 @@ namespace CargoHub.Services{
         public async Task<bool> Update(ItemGroup itemGroup)
         {
             var DBitemGroup = await _context.ItemGroup.FindAsync(itemGroup.Id);
+            
             if(DBitemGroup is null) return false;
 
             DBitemGroup.Name = itemGroup.Name;

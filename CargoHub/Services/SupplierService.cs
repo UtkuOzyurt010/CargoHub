@@ -63,6 +63,7 @@ namespace CargoHub.Services{
         public async Task<bool> Update(Supplier supplier)
         {
             var DBsupplier = await _context.Supplier.FindAsync(supplier.Id);
+            
             if(DBsupplier is null) return false;
 
             DBsupplier.Code = supplier.Code;

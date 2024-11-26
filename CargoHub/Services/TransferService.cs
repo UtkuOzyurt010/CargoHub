@@ -66,11 +66,9 @@ namespace CargoHub.Services{
 
         public async Task<bool> Update(Transfer transfer)
         {
-            if (transfer is null) return false;
-
             var DBtransfer = await _context.Transfer.FindAsync(transfer.Id);
 
-            if(DBtransfer is not null) return false;
+            if(DBtransfer is null) return false;
 
             if (string.IsNullOrEmpty(transfer.ItemsJson))
             transfer.ItemsJson = JsonConvert.SerializeObject(transfer.Items);
@@ -85,7 +83,6 @@ namespace CargoHub.Services{
             await _context.SaveChangesAsync();
 
             return true;
-
         }
 
         public async Task<List<bool>> UpdateBatch(List<Transfer> transfers)
