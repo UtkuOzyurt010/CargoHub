@@ -97,7 +97,7 @@ namespace CargoHub.Services{
         {
             if(item is null) return false;
 
-            var register = await _context.Item.FirstOrDefaultAsync(x => x.Uid == item.Uid);
+            var register = await _context.Item.FindAsync(item.Id);
 
             if(register is not null) return false;
 
@@ -119,7 +119,7 @@ namespace CargoHub.Services{
 
         public async Task<bool> Update(Item item)
         {
-            var DBitem = await _context.Item.FindAsync(item.Uid);
+            var DBitem = await _context.Item.FindAsync(item.Id);
 
             if(DBitem is null) return false;
 

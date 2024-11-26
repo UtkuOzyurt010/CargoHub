@@ -74,11 +74,11 @@ namespace CargoHub.Tests
 
             var dbentity = await GetDBTable(endpoint.Split("/").Last(), TestParams.TestID, dbContext);
             Assert.NotNull(dbentity);
-            Assert.Equal(TestParams.PPDTestID, dbentity.Id); //nope nope some scope scope issues REEEEEEEEEEEEEEEE
+            Assert.Equal(TestParams.TestID, dbentity.Id); //nope nope some scope scope issues REEEEEEEEEEEEEEEE
             
             var message = $"Test: Get_ById_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Response: {responseBody}\nEndpoint: {endpoint}/{TestParams.TestID}\n" +
-                          $"DB: {dbentity.Id}\n" +
+                          $"DBId: {dbentity.Id}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 
             //logging info

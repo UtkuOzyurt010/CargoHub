@@ -14,6 +14,7 @@ namespace CargoHub.Tests
         private readonly HttpClient _client;
         private readonly WebApplicationFactory<Program> _factory;
         private readonly string _filepath;
+        private bool Throw = false;
 
         public DeleteIntegrationTests(WebApplicationFactory<Program> factory)
         {
@@ -26,7 +27,7 @@ namespace CargoHub.Tests
             _filepath = Path.Combine(resultsDirectory, $"DeleteIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        //[Fact]
+        [Fact]
         public async Task Test_Delete_Id_Endpoints()
         {
             var endpoints = new List<string>
@@ -46,6 +47,7 @@ namespace CargoHub.Tests
             {
                 await Delete_One_ID(endpoint);
             }
+            if (Throw is true) throw new Exception("Tests failed, see log");
         }
 
         public async Task Delete_One_ID(string endpoint)
@@ -59,28 +61,33 @@ namespace CargoHub.Tests
             var FromDb = await GetDBTable(table, TestParams.PPDTestID, dbContext);
 
             var Dummydata = GetDummyData(endpoint.Split("/").Last());
-
-            Assert.Equal(FromDb.Id, Dummydata.Id);
-
+            try {
+                Assert.Equal(FromDb.Id, Dummydata.Id);
+            }
+            catch (Xunit.Sdk.EqualException ex){Throw = true;}
+            catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException ex){Throw = true;}
             //measure elapsed time for request processing
             stopwatch.Start();
 
             var response = await _client.DeleteAsync($"{endpoint}/{TestParams.PPDTestID}");
 
             stopwatch.Stop();
-
-            //Assert server returns OK and response contains correct info
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
+            try{
+                //Assert server returns OK and response contains correct info
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            }
+            catch (Xunit.Sdk.EqualException ex){Throw = true;}
             //get access to test database
             var dbentity = await GetDBTable(endpoint.Split("/").Last(), TestParams.PPDTestID, dbContext);
+            try{
+                //see if it is removed
+                Assert.Null(dbentity);
+            }
+            catch (Xunit.Sdk.EqualException ex){Throw = true;}
 
-            //see if it is removed
-            Assert.Null(dbentity);
-            
             var message = $"Test: Post_DeleteDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Endpoint: {endpoint}\n" +
-                          $"DB: {dbentity}\n" +
+                          $"DB: {(dbentity == null ? "null" : dbentity)}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 
             //logging info

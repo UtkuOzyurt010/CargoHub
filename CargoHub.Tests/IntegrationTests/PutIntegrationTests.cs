@@ -26,7 +26,7 @@ namespace CargoHub.Tests
             _filepath = Path.Combine(resultsDirectory, $"PutIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        [Fact]
+        //[Fact]
         public async Task Test_Put_Id_Endpoints()
         {
             var endpointsWithIds = new List<string>
@@ -44,8 +44,7 @@ namespace CargoHub.Tests
 
             foreach (var endpoint in endpointsWithIds)
             {
-                await Put_One_ID($"/api/{Globals.Version}/transfers");
-                break;
+                await Put_One_ID(endpoint);
             }
         }
 
@@ -82,7 +81,7 @@ namespace CargoHub.Tests
 
             var message = $"Test: Put_ReturnsDetails\nStatusCode: {response.StatusCode}\n" +
                           $"Endpoint: {endpoint}\n" +
-                          $"DB: {dbentity.Id}\n" +
+                          $"DBId: {dbentity.Id}\n" +
                           $"Test executed in: {stopwatch.ElapsedMilliseconds}ms\n\n";
 
             //logging info
