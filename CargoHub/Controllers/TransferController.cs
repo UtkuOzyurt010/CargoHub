@@ -7,10 +7,10 @@ namespace CargoHub.Controllers
     [Route($"api/{Globals.Version}/transfers")]
     public class TransferController : Controller
     {
-        private readonly IGenericService<Transfer> _transferService;
+        private readonly ITransfer _transferService;
         private readonly IItemService _itemService;
 
-        public TransferController(IGenericService<Transfer> transferService, IItemService itemService)
+        public TransferController(ITransfer transferService, IItemService itemService)
         {
             _transferService = transferService;
             _itemService = itemService;
@@ -31,12 +31,11 @@ namespace CargoHub.Controllers
         public async Task<IActionResult> GetShipmentItems(int id)
         {
             var result = await _transferService.Get(id);
-            var items = _itemService.GetOrderItems(result.ItemsJson);
             if (result is not null)
             {
-                return Ok(items);
+                return Ok(result.Items);
             }
-            return NotFound(items);
+            return NotFound(result);
         }
 
         [HttpGet("batch")]

@@ -38,7 +38,7 @@ public class Program
         builder.Services.AddTransient<IOrderService, OrderService>();
         builder.Services.AddTransient<IShipmentService, ShipmentService>();
         builder.Services.AddTransient<IGenericService<Supplier>, SupplierService>();
-        builder.Services.AddTransient<IGenericService<Transfer>, TransferService>();
+        builder.Services.AddTransient<ITransfer, TransferService>();
         builder.Services.AddTransient<IGenericService<Warehouse>, WarehouseService>();
         builder.Services.AddTransient<IInventoryService, InventoryService>();
         builder.Services.AddTransient<IItemService, ItemService>();
