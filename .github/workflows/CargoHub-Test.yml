@@ -26,10 +26,10 @@ jobs:
         dotnet build CargoHub.csproj
       working-directory: ./CargoHub
 
-    - name: Run the project in new window
-      run: start /b /bin/Debug/net8.0/Cargohub.exe
-      working-directory: ./CargoHub
-
+    # - name: Run the project in new window
+    #   run: start /b /bin/Debug/net8.0/Cargohub.exe
+    #   working-directory: ./CargoHub
+    # tests should work without needing to start api
     - name: Test API
       run: bash RunTests.sh
       working-directory: ./CargoHub
