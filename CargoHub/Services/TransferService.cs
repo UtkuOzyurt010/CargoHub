@@ -1,21 +1,24 @@
 using CargoHub.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using AutoMapper;
 
 namespace CargoHub.Services{
-    public class TransferService : IGenericService<Transfer>
+    public class TransferService : ITransfer
     {
         private DatabaseContext _context;
-
-        public TransferService(DatabaseContext context)
+        private IMapper _mapper;
+        public TransferService(DatabaseContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         } 
 
-        public async Task<Transfer?> Get(int id)
+        public async Task<ReadTransferDto?> Get(int id)
         {
             Transfer? register = await _context.Transfer.FindAsync(id);
-            return register; 
+            var dto = _mapper.Map<ReadTransferDto>(register);
+            return dto; 
         }
 
         public async Task<List<Transfer>> GetBatch(List<int> ids)

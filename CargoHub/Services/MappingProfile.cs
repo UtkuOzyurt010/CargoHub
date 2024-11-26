@@ -11,5 +11,8 @@ public class MappingProfile : Profile
         
         //Order Maps
         CreateMap<Order, ReadOrderDto>();
+
+        //Transfer Maps
+        CreateMap<Transfer, ReadTransferDto>();
     }
 }
