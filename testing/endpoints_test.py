@@ -24,7 +24,7 @@ def loaddbdata(file: string, id: string=None, get_all: bool=False):
         db_obj = {} #makes sure it's empty rather than null if obj isn't found, otherwise remove_timestamps() throws exception
         if file == "items.json": #because items uses a string uid rather than an int id
             for obj in db_data:
-                if obj.get("uid", -1) == id: # -1 and -2 as non-equal default return values in case of fail
+                if obj.get("uid", -1) == str(id): # -1 and -2 as non-equal default return values in case of fail
                     db_obj = obj
         else:
             for obj in db_data:
