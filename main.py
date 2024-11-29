@@ -502,7 +502,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             new_transfer = json.loads(post_data.decode())
             data_provider.fetch_transfer_pool().add_transfer(new_transfer)
             data_provider.fetch_transfer_pool().save()
-            self.send_response(200)
+            self.send_response(201)
             self.end_headers()
         elif path[0] == "item_groups":
             content_length = int(self.headers["Content-Length"])
@@ -510,7 +510,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             new_item_group = json.loads(post_data.decode())
             data_provider.fetch_item_group_pool().add_item_group(new_item_group)
             data_provider.fetch_item_group_pool().save()
-            self.send_response(200)
+            self.send_response(201)
             self.end_headers()
         elif path[0] == "item_lines":
             content_length = int(self.headers["Content-Length"])
@@ -518,7 +518,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             new_item_line = json.loads(post_data.decode())
             data_provider.fetch_item_line_pool().add_item_line(new_item_line)
             data_provider.fetch_item_line_pool().save()
-            self.send_response(200)
+            self.send_response(201)
             self.end_headers()
         elif path[0] == "item_types":
             content_length = int(self.headers["Content-Length"])
@@ -526,7 +526,7 @@ class ApiRequestHandler(http.server.BaseHTTPRequestHandler):
             new_item_type = json.loads(post_data.decode())
             data_provider.fetch_item_type_pool().add_item_type(new_item_type)
             data_provider.fetch_item_type_pool().save()
-            self.send_response(200)
+            self.send_response(201)
             self.end_headers()
         else:
             self.send_response(404)
