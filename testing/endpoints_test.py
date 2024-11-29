@@ -169,7 +169,7 @@ id_test_value_dummy = 999
 
 
 
-address = "http://localhost:3000/api/v1"
+address = "http://localhost:8000/api/v1"
 # def test_get():
 #     test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 #     os.makedirs("testing/results/GET/" + test_datetime)
