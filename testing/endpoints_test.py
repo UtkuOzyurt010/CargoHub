@@ -334,7 +334,6 @@ def get_endpoint(file: string, id=None):
         assert success
         
 def get_custom_endpoint(file : string, id, listName : string): #listName is e.g. "items" or "orders" for e.g. "/suppliers/{id}/items"
-    id = str(id)
     
     test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     results_file_name = f"GET_{file.split(".")[0]}_{id}_{listName}_{test_datetime}" #ternary here REQUIRES else
@@ -349,9 +348,25 @@ def get_custom_endpoint(file : string, id, listName : string): #listName is e.g.
 
     response_data = response.json()
 
-    found_obj = loaddbdata(file, id)
+    id_name = f"{file[:-6]}_id"
+    match file:
+        case "item_lines.json":
+            id_name = "item_line"
+        case "item_types.json":
+            id_name = "item_type"
+        case "item_groups.json":
+            id_name = "item_group"
+    if file == "orders.json":
+        list_to_search = loaddbdata("orders.json", id)
+        found_objects = list_to_search.get("items")
+    if listName == "inventory":
+        list_to_search = loaddbdata(f"inventories.json", get_all=True)
+        found_objects = [obj for obj in list_to_search if obj.get(id_name, -1) == id]
+    else:
+        list_to_search = loaddbdata(f"{listName}.json", get_all=True)
+        found_objects = [obj for obj in list_to_search if obj.get(id_name, -1) == id]
 
-    success = response_data == found_obj
+    success = response_data == found_objects
     
     diagnostics = {}
     diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
@@ -368,7 +383,7 @@ def get_items_id_inventory_totals():
     os.makedirs("testing/results/GET", exist_ok=True)
     start = timer()
 
-    response = requests.get(f"{address}/{file.split(".")[0]}/{id}/{listName}", #will this work with uid in items.json?
+    response = requests.get(f"{address}/items/{id}/inventory/totals", #will this work with uid in items.json?
                             headers=
                             {'API_KEY': 'a1b2c3d4e5'})
     
@@ -528,12 +543,6 @@ def test_put_one_client():
     put_endpoint("clients.json")
 def test_put_one_shipment():
     put_endpoint("shipments.json")
-
-orders/id/items
-shipments/id/orders
-shipments/id/items
-shipments/id/commit
-transfers/id/commit
 
 def test_put_orders_id_items():
     put_custom_endpoint("orders.json", "items")
