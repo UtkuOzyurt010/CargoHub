@@ -55,6 +55,14 @@ content-type: application/json
         }
     ]
 }
+#####
+PUT {{address}}/shipments/999999999999/orders HTTP/1.1
+API_KEY: a1b2c3d4e5
+content-type: application/json
+
+{
+    "orders" : ["id" : 1]
+}
 
 #####
 

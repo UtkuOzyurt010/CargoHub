@@ -368,8 +368,8 @@ def put_custom_endpoint(file : string, listName : string):
             obj_to_put = dummy_order
             obj_to_put["id"] = id_test_value_put
         case "shipments":
-            obj_to_put = dummy_shipment
-            obj_to_put["id"] = id_test_value_put
+            obj_to_put =  [dummy_order]
+            #obj_to_put[0]["id"] = id_test_value_put
         case "suppliers":
             obj_to_put = dummy_supplier
             obj_to_put["id"] = id_test_value_put
@@ -388,7 +388,7 @@ def put_custom_endpoint(file : string, listName : string):
                             'content-type': 'application/json'})
     response_time = timer() - start
 
-    found_obj = loaddbdata(file, id_test_value_put)
+    found_obj = loaddbdata(file, id_test_value_dummy)
     success = remove_timestamps(found_obj) == remove_timestamps(obj_to_put)
 
     diagnostics = {}

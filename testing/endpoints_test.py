@@ -70,14 +70,19 @@ def remove_timestamps(obj): #posting objects adds timestamps to them. We need to
 
 #test_backuprestore()
 
+#dummy parameters for put tests
+id_test_value_put = 1000000000000 #12 x 0
+id_test_value_get = 1
+id_test_value_dummy = 999999999999 #12 x 9
+
 #dummydata for post tests
-dummy_client = {"id": 999, "name": "Test_Client", "address": "Nowhere", "city": "Nowhere", "zip_code": "00000", "province": "Nowhere", "country": "Nowhere", "contact_name": "Test_Client", "contact_phone": "242.732.3483x2573", "contact_email": "test_client@example.net", "created_at": "", "updated_at": ""}
-dummy_inventory = {"id": 999, "item_id": "P000001", "description": "Face-to-face clear-thinking complexity", "item_reference": "sjQ23408K", "locations": [3211, 24700, 14123, 19538, 31071, 24701, 11606, 11817], "total_on_hand": 262, "total_expected": 0, "total_ordered": 80, "total_allocated": 41, "total_available": 141, "created_at": "", "updated_at": ""}
-dummy_item_group = {"id": 999, "name": "Electronics", "description": "", "created_at": "", "updated_at": ""}
-dummy_item_line = {"id": 999, "name": "Tech Gadgets", "description": "", "created_at": "", "updated_at": ""}
-dummy_item_type = {"id": 999, "name": "Laptop", "description": "", "created_at": "", "updated_at": ""}
+dummy_client = {"id": id_test_value_dummy, "name": "Test_Client", "address": "Nowhere", "city": "Nowhere", "zip_code": "00000", "province": "Nowhere", "country": "Nowhere", "contact_name": "Test_Client", "contact_phone": "242.732.3483x2573", "contact_email": "test_client@example.net", "created_at": "", "updated_at": ""}
+dummy_inventory = {"id": id_test_value_dummy, "item_id": "P000001", "description": "Face-to-face clear-thinking complexity", "item_reference": "sjQ23408K", "locations": [3211, 24700, 14123, 19538, 31071, 24701, 11606, 11817], "total_on_hand": 262, "total_expected": 0, "total_ordered": 80, "total_allocated": 41, "total_available": 141, "created_at": "", "updated_at": ""}
+dummy_item_group = {"id": id_test_value_dummy, "name": "Electronics", "description": "", "created_at": "", "updated_at": ""}
+dummy_item_line = {"id": id_test_value_dummy, "name": "Tech Gadgets", "description": "", "created_at": "", "updated_at": ""}
+dummy_item_type = {"id": id_test_value_dummy, "name": "Laptop", "description": "", "created_at": "", "updated_at": ""}
 dummy_item = {
-                "uid": "999",
+                "uid": "999999999999",
                 "code": "sjQ23408K",
                 "description": "Face-to-face clear-thinking complexity",
                 "short_description": "must",
@@ -96,9 +101,9 @@ dummy_item = {
                 "created_at": "",
                 "updated_at": ""
             }
-dummy_location = {"id": 999, "warehouse_id": 1, "code": "A.1.0", "name": "Row: A, Rack: 1, Shelf: 0", "created_at": "", "updated_at": ""}
+dummy_location = {"id": id_test_value_dummy, "warehouse_id": 1, "code": "A.1.0", "name": "Row: A, Rack: 1, Shelf: 0", "created_at": "", "updated_at": ""}
 dummy_order = {
-                "id": 999,
+                "id": id_test_value_dummy,
                 "source_id": 33,
                 "order_date": "2019-04-03T11:33:15Z",
                 "request_date": "2019-04-07T11:33:15Z",
@@ -121,7 +126,7 @@ dummy_order = {
                 "items": []
             }
 dummy_shipment = {
-                "id": 999,
+                "id": id_test_value_dummy,
                 "order_id": 1,
                 "source_id": 33,
                 "order_date": "2000-03-09",
@@ -141,9 +146,9 @@ dummy_shipment = {
                 "updated_at": "",
                 "items": [] 
             }
-dummy_supplier = {"id": 999, "code": "SUP0001", "name": "Lee, Parks and Johnson", "address": "5989 Sullivan Drives", "address_extra": "Apt. 996", "city": "Port Anitaburgh", "zip_code": "91688", "province": "Illinois", "country": "Czech Republic", "contact_name": "Toni Barnett", "phonenumber": "363.541.7282x36825", "reference": "LPaJ-SUP0001", "created_at": "", "updated_at": ""}
+dummy_supplier = {"id": id_test_value_dummy, "code": "SUP0001", "name": "Lee, Parks and Johnson", "address": "5989 Sullivan Drives", "address_extra": "Apt. 996", "city": "Port Anitaburgh", "zip_code": "91688", "province": "Illinois", "country": "Czech Republic", "contact_name": "Toni Barnett", "phonenumber": "363.541.7282x36825", "reference": "LPaJ-SUP0001", "created_at": "", "updated_at": ""}
 dummy_transfer = {
-                "id": 999,
+                "id": id_test_value_dummy,
                 "reference": "TR00001",
                 "transfer_from": None, #supposed to be null
                 "transfer_to": 9229,
@@ -157,16 +162,7 @@ dummy_transfer = {
                     }
                 ]
             }
-dummy_warehouse = {"id": 999, "code": "YQZZNL56", "name": "Heemskerk cargo hub", "address": "Karlijndreef 281", "zip": "4002 AS", "city": "Heemskerk", "province": "Friesland", "country": "NL", "contact": {"name": "Fem Keijzer", "phone": "(078) 0013363", "email": "blamore@example.net"}, "created_at": "", "updated_at": ""}
-
-#dummy parameters for put tests
-id_test_value_put = 1000
-id_test_value_get = 1
-id_test_value_dummy = 999
-
-
-
-
+dummy_warehouse = {"id": id_test_value_dummy, "code": "YQZZNL56", "name": "Heemskerk cargo hub", "address": "Karlijndreef 281", "zip": "4002 AS", "city": "Heemskerk", "province": "Friesland", "country": "NL", "contact": {"name": "Fem Keijzer", "phone": "(078) 0013363", "email": "blamore@example.net"}, "created_at": "", "updated_at": ""}
 
 
 address = "http://localhost:8000/api/v1"
