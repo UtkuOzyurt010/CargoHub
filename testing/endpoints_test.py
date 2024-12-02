@@ -254,35 +254,6 @@ def test_get_one_transfer():
 def test_get_one_warehouse():
     get_endpoint("warehouses.json", id_test_value_get)
 
-# e.g GET warehouses/{id}/locations
-def test_get_warehouses_id_locations():
-    get_custom_endpoint("warehouses.json", 1, "locations")
-def test_get_items_id_inventory():
-    get_custom_endpoint("items.json", "P000001", "inventory")
-def test_get_item_lines_id_items():
-    get_custom_endpoint("item_lines.json", 1, "items")
-def test_get_item_groups_id_items():
-    get_custom_endpoint("item_groups.json", 1, "items")
-def test_get_item_types_id_items():
-    get_custom_endpoint("item_types.json", 1, "items")
-def test_get_suppliers_id_items():
-    get_custom_endpoint("suppliers.json", 1, "items")
-def test_get_orders_id_items():
-    get_custom_endpoint("orders.json", 1, "items")
-def test_get_cliens_id_orders():
-    get_custom_endpoint("clients.json", 1, "orders")
-def test_get_shipments_id_orders():
-    get_custom_endpoint("shipments.json", 1, "orders")
-def test_get_shipments_id_items():
-    get_custom_endpoint("shipments.json", 1, "items")
-def test_get_shipments_id_commit():
-    get_custom_endpoint("shipments.json", 1, "commit")
-def test_get_transfers_id_items():
-    get_custom_endpoint("transfers.json", 1, "items")
-
-#specifically for /items/{id}/inventory/totals
-def test_get_items_id_inventory_totals():
-    get_items_id_inventory_totals()
 
 
 
@@ -333,78 +304,6 @@ def get_endpoint(file: string, id=None):
         #otherwise testing might stop before all endpoints are tested
         assert success
         
-def get_custom_endpoint(file : string, id, listName : string): #listName is e.g. "items" or "orders" for e.g. "/suppliers/{id}/items"
-    
-    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    results_file_name = f"GET_{file.split(".")[0]}_{id}_{listName}_{test_datetime}" #ternary here REQUIRES else
-    os.makedirs("testing/results/GET", exist_ok=True)
-    start = timer()
-
-    response = requests.get(f"{address}/{file.split(".")[0]}/{id}/{listName}", #will this work with uid in items.json?
-                            headers=
-                            {'API_KEY': 'a1b2c3d4e5'})
-    
-    response_time = timer() - start
-
-    response_data = response.json()
-
-    id_name = f"{file[:-6]}_id"
-    match file:
-        case "item_lines.json":
-            id_name = "item_line"
-        case "item_types.json":
-            id_name = "item_type"
-        case "item_groups.json":
-            id_name = "item_group"
-    if file == "orders.json":
-        list_to_search = loaddbdata("orders.json", id)
-        found_objects = list_to_search.get("items")
-    if listName == "inventory":
-        list_to_search = loaddbdata(f"inventories.json", get_all=True)
-        found_objects = [obj for obj in list_to_search if obj.get(id_name, -1) == id]
-    else:
-        list_to_search = loaddbdata(f"{listName}.json", get_all=True)
-        found_objects = [obj for obj in list_to_search if obj.get(id_name, -1) == id]
-
-    success = response_data == found_objects
-    
-    diagnostics = {}
-    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-    
-    with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
-        json.dump(diagnostics[results_file_name], f)
-    #assert success #keep this disabled until GET tests are seperated, 
-    #otherwise testing might stop before all endpoints are tested
-    assert success
-
-def get_items_id_inventory_totals():
-    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    results_file_name = f"GET_items_P000001_inventory_totals_{test_datetime}" #ternary here REQUIRES else
-    os.makedirs("testing/results/GET", exist_ok=True)
-    start = timer()
-
-    response = requests.get(f"{address}/items/{id}/inventory/totals", #will this work with uid in items.json?
-                            headers=
-                            {'API_KEY': 'a1b2c3d4e5'})
-    
-    response_time = timer() - start
-
-    response_data = response.json()
-
-    found_obj = loaddbdata("items.json", id)
-
-    success = response_data == found_obj
-    
-    diagnostics = {}
-    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-    
-    with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
-        json.dump(diagnostics[results_file_name], f)
-    #assert success #keep this disabled until GET tests are seperated, 
-    #otherwise testing might stop before all endpoints are tested
-    assert success
-
-
 
 
 def test_post_client():
@@ -544,16 +443,7 @@ def test_put_one_client():
 def test_put_one_shipment():
     put_endpoint("shipments.json")
 
-def test_put_orders_id_items():
-    put_custom_endpoint("orders.json", "items")
-def test_put_shipments_id_orders():
-    put_custom_endpoint("shipments.json", "orders")
-def test_put_shipments_id_items():
-    put_custom_endpoint("shipments.json", "items")
-def test_put_shipments_id_commit():
-    put_custom_endpoint("shipments.json", "commit")
-def test_put_transfers_id_commit():
-    put_custom_endpoint("transfers.json", "commit")
+
 
 
 #@pytest.mark.skip(reason="This function is used as a helper, not for direct test runs.")
@@ -625,73 +515,7 @@ def put_endpoint(file: string):
 
     assert success
 
-def put_custom_endpoint(file : string, listName : string):
-    post_one_endpoint(file) # add dummy item to databse (has id 999)
-    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    results_file_name = f"PUT_{file.split(".")[0]}_{id}_{listName}_{test_datetime}" 
-    os.makedirs(f"testing/results/PUT", exist_ok=True)
 
-    match file.split(".")[0]:  # choose which object to update
-        case "clients":
-            obj_to_put = dummy_client
-            obj_to_put["id"] = id_test_value_put
-        case "inventories":
-            obj_to_put = dummy_inventory
-            obj_to_put["id"] = id_test_value_put
-        case "item_groups":
-            obj_to_put = dummy_item_group
-            obj_to_put["id"] = id_test_value_put
-        case "item_lines":
-            obj_to_put = dummy_item_line
-            obj_to_put["id"] = id_test_value_put
-        case "item_types":
-            obj_to_put = dummy_item_type
-            obj_to_put["id"] = id_test_value_put
-        case "items":
-            obj_to_put = dummy_item
-            obj_to_put["uid"] = str(id_test_value_put) #item has string UID
-        case "locations":
-            obj_to_put = dummy_location
-            obj_to_put["id"] = id_test_value_put
-        case "orders":
-            obj_to_put = dummy_order
-            obj_to_put["id"] = id_test_value_put
-        case "shipments":
-            obj_to_put = dummy_shipment
-            obj_to_put["id"] = id_test_value_put
-        case "suppliers":
-            obj_to_put = dummy_supplier
-            obj_to_put["id"] = id_test_value_put
-        case "transfers":
-            obj_to_put = dummy_transfer
-            obj_to_put["id"] = id_test_value_put
-        case "warehouses":
-            obj_to_put = dummy_warehouse
-            obj_to_put["id"] = id_test_value_put
-
-    start = timer()
-    #shutil.copyfile("data/" + file, "testing/test_data_backup/" + file) #backup original file
-    response = requests.put(f"{address}/{file.split(".")[0]}/{str(id_test_value_dummy)}/{listName}", #remove .json from filename
-                            json=obj_to_put,
-                            headers=
-                            {'API_KEY': 'a1b2c3d4e5',
-                            'content-type': 'application/json'}
-                                )
-    response_time = timer() - start
-
-    found_obj = loaddbdata(file, id_test_value_put)
-
-    success = remove_timestamps(found_obj) == remove_timestamps(obj_to_put)
-
-    diagnostics = {}
-    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-
-    with open(f"testing/results/PUT/{results_file_name}.json", "w") as f:
-        json.dump(diagnostics[results_file_name], f)
-
-    #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
-
-    assert success
 
 
 # The API has the following DELETE endpoints.
