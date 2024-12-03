@@ -31,7 +31,7 @@ jobs:
           mkdir -p diagrams
           
           # Run the puml-gen command with your options
-          puml-gen ./CargoHub/**/*.cs diagrams -dir -public -createAssociation -allInOne
+          puml-gen ./CargoHub/Controllers/BaseController.cs ./CargoHub/Controllers/ClientController.cs ./CargoHub/Controllers/InventoryController.cs ./CargoHub/Services/*.cs ./CargoHub/Models/*.cs diagrams -dir -public -createAssociation -allInOne
 
       # Step 5: Upload generated PlantUML diagrams as artifacts
       - name: Upload UML Diagrams
