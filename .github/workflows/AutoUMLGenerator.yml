@@ -18,7 +18,7 @@ jobs:
       - name: Generate Diagrams
         uses: addnab/docker-run-action@v3
         with:
-          image: plantuml/plantuml-server
+          image: plantuml/plantuml
           options: --rm
           run: |
             mkdir -p ./generated_diagrams
