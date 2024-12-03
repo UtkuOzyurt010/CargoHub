@@ -12,19 +12,12 @@ jobs:
       # Step 1: Checkout repository
       - name: Checkout Source
         uses: actions/checkout@v4
-        
-      - name: List files to verify paths
-        run: |
-          ls -R ./CargoHub
 
       # Step 2: Set up .NET 8.0 SDK (or newer) environment
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0'  # Use .NET 8.0 or newer
-      - name: Create Diagrams Folder if it doesn't exist
-        run: |
-            mkdir -p diagrams
 
       # Step 3: Install PlantUmlClassDiagramGenerator tool
       - name: Install PlantUmlClassDiagramGenerator
@@ -38,7 +31,7 @@ jobs:
           mkdir -p diagrams
           
           # Run the puml-gen command with your options
-          puml-gen CargoHub/*.cs diagrams -dir -public -createAssociation -allInOne
+          puml-gen ./CargoHub/**/*.cs diagrams -dir -public -createAssociation -allInOne
 
       # Step 5: Upload generated PlantUML diagrams as artifacts
       - name: Upload UML Diagrams
