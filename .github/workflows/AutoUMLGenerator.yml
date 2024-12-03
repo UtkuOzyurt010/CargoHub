@@ -1,25 +1,44 @@
-name: Auto PlantUML Class Diagram Generator
-
+name: Generate PlantUML Class Diagrams
 on:
   push:
     branches:
-      - "v2"
+        "v2"
 
 jobs:
-  plantuml:
+  plantuml-class-diagram:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Checkout repository
       - name: Checkout Source
         uses: actions/checkout@v4
-        
-      - name: Create diagrams folder if not exists
-        run: |
-          mkdir -p diagrams
 
-      - name: Generate SVG Diagrams
-        uses: holowinski/plantuml-github-action@main
+      # Step 2: Set up .NET 8.0 SDK (or newer) environment
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
         with:
-          args: -v -tsvg diagrams/*.puml
+          dotnet-version: '8.0'  # Use .NET 8.0 or newer
+
+      # Step 3: Install PlantUmlClassDiagramGenerator tool
+      - name: Install PlantUmlClassDiagramGenerator
+        run: |
+          dotnet tool install --global PlantUmlClassDiagramGenerator
+
+      # Step 4: Run the puml-gen command to generate UML diagrams
+      - name: Generate PlantUML Diagrams
+        run: |
+          # Creating diagrams folder if it does not exist
+          mkdir -p diagrams
+          
+          # Run the puml-gen command with your options
+          puml-gen ./src/**/*.cs ./diagrams -dir -public -createAssociation
+
+      # Step 5: Upload generated PlantUML diagrams as artifacts
+      - name: Upload UML Diagrams
+        uses: actions/upload-artifact@v3
+        with:
+          name: plantuml-diagrams
+          path: diagrams/*.puml
 
 
 
