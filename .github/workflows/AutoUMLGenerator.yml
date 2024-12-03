@@ -12,6 +12,10 @@ jobs:
       # Step 1: Checkout repository
       - name: Checkout Source
         uses: actions/checkout@v4
+        
+      - name: List files to verify paths
+        run: |
+          ls -R ./CargoHub
 
       # Step 2: Set up .NET 8.0 SDK (or newer) environment
       - name: Set up .NET SDK
