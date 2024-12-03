@@ -12,29 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Java (PlantUML requires Java)
-      - name: Setup Java
-        uses: actions/setup-java@v3
+      - name: Generate Diagrams
+        uses: addnab/docker-run-action@v3
         with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      # Step 3: Install PlantUML generator tool
-      - name: Install PlantUML Generator
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y graphviz
-          npm install -g plantuml-generator
-
-      # Step 4: Generate PlantUML diagrams
-      - name: Generate PlantUML Class Diagram
-        run: |
-          mkdir -p generated_diagrams
-          plantuml-generator ./src --output ./generated_diagrams/classes.puml
+          image: plantuml/plantuml-server
+          options: --rm
+          run: |
+            mkdir -p ./generated_diagrams
+            plantuml -tsvg ./src/**/*.puml -o ./generated_diagrams
 
       # Step 5: Commit the generated diagram back to the repository (optional)
       - name: Commit Diagram
