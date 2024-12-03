@@ -1,16 +1,20 @@
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
+using CargoHub.Models;
+
 public class ApiKeyMiddleware
 {
     private readonly RequestDelegate _next;
-    private const string ApiKeyHeaderName = "API_KEY";
-    private readonly IConfiguration _configuration;
 
-    public ApiKeyMiddleware(RequestDelegate next, IConfiguration configuration)
+    private const string ApiKeyHeaderName = "API_KEY";
+
+    public ApiKeyMiddleware(RequestDelegate next)
     {
         _next = next;
-        _configuration = configuration;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IServiceScopeFactory serviceScopeFactory)
     {
         if (context.Request.Path.Equals($"/api/{Globals.Version}", StringComparison.OrdinalIgnoreCase))
         {
@@ -25,14 +29,29 @@ public class ApiKeyMiddleware
             return;
         }
 
-        var configuredApiKey = _configuration.GetValue<string>("ApiKey");
-        if (!string.Equals(extractedApiKey, configuredApiKey, StringComparison.Ordinal))
+        var apiKey = context.Request.Headers["API_KEY"].ToString();
+
+        // Validate the API key (check it against your database or configuration)
+        var validApiKey = await ValidateApiKeyAsync(apiKey, serviceScopeFactory);
+
+        if (!validApiKey)
         {
-            context.Response.StatusCode = 403; // Forbidden
-            await context.Response.WriteAsync("Unauthorized client.");
+            context.Response.StatusCode = 403;
+            await context.Response.WriteAsync("Invalid API key");
             return;
         }
 
         await _next(context); // Proceed to the next middleware or request handler
+    }
+
+    private async Task<bool> ValidateApiKeyAsync(string apiKey, IServiceScopeFactory serviceScopeFactory)
+    {
+        using (var scope = serviceScopeFactory.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+
+            bool found = await context.ApiKeyInfo.AnyAsync(k => k.ApiKey == Globals.EncryptApiKey(apiKey));
+            return found;
+        }
     }
 }

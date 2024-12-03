@@ -6,6 +6,7 @@ namespace CargoHub.Models
 {
     public class DatabaseContext : DbContext
     {
+        public DbSet<ApiKeyInfo> ApiKeyInfo { get; set; }
         public DbSet<Client> Client { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Item> Item { get; set; }
@@ -34,18 +35,7 @@ namespace CargoHub.Models
                 entity.HasKey(n => n.Phone); // Explicitly set phone number as key
             });
             // Adding configuration for Item entity
-            modelBuilder.Entity<Item>(entity =>
-            {
-                // Make sure Id is auto-incrementing and is the primary key
-                entity.HasKey(i => i.Id);  // Primary key configuration
-                entity.Property(i => i.Id)
-                    .ValueGeneratedOnAdd(); // Auto-increment behavior
 
-                // If you want to make sure Uid is a regular column, just add it here
-                entity.Property(i => i.Uid).HasColumnName("Uid");
-
-                // Other configurations for Item can go here
-            });
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
