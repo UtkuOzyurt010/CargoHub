@@ -18,18 +18,15 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0'  # Use .NET 8.0 or newer
+      - name: Create Diagrams Folder if it doesn't exist
+        run: |
+            mkdir -p diagrams
 
       # Step 3: Install PlantUmlClassDiagramGenerator tool
       - name: Install PlantUmlClassDiagramGenerator
         run: |
           dotnet tool install --global PlantUmlClassDiagramGenerator
-      - name: Check for .cs files
-        id: check_files
-        run: |
-            if [ ! -d "src" ] || [ -z "$(find src -name '*.cs')" ]; then
-              echo "No C# source files found in the 'src' directory!"
-              exit 1
-            fi
+
       # Step 4: Run the puml-gen command to generate UML diagrams
       - name: Generate PlantUML Diagrams
         run: |
@@ -37,7 +34,7 @@ jobs:
           mkdir -p diagrams
           
           # Run the puml-gen command with your options
-          puml-gen ./src/**/*.cs ./diagrams -dir -public -createAssociation
+          puml-gen CargoHub/*.cs diagrams -dir -public -createAssociation -allInOne
 
       # Step 5: Upload generated PlantUML diagrams as artifacts
       - name: Upload UML Diagrams
