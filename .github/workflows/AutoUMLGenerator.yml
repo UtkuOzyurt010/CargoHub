@@ -16,13 +16,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate Diagrams
-        uses: addnab/docker-run-action@v3
-        with:
-          image: plantuml/plantuml
-          options: --rm
-          run: |
-            mkdir -p ./generated_diagrams
-            plantuml -tsvg ./src/**/*.puml -o ./generated_diagrams
+        run: |
+          docker run --rm -v $(pwd):/workspace plantuml/plantuml -tsvg /workspace/diagrams/*.puml
 
       # Step 5: Commit the generated diagram back to the repository (optional)
       - name: Commit Diagram
