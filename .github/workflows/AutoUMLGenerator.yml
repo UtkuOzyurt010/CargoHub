@@ -42,7 +42,7 @@ jobs:
       # Step 5: Convert PlantUML Diagrams to PNG
       - name: Convert UML Diagrams to PNG
         run: |
-          for file in UML/*.puml; do
+          for file in UML/; do
             plantuml -tpng "$file"
           done
           # Remove .puml files after conversion
