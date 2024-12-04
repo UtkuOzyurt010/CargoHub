@@ -19,26 +19,39 @@ jobs:
         with:
           dotnet-version: '8.0'  # Use .NET 8.0 or newer
 
-      # Step 3: Install PlantUmlClassDiagramGenerator tool
       - name: Install PlantUmlClassDiagramGenerator
         run: |
           dotnet tool install --global PlantUmlClassDiagramGenerator
 
-      # Step 4: Run the puml-gen command to generate UML diagrams
+      # Step 4: Generate PlantUML Diagrams
       - name: Generate PlantUML Diagrams
         run: |
-          # Creating diagrams folder if it does not exist
-          mkdir -p diagrams
-          
-          # Run the puml-gen command with your options
-          puml-gen ./CargoHub/Controllers/BaseController.cs ./CargoHub/Controllers/ClientController.cs ./CargoHub/Controllers/InventoryController.cs ./CargoHub/Services/*.cs ./CargoHub/Models/*.cs diagrams -dir -public -createAssociation -allInOne
+          mkdir -p UML
+          puml-gen ./CargoHub ./UML -dir -createAssociation -allInOne
 
-      # Step 5: Upload generated PlantUML diagrams as artifacts
-      - name: Upload UML Diagrams
-        uses: actions/upload-artifact@v3
-        with:
-          name: plantuml-diagrams
-          path: diagrams/*.puml
+      # Step 5: Convert PlantUML Diagrams to PNG
+      - name: Convert UML Diagrams to PNG
+        run: |
+          # Install PlantUML CLI
+          sudo apt-get update && sudo apt-get install -y default-jre graphviz
+          # Convert all .puml files in UML directory to PNG
+          for file in UML/*.puml; do
+            plantuml -tpng "$file"
+          done
+          # Remove .puml files after conversion
+          find UML -name "*.puml" -delete
+
+      # Step 5: Commit and push UML diagrams
+      - name: Commit and Push UML Diagrams
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add ./UML
+          git commit -m "Update UML diagrams"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
 
