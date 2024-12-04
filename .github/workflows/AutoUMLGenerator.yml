@@ -19,6 +19,16 @@ jobs:
         with:
           dotnet-version: '8.0'  # Use .NET 8.0 or newer
 
+      # Step 4: Install PlantUML CLI
+      - name: Install PlantUML and Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-jre graphviz
+          curl -L https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar -o /usr/local/bin/plantuml.jar
+          echo '#!/bin/bash' > /usr/local/bin/plantuml
+          echo 'java -jar /usr/local/bin/plantuml.jar "$@"' >> /usr/local/bin/plantuml
+          chmod +x /usr/local/bin/plantuml
+
       - name: Install PlantUmlClassDiagramGenerator
         run: |
           dotnet tool install --global PlantUmlClassDiagramGenerator
@@ -32,9 +42,6 @@ jobs:
       # Step 5: Convert PlantUML Diagrams to PNG
       - name: Convert UML Diagrams to PNG
         run: |
-          # Install PlantUML CLI
-          sudo apt-get update && sudo apt-get install -y default-jre graphviz
-          # Convert all .puml files in UML directory to PNG
           for file in UML/*.puml; do
             plantuml -tpng "$file"
           done
