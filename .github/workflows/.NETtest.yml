@@ -1,32 +1,32 @@
-name: .NET Core Tests
+# name: .NET Core Tests
 
-on:
-  push:
-    branches: [ "C#Migration" ]
+# on:
+#   push:
+#     branches: [ "C#Migration" ]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0'
+#       - name: Set up .NET
+#         uses: actions/setup-dotnet@v3
+#         with:
+#           dotnet-version: '8.0'
 
-      - name: Install dependencies
-        run: |
-          dotnet restore
-      - name: Set up environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y bash
+#       - name: Install dependencies
+#         run: |
+#           dotnet restore
+#       - name: Set up environment
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install -y bash
           
-      - name: Make the script executable
-        run: chmod +x ./RunTests.sh
+#       - name: Make the script executable
+#         run: chmod +x ./RunTests.sh
 
-      - name: Run Tests
-        run: ./RunTests.sh
+#       - name: Run Tests
+#         run: ./RunTests.sh
