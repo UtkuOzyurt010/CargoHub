@@ -4,7 +4,7 @@ name: CargoHub-MigrateToServer
 
 on:
   push:
-    branches: [ "C#Migration" ]
+    branches: [ "main" ]
 
 jobs:
   build:
