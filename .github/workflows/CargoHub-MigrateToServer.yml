@@ -55,7 +55,7 @@ jobs:
     - name: SSH into server and restartstart API
       run: |
         [[ $(pgrep -f "dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj") ]] && kill $(pgrep -f "dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj") || echo "Process not running"; 
-        echo "${{secrets.SERVERPASSWORD}}" | sudo nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj > /home/ubuntu-1079726/ubuntu-1079726/CargoHubLog.txt 2>&1 &
+        echo "${{secrets.SERVERPASSWORD}}" | sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj > /home/ubuntu-1079726/ubuntu-1079726/CargoHubLog.log 2>&1 &
         
       #  ssh ubuntu-1079726@145.24.223.236
       #  [[ \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') ]] && kill \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') || echo 'Process not running'
