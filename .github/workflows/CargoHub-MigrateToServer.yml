@@ -54,9 +54,10 @@ jobs:
 
     - name: SSH into server and restartstart API
       run: |
-        ssh ubuntu-1079726@145.24.223.236 "bash ~/ubuntu-1079726/CargoHub/RunCargoHub.sh"
- 
+        ssh ubuntu-1079726@145.24.223.236 "kill $(pgrep -f "dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj")"
+        ssh ubuntu-1079726@145.24.223.236 "echo "${{secrets.SERVERPASSWORD}}" | sudo nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj > /dev/null 2>&1 &"
   
+      # ssh ubuntu-1079726@145.24.223.236 "bash ~/ubuntu-1079726/CargoHub/RunCargoHub.sh"
 
 # below is when runner is on WINDOWS
 # name: CargoHub-MigrateToServer
