@@ -1,0 +1,41 @@
+---------- coverage: platform win32, python 3.12.6-final-0 -----------
+Name                                       Stmts   Miss  Cover
+--------------------------------------------------------------
+api\__init__.py                                0      0   100%
+api\models\__init__.py                         0      0   100%
+api\models\base.py                             6      2    67%
+api\models\clients.py                         38     26    32%
+api\models\inventories.py                     53     39    26%
+api\models\item_groups.py                     38     26    32%
+api\models\item_lines.py                      38     26    32%
+api\models\item_types.py                      38     26    32%
+api\models\items.py                           62     46    26%
+api\models\locations.py                       44     31    30%
+api\models\orders.py                         104     86    17%
+api\models\shipments.py                       79     64    19%
+api\models\suppliers.py                       38     26    32%
+api\models\transfers.py                       44     31    30%
+api\models\warehouses.py                      38     26    32%
+api\processors\notification_processor.py      12      6    50%
+api\providers\__init__.py                      0      0   100%
+api\providers\auth_provider.py                14      9    36%
+api\providers\data_provider.py                63     24    62%
+main.py                                      807    789     2%
+run_tests.py                                   8      8     0%
+testing\__init__.py                            0      0   100%
+testing\auth_provider_test.py                  0      0   100%
+testing\endpoints2_test.py                   286     24    92%
+testing\endpoints_test.py                    322     16    95%
+testing\main_test.py                           3      0   100%
+--------------------------------------------------------------
+TOTAL                                       2135   1331    38%
+
+=========================== short test summary info ===========================
+FAILED testing/endpoints2_test.py::test_get_orders_id_items - assert False
+FAILED testing/endpoints2_test.py::test_put_shipments_id_commit - requests.ex...
+FAILED testing/endpoints_test.py::test_get_one_order - assert False
+FAILED testing/endpoints_test.py::test_delete_one_transfer - assert False
+FAILED testing/endpoints_test.py::test_delete_one_order - assert False
+FAILED testing/endpoints_test.py::test_delete_one_shipment - assert False
+================== 6 failed, 72 passed in 221.08s (0:03:41) ===================
+Finished running tests!

@@ -70,14 +70,19 @@ def remove_timestamps(obj): #posting objects adds timestamps to them. We need to
 
 #test_backuprestore()
 
+#dummy parameters for put tests
+id_test_value_put = 1000000000000 #12 x 0
+id_test_value_get = 1
+id_test_value_dummy = 999999999999 #12 x 9
+
 #dummydata for post tests
-dummy_client = {"id": 999, "name": "Test_Client", "address": "Nowhere", "city": "Nowhere", "zip_code": "00000", "province": "Nowhere", "country": "Nowhere", "contact_name": "Test_Client", "contact_phone": "242.732.3483x2573", "contact_email": "test_client@example.net", "created_at": "", "updated_at": ""}
-dummy_inventory = {"id": 999, "item_id": "P000001", "description": "Face-to-face clear-thinking complexity", "item_reference": "sjQ23408K", "locations": [3211, 24700, 14123, 19538, 31071, 24701, 11606, 11817], "total_on_hand": 262, "total_expected": 0, "total_ordered": 80, "total_allocated": 41, "total_available": 141, "created_at": "", "updated_at": ""}
-dummy_item_group = {"id": 999, "name": "Electronics", "description": "", "created_at": "", "updated_at": ""}
-dummy_item_line = {"id": 999, "name": "Tech Gadgets", "description": "", "created_at": "", "updated_at": ""}
-dummy_item_type = {"id": 999, "name": "Laptop", "description": "", "created_at": "", "updated_at": ""}
+dummy_client = {"id": id_test_value_dummy, "name": "Test_Client", "address": "Nowhere", "city": "Nowhere", "zip_code": "00000", "province": "Nowhere", "country": "Nowhere", "contact_name": "Test_Client", "contact_phone": "242.732.3483x2573", "contact_email": "test_client@example.net", "created_at": "", "updated_at": ""}
+dummy_inventory = {"id": id_test_value_dummy, "item_id": "P000001", "description": "Face-to-face clear-thinking complexity", "item_reference": "sjQ23408K", "locations": [3211, 24700, 14123, 19538, 31071, 24701, 11606, 11817], "total_on_hand": 262, "total_expected": 0, "total_ordered": 80, "total_allocated": 41, "total_available": 141, "created_at": "", "updated_at": ""}
+dummy_item_group = {"id": id_test_value_dummy, "name": "Electronics", "description": "", "created_at": "", "updated_at": ""}
+dummy_item_line = {"id": id_test_value_dummy, "name": "Tech Gadgets", "description": "", "created_at": "", "updated_at": ""}
+dummy_item_type = {"id": id_test_value_dummy, "name": "Laptop", "description": "", "created_at": "", "updated_at": ""}
 dummy_item = {
-                "uid": "999",
+                "uid": "999999999999",
                 "code": "sjQ23408K",
                 "description": "Face-to-face clear-thinking complexity",
                 "short_description": "must",
@@ -96,9 +101,9 @@ dummy_item = {
                 "created_at": "",
                 "updated_at": ""
             }
-dummy_location = {"id": 999, "warehouse_id": 1, "code": "A.1.0", "name": "Row: A, Rack: 1, Shelf: 0", "created_at": "", "updated_at": ""}
+dummy_location = {"id": id_test_value_dummy, "warehouse_id": 1, "code": "A.1.0", "name": "Row: A, Rack: 1, Shelf: 0", "created_at": "", "updated_at": ""}
 dummy_order = {
-                "id": 999,
+                "id": id_test_value_dummy,
                 "source_id": 33,
                 "order_date": "2019-04-03T11:33:15Z",
                 "request_date": "2019-04-07T11:33:15Z",
@@ -121,7 +126,7 @@ dummy_order = {
                 "items": []
             }
 dummy_shipment = {
-                "id": 999,
+                "id": id_test_value_dummy,
                 "order_id": 1,
                 "source_id": 33,
                 "order_date": "2000-03-09",
@@ -141,9 +146,9 @@ dummy_shipment = {
                 "updated_at": "",
                 "items": [] 
             }
-dummy_supplier = {"id": 999, "code": "SUP0001", "name": "Lee, Parks and Johnson", "address": "5989 Sullivan Drives", "address_extra": "Apt. 996", "city": "Port Anitaburgh", "zip_code": "91688", "province": "Illinois", "country": "Czech Republic", "contact_name": "Toni Barnett", "phonenumber": "363.541.7282x36825", "reference": "LPaJ-SUP0001", "created_at": "", "updated_at": ""}
+dummy_supplier = {"id": id_test_value_dummy, "code": "SUP0001", "name": "Lee, Parks and Johnson", "address": "5989 Sullivan Drives", "address_extra": "Apt. 996", "city": "Port Anitaburgh", "zip_code": "91688", "province": "Illinois", "country": "Czech Republic", "contact_name": "Toni Barnett", "phonenumber": "363.541.7282x36825", "reference": "LPaJ-SUP0001", "created_at": "", "updated_at": ""}
 dummy_transfer = {
-                "id": 999,
+                "id": id_test_value_dummy,
                 "reference": "TR00001",
                 "transfer_from": None, #supposed to be null
                 "transfer_to": 9229,
@@ -157,16 +162,7 @@ dummy_transfer = {
                     }
                 ]
             }
-dummy_warehouse = {"id": 999, "code": "YQZZNL56", "name": "Heemskerk cargo hub", "address": "Karlijndreef 281", "zip": "4002 AS", "city": "Heemskerk", "province": "Friesland", "country": "NL", "contact": {"name": "Fem Keijzer", "phone": "(078) 0013363", "email": "blamore@example.net"}, "created_at": "", "updated_at": ""}
-
-#dummy parameters for put tests
-id_test_value_put = 1000
-id_test_value_get = 1
-id_test_value_dummy = 999
-
-
-
-
+dummy_warehouse = {"id": id_test_value_dummy, "code": "YQZZNL56", "name": "Heemskerk cargo hub", "address": "Karlijndreef 281", "zip": "4002 AS", "city": "Heemskerk", "province": "Friesland", "country": "NL", "contact": {"name": "Fem Keijzer", "phone": "(078) 0013363", "email": "blamore@example.net"}, "created_at": "", "updated_at": ""}
 
 
 address = "http://localhost:8000/api/v1"
@@ -254,35 +250,6 @@ def test_get_one_transfer():
 def test_get_one_warehouse():
     get_endpoint("warehouses.json", id_test_value_get)
 
-# e.g GET warehouses/{id}/locations
-def test_get_warehouses_id_locations():
-    get_custom_endpoint("warehouses.json", 1, "locations")
-def test_get_items_id_inventory():
-    get_custom_endpoint("items.json", "P000001", "inventory")
-def test_get_item_lines_id_items():
-    get_custom_endpoint("item_lines.json", 1, "items")
-def test_get_item_groups_id_items():
-    get_custom_endpoint("item_groups.json", 1, "items")
-def test_get_item_types_id_items():
-    get_custom_endpoint("item_types.json", 1, "items")
-def test_get_suppliers_id_items():
-    get_custom_endpoint("suppliers.json", 1, "items")
-def test_get_orders_id_items():
-    get_custom_endpoint("orders.json", 1, "items")
-def test_get_cliens_id_orders():
-    get_custom_endpoint("clients.json", 1, "orders")
-def test_get_shipments_id_orders():
-    get_custom_endpoint("shipments.json", 1, "orders")
-def test_get_shipments_id_items():
-    get_custom_endpoint("shipments.json", 1, "items")
-def test_get_shipments_id_commit():
-    get_custom_endpoint("shipments.json", 1, "commit")
-def test_get_transfers_id_items():
-    get_custom_endpoint("transfers.json", 1, "items")
-
-#specifically for /items/{id}/inventory/totals
-def test_get_items_id_inventory_totals():
-    get_items_id_inventory_totals()
 
 
 
@@ -333,63 +300,6 @@ def get_endpoint(file: string, id=None):
         #otherwise testing might stop before all endpoints are tested
         assert success
         
-def get_custom_endpoint(file : string, id, listName : string): #listName is e.g. "items" or "orders" for e.g. "/suppliers/{id}/items"
-    id = str(id)
-    
-    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    results_file_name = f"GET_{file.split(".")[0]}_{id}_{listName}_{test_datetime}" #ternary here REQUIRES else
-    os.makedirs("testing/results/GET", exist_ok=True)
-    start = timer()
-
-    response = requests.get(f"{address}/{file.split(".")[0]}/{id}/{listName}", #will this work with uid in items.json?
-                            headers=
-                            {'API_KEY': 'a1b2c3d4e5'})
-    
-    response_time = timer() - start
-
-    response_data = response.json()
-
-    found_obj = loaddbdata(file, id)
-
-    success = response_data == found_obj
-    
-    diagnostics = {}
-    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-    
-    with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
-        json.dump(diagnostics[results_file_name], f)
-    #assert success #keep this disabled until GET tests are seperated, 
-    #otherwise testing might stop before all endpoints are tested
-    assert success
-
-def get_items_id_inventory_totals():
-    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    results_file_name = f"GET_items_P000001_inventory_totals_{test_datetime}" #ternary here REQUIRES else
-    os.makedirs("testing/results/GET", exist_ok=True)
-    start = timer()
-
-    response = requests.get(f"{address}/{file.split(".")[0]}/{id}/{listName}", #will this work with uid in items.json?
-                            headers=
-                            {'API_KEY': 'a1b2c3d4e5'})
-    
-    response_time = timer() - start
-
-    response_data = response.json()
-
-    found_obj = loaddbdata("items.json", id)
-
-    success = response_data == found_obj
-    
-    diagnostics = {}
-    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-    
-    with open(f"testing/results/GET/{results_file_name}.json", "w") as f:
-        json.dump(diagnostics[results_file_name], f)
-    #assert success #keep this disabled until GET tests are seperated, 
-    #otherwise testing might stop before all endpoints are tested
-    assert success
-
-
 
 
 def test_post_client():
@@ -529,22 +439,7 @@ def test_put_one_client():
 def test_put_one_shipment():
     put_endpoint("shipments.json")
 
-orders/id/items
-shipments/id/orders
-shipments/id/items
-shipments/id/commit
-transfers/id/commit
 
-def test_put_orders_id_items():
-    put_custom_endpoint("orders.json", "items")
-def test_put_shipments_id_orders():
-    put_custom_endpoint("shipments.json", "orders")
-def test_put_shipments_id_items():
-    put_custom_endpoint("shipments.json", "items")
-def test_put_shipments_id_commit():
-    put_custom_endpoint("shipments.json", "commit")
-def test_put_transfers_id_commit():
-    put_custom_endpoint("transfers.json", "commit")
 
 
 #@pytest.mark.skip(reason="This function is used as a helper, not for direct test runs.")
@@ -616,73 +511,7 @@ def put_endpoint(file: string):
 
     assert success
 
-def put_custom_endpoint(file : string, listName : string):
-    post_one_endpoint(file) # add dummy item to databse (has id 999)
-    test_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    results_file_name = f"PUT_{file.split(".")[0]}_{id}_{listName}_{test_datetime}" 
-    os.makedirs(f"testing/results/PUT", exist_ok=True)
 
-    match file.split(".")[0]:  # choose which object to update
-        case "clients":
-            obj_to_put = dummy_client
-            obj_to_put["id"] = id_test_value_put
-        case "inventories":
-            obj_to_put = dummy_inventory
-            obj_to_put["id"] = id_test_value_put
-        case "item_groups":
-            obj_to_put = dummy_item_group
-            obj_to_put["id"] = id_test_value_put
-        case "item_lines":
-            obj_to_put = dummy_item_line
-            obj_to_put["id"] = id_test_value_put
-        case "item_types":
-            obj_to_put = dummy_item_type
-            obj_to_put["id"] = id_test_value_put
-        case "items":
-            obj_to_put = dummy_item
-            obj_to_put["uid"] = str(id_test_value_put) #item has string UID
-        case "locations":
-            obj_to_put = dummy_location
-            obj_to_put["id"] = id_test_value_put
-        case "orders":
-            obj_to_put = dummy_order
-            obj_to_put["id"] = id_test_value_put
-        case "shipments":
-            obj_to_put = dummy_shipment
-            obj_to_put["id"] = id_test_value_put
-        case "suppliers":
-            obj_to_put = dummy_supplier
-            obj_to_put["id"] = id_test_value_put
-        case "transfers":
-            obj_to_put = dummy_transfer
-            obj_to_put["id"] = id_test_value_put
-        case "warehouses":
-            obj_to_put = dummy_warehouse
-            obj_to_put["id"] = id_test_value_put
-
-    start = timer()
-    #shutil.copyfile("data/" + file, "testing/test_data_backup/" + file) #backup original file
-    response = requests.put(f"{address}/{file.split(".")[0]}/{str(id_test_value_dummy)}/{listName}", #remove .json from filename
-                            json=obj_to_put,
-                            headers=
-                            {'API_KEY': 'a1b2c3d4e5',
-                            'content-type': 'application/json'}
-                                )
-    response_time = timer() - start
-
-    found_obj = loaddbdata(file, id_test_value_put)
-
-    success = remove_timestamps(found_obj) == remove_timestamps(obj_to_put)
-
-    diagnostics = {}
-    diagnostics[results_file_name] = {"succes" : success, "response_time" : response_time}
-
-    with open(f"testing/results/PUT/{results_file_name}.json", "w") as f:
-        json.dump(diagnostics[results_file_name], f)
-
-    #shutil.copyfile("testing/test_data_backup/" + file, "data/" + file) #restore file from backup
-
-    assert success
 
 
 # The API has the following DELETE endpoints.
