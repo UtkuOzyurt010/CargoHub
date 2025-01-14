@@ -3,7 +3,8 @@ using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using AutoMapper;
-
+using Microsoft.Extensions.FileProviders; // Add this namespace
+using System.IO;
 namespace CargoHub;
 
 public class Program
@@ -14,9 +15,9 @@ public class Program
         builder.WebHost.UseUrls("http://localhost:8000");
 
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllersWithViews();
         // I added this so we can control what fields are sent back with the response json
-        builder.Services.AddControllers()
+        builder.Services.AddControllersWithViews()
         .AddNewtonsoftJson(options =>
         {
             options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -28,7 +29,7 @@ public class Program
             options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDb") + ";Cache=Shared"), ServiceLifetime.Scoped);
 
         // Register services
-        builder.Services.AddTransient<IGenericService<Client>, ClientService>();
+                builder.Services.AddTransient<IGenericService<Client>, ClientService>();
         builder.Services.AddTransient<IItemService, ItemService>();
         builder.Services.AddTransient<IGenericService<Inventory>, InventoryService>();
         builder.Services.AddTransient<IGenericService<ItemGroup>, ItemGroupService>();
@@ -54,6 +55,12 @@ public class Program
         //     var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
         //     await migrationService.MigrateAll();
         // }
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "Views")),
+            RequestPath = ""
+        });
 
         app.UseRouting();
         app.UseAuthorization();

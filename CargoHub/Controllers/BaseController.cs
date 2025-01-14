@@ -12,7 +12,8 @@ namespace CargoHub.Controllers
         [HttpGet()]
         public IActionResult Get()
         {
-            return Ok("優柔不断");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "home.html");
+            return PhysicalFile(filePath, "text/html");
         }
 
         [HttpHead()]
