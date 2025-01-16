@@ -41,7 +41,7 @@ jobs:
 
       #copy codebase to server
     - name: Copy codebase to server
-      run: ssh ubuntu-1079726@145.24.223.236 "cd ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/CargoHub.NET/CargoHub; git pull"
+      run: ssh ubuntu-1079726@145.24.223.236 "cd ~/ubuntu-1079726/CargoHub.NET/CargoHub; git pull"
     
       # |
     # ssh ubuntu-1079726@145.24.223.236 "sudo chown -RS ubuntu-1079726:ubuntu-1079726 /home/ubuntu-1079726/ubuntu-1079726/CargoHub"
@@ -62,7 +62,7 @@ jobs:
         
 
 
-    
+
       #  ssh ubuntu-1079726@145.24.223.236
       #  [[ \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') ]] && kill \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') || echo 'Process not running'
       #  echo "${{secrets.SERVERPASSWORD}}" | sudo nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj > /home/ubuntu-1079726/ubuntu-1079726/CargoHubLog.log 2>&1 &
