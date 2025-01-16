@@ -49,8 +49,8 @@ jobs:
     # cd ..
     # scp -r CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/CargoHub
 
-    - name: update permission of bash file to allow it to run
-      run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh'"
+    # - name: update permission of bash file to allow it to run
+    #   run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh'"
     #RunCargoHub.sh doesn't use the .exe anymore so this isn't necessary anymore
     # - name: update permission of exe file to allow it to run
     #   run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/bin/Debug/net8.0/CargoHub.exe'"
