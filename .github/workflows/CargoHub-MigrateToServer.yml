@@ -4,7 +4,7 @@ name: CargoHub-MigrateToServer
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "deploy" ]
 
 jobs:
   build:
@@ -35,10 +35,7 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.4
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      # Add the remote server to known_hosts
-    # - name: Add server to known_hosts
-    #   run: ssh-keyscan -H 145.24.223.236 >> ~/.ssh/known_hosts
-
+   
       #copy codebase to server
     - name: Copy codebase to server
       run: ssh ubuntu-1079726@145.24.223.236 "cd ~/ubuntu-1079726/CargoHub.NET/CargoHub; git pull"
