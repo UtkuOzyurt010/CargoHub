@@ -11,7 +11,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.WebHost.UseUrls("http://localhost:8080");
+        builder.WebHost.UseUrls("http://0.0.0.0:8080");
+        //builder.WebHost.UseUrls("http://dotnet run --urls "http://0.0.0.0:8080":8080");
 
 
         builder.Services.AddControllers();

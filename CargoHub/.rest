@@ -1,7 +1,7 @@
 
 @address = http://localhost:8080/api/v1
 ######
-@server_address = http://localhost:8080/api/v1
+@server_address = http://145.24.223.236:8080/api/v1
 ######
 GET {{address}} HTTP/1.1
 ######
