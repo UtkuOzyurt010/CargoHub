@@ -6,8 +6,8 @@ on:
 
 jobs:
   build:
-    #runs-on: ubuntu-latest
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    #runs-on: self-hosted // we don't need to run this on our server
     steps:
     - uses: actions/checkout@v4
 
@@ -27,8 +27,8 @@ jobs:
       working-directory: ./CargoHub
 
     - name: Run the project in new window
-      run: /bin/Cargohub.exe &
-      working-directory: ./CargoHub
+      run: dotnet run & # /bin/Cargohub.exe &
+      working-directory: ./CargoHub 
 
     - name: Test API
       run: bash RunTests.sh
