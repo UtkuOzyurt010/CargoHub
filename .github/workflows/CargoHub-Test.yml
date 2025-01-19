@@ -35,9 +35,15 @@ jobs:
       working-directory: ./CargoHub
       continue-on-error: true
 
+    - name: Upload test run results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-run-results
+        path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/TestResults/test_results.trx"
+      
     - name: Upload test results
       uses: actions/upload-artifact@v3
       with:
         name: test-results
-        path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/TestResults/test_results.trx"
+        path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
       
