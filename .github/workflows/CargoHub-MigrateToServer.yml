@@ -12,23 +12,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Set up .NET
-    #   uses: actions/setup-dotnet@v4
-    #   with:
-    #     dotnet-version: '8.0'
-    #     cache: true
-
     - name: Restore dependencies
       run: dotnet restore --use-lock-file
       working-directory: ./CargoHub
-
-    - name: Build the project
+    
+    - name: Build the project 
       run: |
         dotnet build CargoHub.csproj
       working-directory: ./CargoHub
 
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    # - name: Checkout repository
+    #   uses: actions/checkout@v3
 
       #Set up SSH agent and add private key
     - name: Set up SSH agent
@@ -40,89 +34,8 @@ jobs:
     - name: Copy codebase to server
       run: ssh ubuntu-1079726@145.24.223.236 "cd ~/ubuntu-1079726/CargoHub.NET/CargoHub; git checkout deploy; git pull"
     
-      # |
-    # ssh ubuntu-1079726@145.24.223.236 "sudo chown -RS ubuntu-1079726:ubuntu-1079726 /home/ubuntu-1079726/ubuntu-1079726/CargoHub"
-    # ssh ubuntu-1079726@145.24.223.236 'rm -rf /home/ubuntu-1079726/ubuntu-1079726/CargoHub/'
-    # cd ..
-    # scp -r CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726/CargoHub
-
-    # - name: update permission of bash file to allow it to run
-    #   run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh'"
-    # RunCargoHub.sh doesn't use the .exe anymore so this isn't necessary anymore
-    # - name: update permission of exe file to allow it to run
-    #   run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/bin/Debug/net8.0/CargoHub.exe'"
-
+      #terminate API on server and restart it with updated .csproj 
     - name: SSH into server and restartstart API 
       run: |
-        [[ $(pgrep -f "sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub.Net/CargoHub/CargoHub/CargoHub.csproj") ]] && kill $(pgrep -f "sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj") || echo "Process not running"; 
+        [[ $(pgrep -f "sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub.Net/CargoHub/CargoHub/CargoHub.csproj") ]] && kill $(pgrep -f "sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub.NET/CargoHub/CargoHub/CargoHub.csproj") || echo "Process not running"; 
         echo "${{secrets.SERVERPASSWORD}}" | sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub.NET/CargoHub/CargoHub/CargoHub.csproj > /home/ubuntu-1079726/ubuntu-1079726/CargoHubDotNetLog.log 2>&1 &
-      
-      
-      # - name: SSH into server and restartstart API 
-      #  ssh ubuntu-1079726@145.24.223.236
-      #  [[ \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') ]] && kill \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') || echo 'Process not running'
-      #  echo "${{secrets.SERVERPASSWORD}}" | sudo nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj > /home/ubuntu-1079726/ubuntu-1079726/CargoHubLog.log 2>&1 &
-        
-      #  ssh ubuntu-1079726@145.24.223.236 "[[ \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') ]] && kill \$(pgrep -f 'dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj') || echo 'Process not running'"
-      #  ssh ubuntu-1079726@145.24.223.236 'echo "${{secrets.SERVERPASSWORD}}" | sudo nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/CargoHub.csproj > /home/ubuntu-1079726/ubuntu-1079726/CargoHubLog.log 2>&1 &'
-  
-      # ssh ubuntu-1079726@145.24.223.236 "bash ~/ubuntu-1079726/CargoHub/RunCargoHub.sh"
-
-# below is when runner is on WINDOWS
-# name: CargoHub-MigrateToServer
-
-# on:
-#   push:
-#     branches: [ "C#Migration" ]
-
-# jobs:
-#   build:
-#     runs-on: self-hosted
-#     steps:
-#     - uses: actions/checkout@v4
-
-#     - name: Set up .NET
-#       uses: actions/setup-dotnet@v4
-#       with:
-#         dotnet-version: '8.0'
-#         cache: true
-
-#     - name: Restore dependencies
-#       run: dotnet restore --use-lock-file
-#       working-directory: ./CargoHub
-
-#     - name: Build the project
-#       run: |
-#         dotnet build CargoHub.csproj
-#       working-directory: ./CargoHub
-
-#     - name: Checkout repository
-#       uses: actions/checkout@v3
-
-#       #Set up SSH agent and add private key
-#     - name: Set up SSH agent
-#       uses: webfactory/ssh-agent@v0.5.4
-#       with:
-#         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-#       # Add the remote server to known_hosts
-#     # - name: Add server to known_hosts
-#     #   run: ssh-keyscan -H 145.24.223.236 >> ~/.ssh/known_hosts
-
-#       #copy codebase to server
-#     - name: Copy codebase to server
-#       run: |
-#         ssh ubuntu-1079726@145.24.223.236 'rm -rf /home/ubuntu-1079726/ubuntu-1079726/CargoHub/'
-#         scp -r C:/VSCodeProjects/CargoHub ubuntu-1079726@145.24.223.236:~/ubuntu-1079726
-
-
-#     - name: update permission of bash file to allow it to run
-#       run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/RunCargoHub.sh'"
-#     - name: update permission of exe file to allow it to run
-#       run: ssh ubuntu-1079726@145.24.223.236 "chmod +x '/home/ubuntu-1079726/ubuntu-1079726/CargoHub/CargoHub/bin/Debug/net8.0/CargoHub.exe'"
-
-#     - name: SSH into server and restartstart API
-#       run: |
-#         ssh ubuntu-1079726@145.24.223.236 "bash ~/ubuntu-1079726/CargoHub/RunCargoHub.sh"
- 
-    
-    
