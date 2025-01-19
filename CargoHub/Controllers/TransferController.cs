@@ -9,11 +9,13 @@ namespace CargoHub.Controllers
     {
         private readonly ITransfer _transferService;
         private readonly IItemService _itemService;
+        private readonly IInventoryService _inventoryService;
 
-        public TransferController(ITransfer transferService, IItemService itemService)
+        public TransferController(ITransfer transferService, IItemService itemService, IInventoryService inventoryService)
         {
             _transferService = transferService;
             _itemService = itemService;
+            _inventoryService = inventoryService;
         }
 
         [HttpGet("{id}")]
@@ -84,6 +86,50 @@ namespace CargoHub.Controllers
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpPut("{id}/commit")]
+        public async Task<IActionResult> Commit(int id)
+        {
+            List<Transfer> transfers =  await _transferService.GetBatch([id]);
+            var transfer = transfers.FirstOrDefault();
+            if (transfer is null)
+            {
+                return BadRequest("No transfer with that id was found");
+            }
+            if (transfer is not null && transfer.Transfer_Status != "Completed")
+            {
+                foreach (TransferItem item in transfer.Items)
+                {
+                    List<Inventory> inventories = await _inventoryService.GetItemInventory(item.Item_Id);
+                    foreach (Inventory inv in inventories)
+                    {
+                        if (inv.Id == transfer.Transfer_From)
+                        {
+                            inv.Total_On_Hand -= item.Amount;
+                            inv.Total_Expected = inv.Total_On_Hand + inv.Total_Ordered;
+                            inv.Total_Available = inv.Total_On_Hand - inv.Total_Allocated;
+                            bool fromresult = await _inventoryService.Update(inv);
+                        }
+                        if (inv.Id == transfer.Transfer_To)
+                        {
+                            inv.Total_On_Hand += item.Amount;
+                            inv.Total_Expected = inv.Total_On_Hand + inv.Total_Ordered;
+                            inv.Total_Available = inv.Total_On_Hand - inv.Total_Allocated;
+                            bool toresult = await _inventoryService.Update(inv);
+                        }
+                    }
+                }
+                transfer.Transfer_Status = "Completed";
+                bool result = await _transferService.Update(transfer);
+                return Ok("Status updated to Completed");
+            }
+            
+            if (transfer.Transfer_Status == "Completed")
+            {
+                return BadRequest("Transfer already executed");
+            }
+            return BadRequest($"Unknown error with transfer ID {id}. Transfer status: {transfer?.Transfer_Status}");
         }
 
         [HttpPut("batch")]
