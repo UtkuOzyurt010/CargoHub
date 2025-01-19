@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.OpenApi.Models;
 
 namespace CargoHub;
 
@@ -46,7 +48,10 @@ public class Program
         builder.Services.AddTransient<IItemService, ItemService>();
 
         //Swagger
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.OperationFilter<AddSauceHeaderOperationFilter>();
+        });
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -80,5 +85,26 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.Run();
+    }
+}
+
+public class AddSauceHeaderOperationFilter : IOperationFilter
+{
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        if (operation.Parameters == null)
+            operation.Parameters = new List<OpenApiParameter>();
+
+        operation.Parameters.Add(new OpenApiParameter
+        {
+            Name = "API_KEY",
+            In = ParameterLocation.Header,
+            Description = "The API key string",
+            Required = false, // If we want it required set this to true
+            Schema = new OpenApiSchema
+            {
+                Type = "string"
+            }
+        });
     }
 }
