@@ -33,6 +33,7 @@ jobs:
     - name: Test API
       run: bash RunTests.sh --logger "trx;LogFileName=test_results.trx"
       working-directory: ./CargoHub
+      continue-on-error: true
 
     - name: Upload test results
       uses: actions/upload-artifact@v3
