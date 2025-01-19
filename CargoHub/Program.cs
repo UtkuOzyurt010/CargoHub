@@ -73,7 +73,7 @@ public class Program
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "CargoHub API v1");
-                options.RoutePrefix = string.Empty; // Optioneel: maakt Swagger toegankelijk op de root URL.
+                options.RoutePrefix = "api/v1"; // maak swagger toegankelijk op api/v1
             });
         }
         app.UseAuthorization();

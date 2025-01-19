@@ -99,6 +99,10 @@ namespace CargoHub.Controllers
             }
             if (transfer is not null && transfer.Transfer_Status != "Completed")
             {
+                if (transfer.Items is null)
+                {
+                    return BadRequest("No Items found to transfer in the Transfer.");
+                }
                 foreach (TransferItem item in transfer.Items)
                 {
                     List<Inventory> inventories = await _inventoryService.GetItemInventory(item.Item_Id);
