@@ -3,6 +3,7 @@ using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace CargoHub;
 
@@ -44,6 +45,9 @@ public class Program
         builder.Services.AddTransient<IInventoryService, InventoryService>();
         builder.Services.AddTransient<IItemService, ItemService>();
 
+        //Swagger
+        builder.Services.AddSwaggerGen();
+
         builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         builder.Services.AddScoped<MigrationService>();
@@ -57,6 +61,16 @@ public class Program
         // }
 
         app.UseRouting();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "CargoHub API v1");
+                options.RoutePrefix = string.Empty; // Optioneel: maakt Swagger toegankelijk op de root URL.
+            });
+        }
         app.UseAuthorization();
         
         //checking API key
