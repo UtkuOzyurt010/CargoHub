@@ -1,7 +1,0 @@
-Test: Put_ReturnsDetails
-StatusCode: OK
-Endpoint: /api/v1/warehouses
-DB: 999999
-Test executed in: 641ms
-
-
