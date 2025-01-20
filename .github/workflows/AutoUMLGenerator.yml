@@ -1,0 +1,59 @@
+name: Generate PlantUML Class Diagrams
+on:
+  push:
+    branches:
+      [ "main" ]
+
+jobs:
+  plantuml-class-diagram:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      # Step 2: Set up .NET 8.0 SDK (or newer) environment
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'  # Use .NET 8.0 or newer
+
+      # Step 3: Install PlantUML CLI
+      - name: Install PlantUML and Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-jre graphviz
+          curl -L https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar -o /usr/local/bin/plantuml.jar
+          echo '#!/bin/bash' > /usr/local/bin/plantuml
+          echo 'java -jar /usr/local/bin/plantuml.jar "$@"' >> /usr/local/bin/plantuml
+          chmod +x /usr/local/bin/plantuml
+
+      - name: Install PlantUmlClassDiagramGenerator
+        run: |
+          dotnet tool install --global PlantUmlClassDiagramGenerator
+
+      # Step 4: Generate PlantUML Diagrams
+      - name: Generate PlantUML Diagrams
+        run: |
+          mkdir -p UML
+          puml-gen ./CargoHub ./UML -dir -createAssociation -allInOne
+
+      # Step 5: Convert PlantUML Diagrams to PNG
+      - name: Convert UML Diagrams to PNG
+        run: |
+          find UML -name "*.puml" -exec plantuml -o ./UML {} \;
+
+          # Remove .puml files after conversion
+          find UML -name "*.puml" -delete
+
+      # Step 6: Commit and push UML diagrams
+      - name: Commit and Push UML PNGs
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add UML
+          git commit -m "Update UML diagrams as PNGs" || echo "No changes to commit"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

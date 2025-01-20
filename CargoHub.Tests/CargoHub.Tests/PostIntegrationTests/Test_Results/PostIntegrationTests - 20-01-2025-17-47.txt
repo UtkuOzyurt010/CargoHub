@@ -1,0 +1,63 @@
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/warehouses
+DB: 999999
+Test executed in: 158ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/locations
+DB: 999999
+Test executed in: 20ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/transfers
+DB: 999999
+Test executed in: 22ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/items
+DB: 999999
+Test executed in: 28ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/inventories
+DB: 999999
+Test executed in: 48ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/suppliers
+DB: 999999
+Test executed in: 24ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/orders
+DB: 999999
+Test executed in: 42ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/clients
+DB: 999999
+Test executed in: 21ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/shipments
+DB: 999999
+Test executed in: 25ms
+
+
