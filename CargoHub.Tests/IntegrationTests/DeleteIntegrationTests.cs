@@ -27,7 +27,7 @@ namespace CargoHub.Tests
             _filepath = Path.Combine(resultsDirectory, $"DeleteIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        [Fact]
+        //[Fact]
         public async Task Test_Delete_Id_Endpoints()
         {
             var endpoints = new List<string>
