@@ -40,8 +40,10 @@ jobs:
       run: |
         echo "Tests failed. Reverting commit..."
         
+        git commit -m 
         # Revert the last commit
         git revert --no-edit HEAD
+        git commit -m
         
         # Push the reverted commit to the main branch
         git push origin main
