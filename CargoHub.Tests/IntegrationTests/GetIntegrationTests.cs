@@ -66,7 +66,7 @@ namespace CargoHub.Tests
             var responseBody = await response.Content.ReadAsStringAsync();
 
             //Assert server returns OK and response contains correct info
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             //get access to test database
             using var scope = _factory.Services.CreateScope();
