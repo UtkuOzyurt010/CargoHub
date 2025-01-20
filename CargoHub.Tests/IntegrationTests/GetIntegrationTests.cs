@@ -27,7 +27,7 @@ namespace CargoHub.Tests
        _client.DefaultRequestHeaders.Add("API_KEY", $"{TestParams.TestAPIKEY}");     _filepath = Path.Combine(resultsDirectory, $"GetIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        //[Fact]
+        [Fact]
         public async Task Test_Get_Id_Endpoints()
         {
             var endpointsWithIds = new List<string>
