@@ -40,19 +40,24 @@ jobs:
       run: |
         echo "Tests failed. Reverting commit..."
         
-        # Discard the changes to generated files to avoid conflicts
-        git checkout -- CargoHub.Tests/bin/Debug/net8.0/CargoHub.sqlite
-        git checkout -- CargoHub/AuditLogs/auditlog.txt
+        # Set Git user identity globally for the runner environment
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        
+        # Stash the changes to avoid conflicts
+        git stash --keep-index
     
         # Revert the last commit
         git revert --no-edit HEAD
-        
+    
         # Commit the revert
         git commit -m "Revert changes due to failed tests"
         
         # Push the reverted commit to the main branch
         git push origin main
-
+        
+        # Apply the stashed changes (if there were any)
+        git stash pop
     - name: Upload test run results
       if: always()
       uses: actions/upload-artifact@v3
