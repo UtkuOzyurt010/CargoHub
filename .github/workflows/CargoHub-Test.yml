@@ -58,8 +58,6 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
-          const { context, github } = require('@actions/github');
-
           const testApiStatus = '${{ steps.test-api.outcome }}'; // Get the outcome of the Test API step
 
           const status = testApiStatus === 'success' ? 'success' : 'failure';
