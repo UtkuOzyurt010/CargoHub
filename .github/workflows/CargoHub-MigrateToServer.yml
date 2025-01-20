@@ -16,6 +16,7 @@ jobs:
       run: dotnet restore --use-lock-file
       working-directory: ./CargoHub
     
+    #not necessary but gives more complete diagnostics on fail than "dotnet run" below
     - name: Build the project 
       run: |
         dotnet build CargoHub.csproj
@@ -32,7 +33,7 @@ jobs:
    
       #copy codebase to server
     - name: Copy codebase to server
-      run: ssh ubuntu-1079726@145.24.223.236 "cd ~/ubuntu-1079726/CargoHub.NET/CargoHub; git checkout deploy; git pull"
+      run: ssh ubuntu-1079726@145.24.223.236 "cd ~/ubuntu-1079726/CargoHub.NET/CargoHub; git checkout deploy; git pull" # uses deploy key
 
       #restart API on server
     - name: restartstart API 
