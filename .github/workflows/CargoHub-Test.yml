@@ -54,6 +54,7 @@ jobs:
         path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
 
     - name: Check test results and report status
+      if: always()
       uses: actions/github-script@v6
       with:
         script: |
