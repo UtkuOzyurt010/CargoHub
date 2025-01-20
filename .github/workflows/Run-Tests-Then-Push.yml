@@ -102,5 +102,5 @@ jobs:
 
         # Push the changes to main
         git push origin main
-        env:
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Used to authenticate and push to the repo
