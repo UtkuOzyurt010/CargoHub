@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    #runs-on: self-hosted // we don't need to run this on our server
+
     steps:
     - uses: actions/checkout@v4
 
@@ -31,6 +31,7 @@ jobs:
       working-directory: ./CargoHub 
 
     - name: Test API
+      id: test-api
       run: bash RunTests.sh
       working-directory: ./CargoHub
 
@@ -52,4 +53,25 @@ jobs:
         name: test-results
         path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
 
-      
+    - name: Check test results and report status
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const { context, github } = require('@actions/github');
+          const testApiStatus = '${{ steps.test-api.outcome }}'; // Get the outcome of the Test API step
+
+          const status = testApiStatus === 'success' ? 'success' : 'failure';
+          const description = status === 'success' ? 'All tests passed!' : 'Some tests failed.';
+
+          await github.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: context.sha,
+            state: status,
+            description: description,
+            context: 'Test API Status'
+          });
+
+    - name: Fail workflow if tests failed
+      if: failure()
+      run: exit 1
