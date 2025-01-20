@@ -1,7 +1,0 @@
-Test: Post_ReturnsDetails
-StatusCode: OK
-Response: 
-Endpoint: /api/v1/warehouses/1
-Test executed in: 699ms
-
-
