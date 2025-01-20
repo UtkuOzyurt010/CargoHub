@@ -31,7 +31,7 @@ jobs:
       working-directory: ./CargoHub 
 
     - name: Test API
-      run: bash RunTests.sh --logger "trx;LogFileName=test_results.trx"
+      run: bash RunTests.sh
       working-directory: ./CargoHub
       continue-on-error: true
 
@@ -46,5 +46,4 @@ jobs:
       with:
         name: test-results
         path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
-        # path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/bin/Debug/net8.0/CargoHub.Tests/CargoHub.Tests"
       
