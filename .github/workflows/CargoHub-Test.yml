@@ -71,6 +71,8 @@ jobs:
             description: description,
             context: 'Test API Status'
           });
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
     - name: Fail workflow if tests failed
