@@ -96,6 +96,7 @@ jobs:
         # switch to main
         git add .
         git commit -m "Automated commit from workflow, before switchin to main branch"
+        git push
         git checkout main
 
         # Commit the changes (add or modify files as necessary)
