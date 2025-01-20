@@ -40,8 +40,9 @@ jobs:
       run: |
         echo "Tests failed. Reverting commit..."
         
-        # Stash the changes to avoid conflicts
-        git stash --keep-index
+        # Discard the changes to generated files to avoid conflicts
+        git checkout -- CargoHub.Tests/bin/Debug/net8.0/CargoHub.sqlite
+        git checkout -- CargoHub/AuditLogs/auditlog.txt
     
         # Revert the last commit
         git revert --no-edit HEAD
@@ -51,9 +52,6 @@ jobs:
         
         # Push the reverted commit to the main branch
         git push origin main
-        
-        # Apply the stashed changes (if there were any)
-        git stash pop
 
     - name: Upload test run results
       if: always()
