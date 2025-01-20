@@ -53,7 +53,7 @@ jobs:
         name: test-results
         path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
 
-    - name: Check test results and report status
+    - name: Check test results and report status # is this check relevant anymore now that the push gets blocked in this workflow on test failure already?
       if: always()
       uses: actions/github-script@v6
       with:
