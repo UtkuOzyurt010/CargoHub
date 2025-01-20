@@ -1,0 +1,150 @@
+name: CargoHub-Test
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0'
+        cache: false
+
+    - name: Restore dependencies
+      run: dotnet restore --use-lock-file
+      working-directory: ./CargoHub
+
+    - name: Build the project
+      run: |
+        dotnet build CargoHub.csproj
+      working-directory: ./CargoHub
+
+    - name: Run the project in new window
+      run: dotnet run & # /bin/Cargohub.exe &
+      working-directory: ./CargoHub 
+
+    - name: Test API
+      id: test-api
+      run: bash RunTests.sh
+      working-directory: ./CargoHub
+
+    - name: Upload automatic test run results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-run-results
+        path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/TestResults/test_results.trx"
+      
+    - name: Upload our own test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
+
+    - name: Fail workflow if tests failed
+      if: failure()
+      run: exit 1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+      
+    # - name: Check test results and revert if failed
+    #   if: failure()
+    #   run: |
+    #     echo "Tests failed. Reverting commit..."
+        
+    #     # Set Git user identity globally for the runner environment
+    #     git config --global user.name "GitHub Actions"
+    #     git config --global user.email "actions@github.com"
+        
+    #     # Stash the changes to avoid conflicts
+    #     git stash --keep-index
+    
+    #     # Revert the last commit
+    #     git revert --no-edit HEAD
+    
+    #     git add .
+        
+    #     # Commit the revert
+    #     git commit -m "Revert changes due to failed tests"
+        
+    #     # Push the reverted commit to the main branch
+    #     git push origin main
+        
+    #     # Apply the stashed changes (if there were any)
+    #     git stash pop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      # - name: Check test results and report status
+      # if: always()
+      # uses: actions/github-script@v6
+      # with:
+      #   script: |
+      #     const testApiStatus = '${{ steps.test-api.outcome }}'; // Get the outcome of the Test API step
+
+      #     const status = testApiStatus === 'success' ? 'success' : 'failure';
+      #     const description = status === 'success' ? 'All tests passed!' : 'Some tests failed.';
+
+      #     // Create a check run instead of using createCommitStatus
+      #     const checkRun = await github.rest.checks.create({
+      #       owner: context.repo.owner,
+      #       repo: context.repo.repo,
+      #       name: 'Test API Status',
+      #       head_sha: context.sha,
+      #       status: 'completed',
+      #       conclusion: status,
+      #       output: {
+      #         title: 'Test API',
+      #         summary: description,
+      #       },
+      #     });
+
+      #     console.log('Check run created successfully', checkRun.data);
+      # env:
+      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+          

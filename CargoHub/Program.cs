@@ -3,6 +3,9 @@ using CargoHub.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.OpenApi.Models;
 
 namespace CargoHub;
 
@@ -44,6 +47,12 @@ public class Program
         builder.Services.AddTransient<IInventoryService, InventoryService>();
         builder.Services.AddTransient<IItemService, ItemService>();
 
+        //Swagger
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.OperationFilter<AddSauceHeaderOperationFilter>();
+        });
+
         builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         builder.Services.AddScoped<MigrationService>();
@@ -57,14 +66,47 @@ public class Program
         // }
 
         app.UseRouting();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "CargoHub API v1");
+                options.RoutePrefix = "api/v1"; // maak swagger toegankelijk op api/v1
+            });
+        }
         app.UseAuthorization();
         
         //checking API key
+        
         app.UseMiddleware<ApiKeyMiddleware>();
+        app.UseMiddleware<AuditLogMiddleware>();
         
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.Run();
+    }
+}
+
+public class AddSauceHeaderOperationFilter : IOperationFilter
+{
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        if (operation.Parameters == null)
+            operation.Parameters = new List<OpenApiParameter>();
+
+        operation.Parameters.Add(new OpenApiParameter
+        {
+            Name = "API_KEY",
+            In = ParameterLocation.Header,
+            Description = "The API key string",
+            Required = false, // If we want it required set this to true
+            Schema = new OpenApiSchema
+            {
+                Type = "string"
+            }
+        });
     }
 }

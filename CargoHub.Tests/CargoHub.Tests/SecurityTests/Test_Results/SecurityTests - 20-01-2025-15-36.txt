@@ -1,0 +1,144 @@
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/warehouses
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/locations
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/transfers
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/items
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/inventories
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/suppliers
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/orders
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/clients
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/shipments
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/warehouses
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/locations
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/transfers
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/items
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/inventories
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/suppliers
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/orders
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/clients
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/shipments
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/warehouses
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/locations
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/transfers
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/items
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/inventories
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/suppliers
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/orders
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/clients
+
+Test: Security401
+StatusCode: Unauthorized
+Endpoint: /api/v1/shipments
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/warehouses
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/locations
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/transfers
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/items
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/inventories
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/suppliers
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/orders
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/clients
+
+Test: Security403
+StatusCode: Forbidden
+Endpoint: /api/v1/shipments
+

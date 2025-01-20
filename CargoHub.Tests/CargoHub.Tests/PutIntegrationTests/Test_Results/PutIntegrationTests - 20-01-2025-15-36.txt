@@ -1,0 +1,126 @@
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/warehouses
+DBId: 999999
+Test executed in: 30ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/locations
+DBId: 999999
+Test executed in: 6ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/transfers
+DBId: 999999
+Test executed in: 6ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/items
+DBId: 999999
+Test executed in: 4ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/inventories
+DBId: 999999
+Test executed in: 4ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/suppliers
+DBId: 999999
+Test executed in: 4ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/orders
+DBId: 999999
+Test executed in: 4ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/clients
+DBId: 999999
+Test executed in: 5ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/shipments
+DBId: 999999
+Test executed in: 5ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/warehouses
+DBId: 999999
+Test executed in: 30ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/locations
+DBId: 999999
+Test executed in: 6ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/transfers
+DBId: 999999
+Test executed in: 7ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/items
+DBId: 999999
+Test executed in: 5ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/inventories
+DBId: 999999
+Test executed in: 5ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/suppliers
+DBId: 999999
+Test executed in: 5ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/orders
+DBId: 999999
+Test executed in: 5ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/clients
+DBId: 999999
+Test executed in: 4ms
+
+
+Test: Put_ReturnsDetails
+StatusCode: OK
+Endpoint: /api/v1/shipments
+DBId: 999999
+Test executed in: 5ms
+
+
