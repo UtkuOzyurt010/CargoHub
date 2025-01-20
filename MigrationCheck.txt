@@ -1,1 +1,1 @@
-automatic migration works! :D
+automatic migration works!
