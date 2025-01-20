@@ -79,7 +79,9 @@ public class Program
         app.UseAuthorization();
         
         //checking API key
+        
         app.UseMiddleware<ApiKeyMiddleware>();
+        app.UseMiddleware<AuditLogMiddleware>();
         
         app.MapControllerRoute(
             name: "default",
