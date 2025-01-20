@@ -40,6 +40,6 @@ else
 fi
 
 echo "Running dotnet test..."
-echo ls 
+echo "$PWD"
 #dotnet test "../"
 dotnet test "../" --logger "trx;LogFileName=test_results.trx"
