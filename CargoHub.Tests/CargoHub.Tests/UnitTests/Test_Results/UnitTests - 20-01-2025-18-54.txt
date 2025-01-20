@@ -1,0 +1,72 @@
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Client
+Test executed in: 413ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Warehouse
+Test executed in: 23ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Location
+Test executed in: 11ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Transfer
+Test executed in: 16ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Item
+Test executed in: 27ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.ItemLine
+Test executed in: 12ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.ItemGroup
+Test executed in: 11ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.ItemType
+Test executed in: 11ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Inventory
+Test executed in: 29ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Supplier
+Test executed in: 22ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Order
+Test executed in: 41ms
+
+
+Test: GetfromDB
+TestID: 1
+DBID: CargoHub.Models.Shipment
+Test executed in: 27ms
+
+
