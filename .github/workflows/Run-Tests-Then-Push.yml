@@ -94,12 +94,13 @@ jobs:
         git fetch --all
 
         # switch to main
+        git commit -m "Automated commit from workflow, before switchin to main branch"
         git checkout main
 
         # Commit the changes (add or modify files as necessary)
         git add .
         git commit -m "Automated commit from workflow"
-
+        git merge push_to_main --no-ff --commit -m "Merge push_to_main into main"
         # Push the changes to main
         git push origin main
       env:
