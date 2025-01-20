@@ -1,107 +1,107 @@
-name: CargoHub-Test
+# name: Run-Tests-Then-Push
 
-on:
-  push:
-    branches: [ "push_to_main" ]
+# on:
+#   push:
+#     branches: [ "push_to_main" ]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v4
+#     steps:
+#     - uses: actions/checkout@v4
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0'
-        cache: false
+#     - name: Set up .NET
+#       uses: actions/setup-dotnet@v4
+#       with:
+#         dotnet-version: '8.0'
+#         cache: false
 
-    - name: Restore dependencies
-      run: dotnet restore --use-lock-file
-      working-directory: ./CargoHub
+#     - name: Restore dependencies
+#       run: dotnet restore --use-lock-file
+#       working-directory: ./CargoHub
 
-    - name: Build the project
-      run: |
-        dotnet build CargoHub.csproj
-      working-directory: ./CargoHub
+#     - name: Build the project
+#       run: |
+#         dotnet build CargoHub.csproj
+#       working-directory: ./CargoHub
 
-    - name: Run the project in new window
-      run: dotnet run & # /bin/Cargohub.exe &
-      working-directory: ./CargoHub 
+#     - name: Run the project in new window
+#       run: dotnet run & # /bin/Cargohub.exe &
+#       working-directory: ./CargoHub 
 
-    - name: Test API
-      id: test-api
-      run: bash RunTests.sh
-      working-directory: ./CargoHub
+#     - name: Test API
+#       id: test-api
+#       run: bash RunTests.sh
+#       working-directory: ./CargoHub
 
-    - name: Check test results
-      if: failure()
-      run: exit 1
+#     - name: Check test results
+#       if: failure()
+#       run: exit 1
 
-    - name: Upload test run results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-run-results
-        path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/TestResults/test_results.trx"
+#     - name: Upload test run results
+#       if: always()
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: test-run-results
+#         path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/TestResults/test_results.trx"
       
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
+#     - name: Upload test results
+#       if: always()
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: test-results
+#         path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
 
-    - name: Check test results and report status # is this check relevant anymore now that the push gets blocked in this workflow on test failure already?
-      if: always()
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const testApiStatus = '${{ steps.test-api.outcome }}'; // Get the outcome of the Test API step
+#     - name: Check test results and report status # is this check relevant anymore now that the push gets blocked in this workflow on test failure already?
+#       if: always()
+#       uses: actions/github-script@v6
+#       with:
+#         script: |
+#           const testApiStatus = '${{ steps.test-api.outcome }}'; // Get the outcome of the Test API step
 
-          const status = testApiStatus === 'success' ? 'success' : 'failure';
-          const description = status === 'success' ? 'All tests passed!' : 'Some tests failed.';
+#           const status = testApiStatus === 'success' ? 'success' : 'failure';
+#           const description = status === 'success' ? 'All tests passed!' : 'Some tests failed.';
 
-          // Create a check run instead of using createCommitStatus
-          const checkRun = await github.rest.checks.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            name: 'Test API Status',
-            head_sha: context.sha,
-            status: 'completed',
-            conclusion: status,
-            output: {
-              title: 'Test API',
-              summary: description,
-            },
-          });
+#           // Create a check run instead of using createCommitStatus
+#           const checkRun = await github.rest.checks.create({
+#             owner: context.repo.owner,
+#             repo: context.repo.repo,
+#             name: 'Test API Status',
+#             head_sha: context.sha,
+#             status: 'completed',
+#             conclusion: status,
+#             output: {
+#               title: 'Test API',
+#               summary: description,
+#             },
+#           });
 
-          console.log('Check run created successfully', checkRun.data);
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           console.log('Check run created successfully', checkRun.data);
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Fail workflow if tests failed
-      if: failure()
-      run: exit 1 
+#     - name: Fail workflow if tests failed
+#       if: failure()
+#       run: exit 1 
 
-        # if not failed and exited in previous step, continue push to main
-    - name: Commit changes to another branch
-      run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
+#         # if not failed and exited in previous step, continue push to main
+#     - name: Commit changes to another branch
+#       run: |
+#         git config user.name "GitHub Actions"
+#         git config user.email "actions@github.com"
 
-        git fetch --all
+#         git fetch --all
 
-        # switch to main
-        git add .
-        git commit -m "Automated commit from workflow, before switchin to main branch"
-        git push
-        git checkout main
+#         # switch to main
+#         git add .
+#         git commit -m "Automated commit from workflow, before switchin to main branch"
+#         git push
+#         git checkout main
 
-        # Commit the changes (add or modify files as necessary)
-        git merge push_to_main --no-ff --commit -m "Merge push_to_main into main"
-        # Push the changes to main
-        git push origin main
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Used to authenticate and push to the repo
+#         # Commit the changes (add or modify files as necessary)
+#         git merge push_to_main --no-ff --commit -m "Merge push_to_main into main"
+#         # Push the changes to main
+#         git push origin main
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Used to authenticate and push to the repo
