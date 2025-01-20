@@ -33,7 +33,6 @@ jobs:
     - name: Test API
       run: bash RunTests.sh
       working-directory: ./CargoHub
-      continue-on-error: true
 
     - name: Check test results
       if: failure()
