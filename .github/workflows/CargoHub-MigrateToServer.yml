@@ -30,14 +30,15 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
    
-      #copy codebase to server - checkout deploy to make sure were pulling from the deploy branch (rather than main)
+      #copy codebase to server
     - name: Copy codebase to server
       run: ssh ubuntu-1079726@145.24.223.236 "cd ~/ubuntu-1079726/CargoHub.NET/CargoHub; git checkout deploy; git pull"
 
-    - name: SSH into server and restartstart API 
+      #restart API on server
+    - name: restartstart API 
       run: |
         [[ $(pgrep -f "sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub.NET/CargoHub/CargoHub/CargoHub.csproj") ]] 
          && kill $(pgrep -f "sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub.NET/CargoHub/CargoHub/CargoHub.csproj") || echo "Process not running"; 
         echo "${{secrets.SERVERPASSWORD}}" | sudo -S nohup dotnet run --project /home/ubuntu-1079726/ubuntu-1079726/CargoHub.NET/CargoHub/CargoHub/CargoHub.csproj > /home/ubuntu-1079726/ubuntu-1079726/CargoHubLog.log 2>&1 &
-        - name: SSH into server and restartstart API 
-    
+
+        
