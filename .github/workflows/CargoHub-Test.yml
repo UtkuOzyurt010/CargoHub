@@ -43,7 +43,7 @@ jobs:
         git commit -m 
         # Revert the last commit
         git revert --no-edit HEAD
-        git commit -m
+        git commit -m "commit audit and sqlite which are generated at this point somehow"
         
         # Push the reverted commit to the main branch
         git push origin main
