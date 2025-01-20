@@ -35,31 +35,31 @@ jobs:
       run: bash RunTests.sh
       working-directory: ./CargoHub
 
-    - name: Check test results
-      if: failure()
-      run: |
-        echo "Tests failed. Reverting commit..."
+    # - name: Check test results
+    #   if: failure()
+    #   run: |
+    #     echo "Tests failed. Reverting commit..."
         
-        # Set Git user identity globally for the runner environment
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
+    #     # Set Git user identity globally for the runner environment
+    #     git config --global user.name "GitHub Actions"
+    #     git config --global user.email "actions@github.com"
         
-        # Stash the changes to avoid conflicts
-        git stash --keep-index
+    #     # Stash the changes to avoid conflicts
+    #     git stash --keep-index
     
-        # Revert the last commit
-        git revert --no-edit HEAD
+    #     # Revert the last commit
+    #     git revert --no-edit HEAD
     
-        git add .
+    #     git add .
         
-        # Commit the revert
-        git commit -m "Revert changes due to failed tests"
+    #     # Commit the revert
+    #     git commit -m "Revert changes due to failed tests"
         
-        # Push the reverted commit to the main branch
-        git push origin main
+    #     # Push the reverted commit to the main branch
+    #     git push origin main
         
-        # Apply the stashed changes (if there were any)
-        git stash pop
+    #     # Apply the stashed changes (if there were any)
+    #     git stash pop
     - name: Upload test run results
       if: always()
       uses: actions/upload-artifact@v3
