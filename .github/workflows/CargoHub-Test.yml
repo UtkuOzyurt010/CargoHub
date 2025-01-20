@@ -58,21 +58,31 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
+          const { context, github } = require('@actions/github');
+
           const testApiStatus = '${{ steps.test-api.outcome }}'; // Get the outcome of the Test API step
 
           const status = testApiStatus === 'success' ? 'success' : 'failure';
           const description = status === 'success' ? 'All tests passed!' : 'Some tests failed.';
 
-          await github.repos.createCommitStatus({
+          // Create a check run instead of using createCommitStatus
+          const checkRun = await github.rest.checks.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            sha: context.sha,
-            state: status,
-            description: description,
-            context: 'Test API Status'
+            name: 'Test API Status',
+            head_sha: context.sha,
+            status: 'completed',
+            conclusion: status,
+            output: {
+              title: 'Test API',
+              summary: description,
+            },
           });
+
+          console.log('Check run created successfully', checkRun.data);
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
     - name: Fail workflow if tests failed
