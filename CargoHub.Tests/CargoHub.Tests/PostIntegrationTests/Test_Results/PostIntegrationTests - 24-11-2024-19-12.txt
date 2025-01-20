@@ -1,0 +1,63 @@
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/warehouses
+DB: CargoHub.Models.Warehouse
+Test executed in: 709ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/locations
+DB: CargoHub.Models.Location
+Test executed in: 60ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/transfers
+DB: CargoHub.Models.Transfer
+Test executed in: 21ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/items
+DB: CargoHub.Models.Item
+Test executed in: 39ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/inventories
+DB: CargoHub.Models.Inventory
+Test executed in: 26ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/suppliers
+DB: CargoHub.Models.Supplier
+Test executed in: 21ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/orders
+DB: CargoHub.Models.Order
+Test executed in: 39ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/clients
+DB: CargoHub.Models.Client
+Test executed in: 19ms
+
+
+Test: Post_ReturnsDetails
+StatusCode: Created
+Endpoint: /api/v1/shipments
+DB: CargoHub.Models.Shipment
+Test executed in: 30ms
+
+
