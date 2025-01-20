@@ -40,12 +40,20 @@ jobs:
       run: |
         echo "Tests failed. Reverting commit..."
         
+        # Stash the changes to avoid conflicts
+        git stash --keep-index
+    
         # Revert the last commit
         git revert --no-edit HEAD
-        git commit -m "commit audit and sqlite which are generated at this point somehow"
+        
+        # Commit the revert
+        git commit -m "Revert changes due to failed tests"
         
         # Push the reverted commit to the main branch
         git push origin main
+        
+        # Apply the stashed changes (if there were any)
+        git stash pop
 
     - name: Upload test run results
       if: always()
