@@ -81,8 +81,24 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
-
     - name: Fail workflow if tests failed
       if: failure()
       run: exit 1 
+
+        # if not failed and exited in previous step, continue push to main
+    - name: Commit changes to another branch
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        # switch to main
+        git checkout main
+
+        # Commit the changes (add or modify files as necessary)
+        git add .
+        git commit -m "Automated commit from workflow"
+
+        # Push the changes to main
+        git push origin main
+        env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Used to authenticate and push to the repo
