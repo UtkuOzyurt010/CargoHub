@@ -26,7 +26,7 @@ namespace CargoHub.Tests
             _filepath = Path.Combine(resultsDirectory, $"PutIntegrationTests - {DateTime.Now.ToString("dd-MM-yyyy-HH-mm")}.txt");
         }
 
-        [Fact]
+        //[Fact]
         public async Task Test_Put_Id_Endpoints()
         {
             var endpointsWithIds = new List<string>

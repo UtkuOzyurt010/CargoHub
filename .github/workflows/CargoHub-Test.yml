@@ -46,4 +46,7 @@ jobs:
       with:
         name: test-results
         path: "/home/runner/work/CargoHub/CargoHub/CargoHub.Tests/CargoHub.Tests"
+    - name: Check test results
+      if: failure()
+      run: exit 1
       
