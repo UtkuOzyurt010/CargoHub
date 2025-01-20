@@ -2,7 +2,7 @@ name: CargoHub-Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "push_to_main" ]
 
 jobs:
   build:
