@@ -1,3 +1,42 @@
 API Key: , Endpoint: /swagger, Method: GET, Timestamp: 1/20/2025 4:42:05 PM
 API Key: , Endpoint: /favicon.ico, Method: GET, Timestamp: 1/20/2025 4:42:05 PM
 API Key: a1b2cd4e5, Endpoint: /api/v1/clients/1, Method: GET, Timestamp: 1/20/2025 4:42:52 PM
+API Key: a1b2c3d4e5, Endpoint: /api/v1/clients/1, Method: GET, Timestamp: 01/20/2025 17:47:48
+API Key: a1b2c3d4e5, Endpoint: /api/v1/warehouses/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/locations/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/transfers/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/items/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/itemlines/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/itemgroups/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/itemtypes/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/inventories/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/suppliers/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/orders/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/shipments/1, Method: GET, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/warehouses, Method: POST, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/locations, Method: POST, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/transfers, Method: POST, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/items, Method: POST, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/inventories, Method: POST, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/suppliers, Method: POST, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/orders, Method: POST, Timestamp: 01/20/2025 17:47:49
+API Key: a1b2c3d4e5, Endpoint: /api/v1/clients, Method: POST, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/shipments, Method: POST, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/warehouses/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/locations/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/transfers/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/items/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/inventories/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/suppliers/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/orders/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/clients/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/shipments/999999, Method: PUT, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/warehouses/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/locations/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/transfers/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/items/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/inventories/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/suppliers/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/orders/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/clients/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
+API Key: a1b2c3d4e5, Endpoint: /api/v1/shipments/999999, Method: DELETE, Timestamp: 01/20/2025 17:47:50
